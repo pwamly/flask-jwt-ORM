@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint,request,jsonify
 from .extensions import db
 from .models import  Users
 from .auth.login import login
@@ -10,7 +10,7 @@ main=Blueprint('main',__name__)
 
 @main.route('/register',methods=['POST'])
 def Userreg():
-    data={'username':'pwamly','email':'pwamly2020@gmail.com','phone':'+255673089337','password':'123'}
+    data=request.json
     return register(data,db)
 
 @main.route('/login', methods=['POST'])

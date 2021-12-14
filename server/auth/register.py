@@ -8,7 +8,7 @@ def register(data,db):
  phone = data['phone']
  password = data['password']
  
- user = Users(name=username,email=email,phone=phone,password=password,isadmin=True)
+ user = Users(name=username,email=email,phone=phone,password_=password,isadmin=True)
  db.session.add(user)
  db.session.commit()
  print('registered')    

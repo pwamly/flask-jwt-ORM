@@ -17,9 +17,10 @@ class Users(db.Model):
 
 
 @property
-def unhashed_password(self):
+def password_(self):
     raise ArithmeticError('can not use unhashed password')
 
-@unhashed_password.setter
-def unhashed_password(self,unhashed_password):
-    self.password = generate_password_hash(unhashed_password)
+@password_.setter
+def password_(self,password):
+    print('running setter...........................................................')
+    self.password = generate_password_hash(password_)

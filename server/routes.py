@@ -15,7 +15,7 @@ def Userreg():
 
 @main.route('/login', methods=['POST'])
 def Userlogin():
-    return login()
+    return login(request, Users)
 
 @main.route('/resetPassword')
 def resetPassword():
@@ -38,6 +38,10 @@ def deleteUser():
 @main.route('/revoke-token')
 def revokeToken():
     return 'user deleted'
+
+@main.route('/users')
+def users():
+    return 'get users '
 
 #---------- User actions ----------
 

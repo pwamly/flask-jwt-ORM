@@ -3,6 +3,7 @@ from .extensions import db
 from .models import  Users
 from .auth.login import login
 from .auth.register import register
+from .helper import token_required
 
 main=Blueprint('main',__name__)
  
@@ -39,11 +40,13 @@ def deleteUser():
 def revokeToken():
     return 'user deleted'
 
-@main.route('/users')
+@main.route('/users',methods=['GET'])
 def users():
     return 'get users '
 
 #---------- User actions ----------
 
-
-
+@main.route('/profile')
+@token_required
+def profile():
+    return 'get profile'

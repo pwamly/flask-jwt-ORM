@@ -1,5 +1,6 @@
 from flask_sqlalchemy import model
 from server.models import  Users
+from flask_session import Session
 
 
 def register(data,db):   
@@ -18,4 +19,5 @@ def register(data,db):
   return 'registered'
  return 'user exisists'
 
+ 
  

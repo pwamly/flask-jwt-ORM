@@ -4,6 +4,7 @@ from .models import  Users
 from .auth.login import login
 from .auth.register import register
 from .helper import token_required
+from .profile.userProfile import profile
 
 main=Blueprint('main',__name__)
  
@@ -48,5 +49,5 @@ def users():
 
 @main.route('/profile')
 @token_required
-def profile():
-    return 'get profile'
+def f_profile():
+    return profile(request,Users)

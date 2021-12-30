@@ -2,10 +2,10 @@ import jwt
 from datetime import datetime,timedelta
 from flask import jsonify
 from werkzeug.security import check_password_hash
+from flask_jwt_extended import create_access_token,create_refresh_token
 import os
 
 def login(request,Users):
-    
     # check if user exist
      # getting posted data and check for auth
     auth = request.authorization
@@ -16,10 +16,10 @@ def login(request,Users):
        if not user or not check_password_hash(user.password,auth.password):
            error_messsage='Invalid Credentials'
            return error_messsage
-      
-       token = jwt.encode({'user' : auth.username,'exp': datetime.utcnow() + timedelta(seconds=30) },os.environ.get('SECRET_KEY'))
-       
-       return jsonify({'token':token.decode('UTF-8')})
+       refresh = create_refresh_token(identity=user.userid)
+       access = create_access_token(identity=user.userid)
+    #    token = jwt.encode({'ID' : user.userid,'exp': datetime.utcnow() + timedelta(seconds=int(os.environ.get('DURATION'),base=0)) },os.environ.get('SECRET_KEY'))
+    #    return jsonify({'token':access.decode('UTF-8'),'refresh':refresh.decode('UTF-8')})
    
     return jsonify({'message' : 'authorization is missing'})
      

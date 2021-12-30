@@ -13,12 +13,9 @@ def token_required(f):
         
         parts = token.split()
         if parts[0].lower() != "bearer":
-                return jsonify({"code": "invalid_header",
-                                "description":
-                               "Authorization header must start with"
-                               " Bearer"}, 401)
+                return jsonify({"message":"Authorization header must start with Bearer"}, 401)
         elif len(parts) == 1:
-           return  jsonify({"message": "invalid_header"}, 401)
+           return  jsonify({"message": "Token not found"}, 401)
         elif len(parts) > 2:
             return  jsonify({"message":"Invalid header"}, 401)
         token = parts[1]  

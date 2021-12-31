@@ -5,9 +5,10 @@ from .auth.login import login
 from .auth.register import register
 from .helper import token_required
 from .profile.userProfile import profile
+from flask_cors import CORS,cross_origin
 
 main=Blueprint('main',__name__)
- 
+CORS(main, support_credentials=True)
 #---------- Authentication routes ----------
 
 @main.route('/register',methods=['POST'])
@@ -15,9 +16,13 @@ def Userreg():
     data=request.json
     return register(data,db)
 
-@main.route('/login', methods=['POST'])
+@main.route('/login', methods=['POST','OPTIONS'])
+@cross_origin(supports_credentials=True)
 def Userlogin():
-    return login(request, Users)
+    if(request.method=='POST'):
+         return login(request, Users)
+    else:
+       pass
 
 @main.route('/resetPassword')
 def resetPassword():
@@ -47,7 +52,11 @@ def users():
 
 #---------- User actions ----------
 
-@main.route('/profile')
+@main.route('/api/profile/<userId>',methods=['GET','OPTIONS'])
+@cross_origin(supports_credentials=True)
 @token_required
-def f_profile():
-    return profile(request,Users)
+def f_profile(userId):
+  if(request.method=='GET'):
+    return profile(userId,Users)
+  else:
+       pass

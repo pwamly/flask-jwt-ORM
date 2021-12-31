@@ -7,7 +7,7 @@ import os
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.args.get('token')
+        token = request.headers.get('Authorization')
         if not token:
             return jsonify({'message':'Token is missing'}),403
         
@@ -21,7 +21,7 @@ def token_required(f):
         token = parts[1]  
         try:
 
-          data =jwt.decode(token,os.environ.get('SECRET_KEY'))
+          data =jwt.decode(token, os.environ.get('SECRET_KEY'),algorithms="HS256")
           
         except jwt.ExpiredSignatureError as e:
                      return jsonify({'message': 'Token has expired'})

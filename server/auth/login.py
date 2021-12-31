@@ -16,10 +16,10 @@ def login(request,Users):
        if not user or not check_password_hash(user.password,auth.password):
            error_messsage='Invalid Credentials'
            return error_messsage
-       refresh = create_refresh_token(identity=user.userid)
-       access = create_access_token(identity=user.userid)
-    #    token = jwt.encode({'ID' : user.userid,'exp': datetime.utcnow() + timedelta(seconds=int(os.environ.get('DURATION'),base=0)) },os.environ.get('SECRET_KEY'))
-    #    return jsonify({'token':access.decode('UTF-8'),'refresh':refresh.decode('UTF-8')})
+    #    refresh = create_refresh_token(identity=user.userid)
+    #    access = create_access_token(identity=user.userid)
+       token = jwt.encode({'ID' : user.userid,'exp': datetime.utcnow() + timedelta(seconds=int(os.environ.get('DURATION'),base=0)) },os.environ.get('SECRET_KEY'))
+       return jsonify({'token':token})
    
     return jsonify({'message' : 'authorization is missing'})
      

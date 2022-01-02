@@ -27,3 +27,11 @@ def token_required(f):
                      return jsonify({'message': 'Token has expired'})
         return f(*args, **kwargs)
     return decorated   
+
+
+def profile_serializer(data):
+    return {
+        'username': data.name,
+        'email': data.email,
+        'phone': data.phone
+    }

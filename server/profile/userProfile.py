@@ -1,9 +1,9 @@
 from flask import jsonify
-
+from ..helper import profile_serializer
 def profile(userId,Users):
     profile = Users.query.filter_by(userid=userId).first()
     if profile:
-       name = profile['username']
-       return jsonify({'data' : 'profile'}),200
-    print(profile)
+       data = {'username': profile.name,
+               'phone': profile.phone, 'email': profile.email}
+       return jsonify({'data': data}), 200
     return jsonify({'message' : 'User not found'}),403

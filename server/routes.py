@@ -3,6 +3,7 @@ from .extensions import db
 from .models import  Users
 from .auth.login import login
 from .auth.register import register
+from .profile.team import users
 from .helper import token_required
 from .profile.userProfile import profile
 from flask_cors import CORS,cross_origin
@@ -46,9 +47,15 @@ def deleteUser():
 def revokeToken():
     return 'user deleted'
 
-@main.route('/users',methods=['GET'])
-def users():
-    return 'get users '
+
+@main.route('/api/users', methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+def users_():
+    if(request.method == 'GET'):
+        return users(Users)
+    else:
+       pass
+
 
 #---------- User actions ----------
 

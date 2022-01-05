@@ -35,3 +35,18 @@ def profile_serializer(data):
         'email': data.email,
         'phone': data.phone
     }
+
+
+def users_serializer(data):
+
+    return {
+        "userid": data.userid,
+        "fname": data.fname,
+        "lname": data.lname,
+        "branch": data.branch,
+        "email": data.email,
+        "phone": data.phone,
+        "role": data.role,
+        "created": data.created.isoformat(),
+        "updated": data.updated.isoformat(),
+    }

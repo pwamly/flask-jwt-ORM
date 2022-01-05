@@ -1,23 +1,38 @@
 from flask_sqlalchemy import model
-from server.models import  Users
+from jwt import exceptions
+from server.models import Users
 from flask_session import Session
+from flask import jsonify
+import uuid
+from werkzeug.security import generate_password_hash
+
+userid = uuid.uuid4()  # to bdo ........... to be return to the setter and getter
 
 
-def register(data,db):   
- username = data['username']
+def register(data, db):
+ firstname = data['firstname']
+ lastname = data['lastname']
  email = data['email']
+ branch = data['branch']
+ role = data['role']
  phone = data['phone']
  password = data['password']
  # check if user exists
- user= Users.query.filter_by(name=username).first()
- error_messsage=''
+ user = Users.query.filter_by(email=email).first()
  if not user:
-  user = Users(name=username,email=email,phone=phone,password_=password,isadmin=True)
-  db.session.add(user)
-  db.session.commit()
-  print('registered')    
-  return 'registered'
- return 'user exisists'
+  try:
+      pas = generate_password_hash(password)
+      user = Users(fname=firstname, lname=lastname, branch=branch, email=email, userid=userid,
+                   role=role, phone=phone, password=pas, isadmin=False)
+      db.session.add(user)
+      db.session.commit()
+      print('registered')
+      return 'registered'
 
+  except Exception as e:
+      print(e)
+      return jsonify({'message': 'Failed to register'}), 403
+      pass
+ return jsonify({'message': 'User already exist!'}), 407
  
  

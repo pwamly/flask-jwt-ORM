@@ -23,6 +23,49 @@ class Users(db.Model):
     refrestoken = db.Column(db.String(200), nullable=True, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+class Branch(db.Model):
+    
+    __tablename__ = 'Branch'
+
+    id = db.Column(db.Integer, primary_key=True)
+    branchId = db.Column(db.String(200), nullable=False, unique=True)
+    branchname = db.Column(db.String(200), nullable=False)
+    region = db.Column(db.String(200), nullable=False)
+    district = db.Column(db.String(200), nullable=False)
+    branchaddress = db.Column(db.String(120), nullable=False, unique=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+    
+class Order(db.Model):
+    
+    __tablename__ = 'Order'
+
+    id = db.Column(db.Integer, primary_key=True)
+    orderid = db.Column(db.String(200), nullable=False, unique=True)
+    customerid = db.Column(db.String(200), nullable=False)
+    customername = db.Column(db.String(200), nullable=False)
+    customernotes = db.Column(db.String(200), nullable=True)
+    consignername = db.Column(db.String(200), nullable=False)
+    consignerid = db.Column(db.String(200), nullable=False)
+    cnotes = db.Column(db.String(200), nullable=True)
+    pregion = db.Column(db.String(200), nullable=False)
+    pdistrict = db.Column(db.String(200), nullable=False)
+    pstreet = db.Column(db.String(200), nullable=False)
+    pnotes = db.Column(db.String(200), nullable=True)
+    dregion = db.Column(db.String(200), nullable=False)
+    ddistrict = db.Column(db.String(200), nullable=False)
+    dstreet = db.Column(db.String(200), nullable=False)
+    dnotes = db.Column(db.String(200), nullable=True)
+    consigneename = db.Column(db.String(200), nullable=False)
+    cnenotes = db.Column(db.String(200), nullable=True)
+    pickuptime = db.Column(db.DateTime,nullable=False)
+    expdlrtime = db.Column(db.DateTime,nullable=False)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
     # @property
     # def password_(self):
@@ -32,3 +75,17 @@ class Users(db.Model):
     # def password_(self, password):
     #  self.userid = userid
     #  self.password = generate_password_hash(password)
+    
+# class Order(db.Model):
+        
+#     __tablename__ = 'Order'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     branchId = db.Column(db.String(200), nullable=False, unique=True)
+#     branchname = db.Column(db.String(200), nullable=False)
+#     region = db.Column(db.String(200), nullable=False)
+#     district = db.Column(db.String(200), nullable=False)
+#     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
+#     created = db.Column(db.DateTime, default=datetime.utcnow)
+#     updated = db.Column(db.DateTime, default=datetime.utcnow)
+

@@ -123,3 +123,26 @@ def order_serializer(data):
     
 
 
+
+def customer_serializer(data):
+    
+    return {
+        "customerid":data.customerid,
+         "fname": data.fname,
+         "lname": data.lname,
+         "username":data.fname+' '+' '+data.lname,
+         "email": data.email,
+         "phone": data.phone,
+         "district": data.district,
+         "region":data.region,
+         "street": data.street,
+         "address": data.address,
+         "generaladdress":data.region+', '+data.district+', '+data.street+' ,'+data.address,
+         "created": data.created
+}
+
+# {
+#     customerId: 'bdar-2',
+#     customername: 'CRD MBEZI',
+#     customeraddress: 'P.O.BOX 16,UBUNGO,MAGUFULI BUS STOP STREET,MOBILE:123444',
+#   },

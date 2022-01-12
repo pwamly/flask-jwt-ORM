@@ -67,10 +67,29 @@ class Order(db.Model):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
+
+
+class Customer(db.Model):
+    
+    __tablename__ = 'Customer'
+
+    id = db.Column(db.Integer, primary_key=True)
+    customerid = db.Column(db.String(200), nullable=False, unique=True)
+    fname = db.Column(db.String(200), nullable=False)
+    lname = db.Column(db.String(200), nullable=True)
+    email = db.Column(db.String(200), nullable=False ,unique=True)
+    phone = db.Column(db.String(200), nullable=False)
+    region = db.Column(db.String(200), nullable=False)
+    district = db.Column(db.String(200), nullable=False)
+    street = db.Column(db.String(200), nullable=False)
+    address = db.Column(db.String(200), nullable=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
     # @property
     # def password_(self):
     #    raise ArithmeticError('can not use unhashed password')
-
+ 
     # @password_.setter
     # def password_(self, password):
     #  self.userid = userid

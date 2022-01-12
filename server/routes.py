@@ -10,6 +10,10 @@ from .admin_actions.branch.branchCreate import create
 from .admin_actions.branch.branches import branches
 from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
+from .user_actions.Customers.customers import getcustomers
+from .user_actions.Customers.deleteCustomer import deleteCustomer
+from .user_actions.orders.deleteOrder import deleteOrder
+from .user_actions.Customers.registerCustomer import registerCustomer
 from .auth.register import register
 from .profile.team import users
 from .helper import token_required_user,token_required_admin
@@ -18,6 +22,8 @@ from flask_cors import CORS,cross_origin
 
 main=Blueprint('main',__name__)
 CORS(main, support_credentials=True)
+
+
 #---------- Authentication routes ----------
 
 @main.route('/register',methods=['POST'])
@@ -41,6 +47,7 @@ def resetPassword():
 
 @main.route('/admin/create-user',  methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def createUser():
     data=request.json
     if(request.method=='POST'):
@@ -50,6 +57,7 @@ def createUser():
 
 @main.route('/admin/edit-user/<userId>',methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def editUser(userId):
     data=request.json
     if(request.method=='PUT'):
@@ -59,6 +67,7 @@ def editUser(userId):
 
 @main.route('/admin/delete-user/<userId>', methods=['DELETE', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def delete_User(userId):
     if(request.method=='DELETE'):
         return removeUser(userId,db)
@@ -73,6 +82,7 @@ def revokeToken():
 
 @main.route('/api/users', methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def users_():
     if(request.method == 'GET'):
         return users(Users)
@@ -85,6 +95,7 @@ def users_():
 
 @main.route('/admin/create-branch',  methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def createbranch():
     data=request.json
     if(request.method=='POST'):
@@ -96,6 +107,7 @@ def createbranch():
    
 @main.route('/admin/branches',  methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def getbranch():
     if(request.method=='GET'):
       return branches(Branch)
@@ -132,8 +144,52 @@ def c_order():
    
 @main.route('/api/orders',  methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
+@token_required_user
 def getorders():
     if(request.method=='GET'):
       return orders()
+    else:
+       pass
+   
+   
+@main.route('/api/delete-order/<orderid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def delete_Order(orderid):
+    if(request.method=='DELETE'):
+        return deleteOrder(orderid,db)
+    else:
+       pass
+   
+   
+# ........................... customer url ...........
+
+@main.route('/api/register-customer', methods=['POST','OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_customer():
+   data=request.json
+   if(request.method=='POST'):
+             return registerCustomer(data, db)
+   else:
+       pass
+   
+   
+@main.route('/api/customers',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_orders():
+    if(request.method=='GET'):
+      return getcustomers()
+    else:
+       pass
+   
+   
+@main.route('/api/delete-customer/<customerid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def delete_Customer(customerid):
+    if(request.method=='DELETE'):
+        return deleteCustomer(customerid,db)
     else:
        pass

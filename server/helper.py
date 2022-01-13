@@ -141,6 +141,20 @@ def customer_serializer(data):
          "created": data.created
 }
 
+
+
+def vehicle_serializer(data):
+    
+    return {
+        "vehicleid":data.vehicleid,
+         "name": data.name,
+         "plateno": data.plateno,
+         "model":data.model,
+         "loadcapacity": data.loadcapacity,
+         "status": data.status,
+         "routestatus": data.routestatus,
+         "created": data.created
+}
 # {
 #     customerId: 'bdar-2',
 #     customername: 'CRD MBEZI',

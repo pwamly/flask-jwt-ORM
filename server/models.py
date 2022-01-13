@@ -86,6 +86,27 @@ class Customer(db.Model):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
+
+
+
+class Vehicle(db.Model):
+    
+    __tablename__ = 'Vehicles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    vehicleid = db.Column(db.String(200), nullable=False, unique=True)
+    name = db.Column(db.String(200), nullable=False)
+    plateno = db.Column(db.String(200), nullable=True)
+    model = db.Column(db.String(200), nullable=False ,unique=True)
+    loadcapacity = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(200), nullable=False)
+    routestatus = db.Column(db.String(200), nullable=False)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+
+
     # @property
     # def password_(self):
     #    raise ArithmeticError('can not use unhashed password')

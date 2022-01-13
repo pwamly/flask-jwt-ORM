@@ -14,6 +14,9 @@ from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
 from .user_actions.Customers.registerCustomer import registerCustomer
+from .user_actions.Vehicle.registerVehicle import regvehicle
+from .user_actions.Vehicle.vehicles import getvehicle
+from .user_actions.Vehicle.deleteVehicle import deleteVehicle
 from .auth.register import register
 from .profile.team import users
 from .helper import token_required_user,token_required_admin
@@ -191,5 +194,38 @@ def r_orders():
 def delete_Customer(customerid):
     if(request.method=='DELETE'):
         return deleteCustomer(customerid,db)
+    else:
+       pass
+   
+   
+# .......................... vehicle urls ....................................
+
+@main.route('/api/register-vehicle', methods=['POST','OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_vehicle():
+   data=request.json
+   if(request.method=='POST'):
+             return regvehicle(data, db)
+   else:
+       pass
+   
+   
+@main.route('/api/vehicles',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def g_vehicles():
+    if(request.method=='GET'):
+      return getvehicle()
+    else:
+       pass
+   
+   
+@main.route('/api/delete-vehicle/<vehicleid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def delete_vehicle(vehicleid):
+    if(request.method=='DELETE'):
+        return deleteVehicle(vehicleid,db)
     else:
        pass

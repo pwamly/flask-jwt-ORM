@@ -155,8 +155,17 @@ def vehicle_serializer(data):
          "routestatus": data.routestatus,
          "created": data.created
 }
-# {
-#     customerId: 'bdar-2',
-#     customername: 'CRD MBEZI',
-#     customeraddress: 'P.O.BOX 16,UBUNGO,MAGUFULI BUS STOP STREET,MOBILE:123444',
-#   },
+
+
+def transporter_serializer(data):
+
+    return {
+        "transporterid": data.transporterid,
+        "name": data.name,
+        "email": data.email,
+        "phone": data.phone,
+        "address": data.address,
+        "route": data.route,
+        "vehicledetails": data.vehicledetails,
+        "created": data.created
+    }

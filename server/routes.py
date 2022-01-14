@@ -15,8 +15,11 @@ from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
 from .user_actions.Customers.registerCustomer import registerCustomer
 from .user_actions.Vehicle.registerVehicle import regvehicle
+from .user_actions.Transporter.registerTransporter import regTransporter
 from .user_actions.Vehicle.vehicles import getvehicle
+from .user_actions.Transporter.transporters import gettransporters
 from .user_actions.Vehicle.deleteVehicle import deleteVehicle
+from .user_actions.Transporter.deleteTransporter import deleteTransporter
 from .auth.register import register
 from .profile.team import users
 from .helper import token_required_user,token_required_admin
@@ -227,5 +230,38 @@ def g_vehicles():
 def delete_vehicle(vehicleid):
     if(request.method=='DELETE'):
         return deleteVehicle(vehicleid,db)
+    else:
+       pass
+
+
+# ............................ transporters url ................................
+
+@main.route('/api/register-transporter', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_transporter():
+   data = request.json
+   if(request.method == 'POST'):
+       return regTransporter(data, db)
+   else:
+       pass
+
+
+@main.route('/api/transporters',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def g_transporters():
+    if(request.method == 'GET'):
+      return gettransporters()
+    else:
+       pass
+
+
+@main.route('/api/delete-transporter/<transporterid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def delete_transporter(transporterid):
+    if(request.method == 'DELETE'):
+        return deleteTransporter(transporterid, db)
     else:
        pass

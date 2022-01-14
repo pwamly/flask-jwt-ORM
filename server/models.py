@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from .extensions import db
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
@@ -104,6 +105,21 @@ class Vehicle(db.Model):
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
+
+class Transporter(db.Model):
+
+    __tablename__ = 'Transporters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    transporterid = db.Column(db.String(200), nullable=False, unique=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=True)
+    phone = db.Column(db.String(200), nullable=False, unique=True)
+    address = db.Column(db.String(200), nullable=False)
+    route = db.Column(db.String(200), nullable=False)
+    vehicledetails = db.Column(db.String(200), nullable=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 

@@ -10,9 +10,11 @@ from .admin_actions.branch.branchCreate import create
 from .admin_actions.branch.branches import branches
 from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
+from .user_actions.orders.getitem import getitems
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
+from .user_actions.orders.addItem import addItem
 from .user_actions.Customers.registerCustomer import registerCustomer
 from .user_actions.Vehicle.registerVehicle import regvehicle
 from .user_actions.Transporter.registerTransporter import regTransporter
@@ -168,7 +170,38 @@ def delete_Order(orderid):
        pass
    
    
-# ........................... customer url ...........
+@main.route('/api/orders/add-item', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def a_item():
+   data = request.json
+   if(request.method == 'POST'):
+       return addItem(data, db)
+   else:
+       pass
+
+
+@main.route('/api/orders/items', methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def g_item():
+   if(request.method == 'GET'):
+       return getitems()
+   else:
+       pass
+
+
+@main.route('/api/orders/items/<orderid>', methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def g_itemByorderid(orderid):
+   if(request.method == 'GET'):
+       return getitems(orderid)
+   else:
+       pass
+
+
+# ........................... customer url ...............
 
 @main.route('/api/register-customer', methods=['POST','OPTIONS'])
 @cross_origin(supports_credentials=True)
@@ -201,6 +234,9 @@ def delete_Customer(customerid):
        pass
    
    
+
+
+
 # .......................... vehicle urls ....................................
 
 @main.route('/api/register-vehicle', methods=['POST','OPTIONS'])

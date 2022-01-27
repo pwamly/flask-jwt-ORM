@@ -169,3 +169,15 @@ def transporter_serializer(data):
         "vehicledetails": data.vehicledetails,
         "created": data.created
     }
+
+
+def item_serializer(data):
+    return {
+        "itemid": data.itemid,
+        "orderid": data.orderid,
+        "itemtype": data.itemtype,
+        "units": data.units,
+        "weight": data.weight,
+        "note": data.note,
+        "vehicledetails": data.vehicledetails,
+    }

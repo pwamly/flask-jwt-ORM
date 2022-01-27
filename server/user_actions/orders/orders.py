@@ -4,9 +4,9 @@ from ...models import Order
 from ...helper import order_serializer
 
 def orders():
-    orders = Order.query.all()
-    if orders:
-       data = [*map(order_serializer,orders)]  
+    order = Order.query.all()
+    if order:
+       data = [*map(order_serializer, order)]
        print(data)
        return {'data':data} 
     return jsonify({'message' : 'orders not found'}),403

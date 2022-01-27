@@ -122,6 +122,22 @@ class Transporter(db.Model):
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class Item(db.Model):
+
+    __tablename__ = 'Item'
+
+    id = db.Column(db.Integer, primary_key=True)
+    itemid = db.Column(db.String(200), nullable=False, unique=True)
+    orderid = db.Column(db.String(200), nullable=False)
+    itemtype = db.Column(db.String(200), nullable=True)
+    units = db.Column(db.String(200), nullable=False)
+    weight = db.Column(db.String(200), nullable=False)
+    note = db.Column(db.String(200), nullable=False)
+    vehicledetails = db.Column(db.String(200), nullable=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 
     # @property
     # def password_(self):

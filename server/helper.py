@@ -73,7 +73,7 @@ def users_serializer(data):
         "userid": data.userid,
         "fname": data.fname,
         "lname": data.lname,
-        "branch": data.branch,
+        "branchId": data.branchId,
         "email": data.email,
         "phone": data.phone,
         "role": data.role,
@@ -100,6 +100,7 @@ def order_serializer(data):
     
     return {
         "orderid":data.orderid,
+        "branchid": data.branchid,
          "customerid": data.customerid,
          "customername": data.customername,
          "customernotes": data.customernotes,
@@ -174,10 +175,12 @@ def transporter_serializer(data):
 def item_serializer(data):
     return {
         "itemid": data.itemid,
+        "itemname": data.itemname,
         "orderid": data.orderid,
         "itemtype": data.itemtype,
         "units": data.units,
         "weight": data.weight,
+        "status": data.status,
         "note": data.note,
         "vehicledetails": data.vehicledetails,
     }

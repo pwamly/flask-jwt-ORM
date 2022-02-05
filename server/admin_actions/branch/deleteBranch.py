@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Users
+from server.models import Branch
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -10,21 +10,20 @@ from sqlalchemy import select, update, delete, values
 userid = uuid.uuid4()  # todo ........... to be return to the setter and getter
 
 
-def removeUser(id, db):  
-#  userid = data['firstname']
+def removeBranch(id, db):
+ #  userid = data['firstname']
  print(id)
- 
+
  try:
-    effected_rows = db.session.query(Users).filter(Users.userid == id).delete()
+    effected_rows = db.session.query(
+        Branch).filter(Branch.branchId == id).delete()
     if effected_rows == 0:
-        print('user not found')
+        print('branch not found')
         return {}
     else:
       db.session.commit()
-      return jsonify({'message': 'User deleted'}), 200
+      return jsonify({'message': 'Branch deleted'}), 200
  except Exception as e:
-      print('iiiiiiiiiii',e)
-      return jsonify({'message': 'Failed to delete user'}), 403
-      pass
- 
- 
+     print('iiiiiiiiiii', e)
+     return jsonify({'message': 'Failed to delete branch'}), 403
+     pass

@@ -23,6 +23,7 @@ def createOder(data, db):
     customerdata = data['customerData']
     customername=customerdata['customername']   
     customerid = customerdata['customerId']
+    branchid = customerdata['branchid']
     customernotes = data['custnote']
     consignername = consignerdata['cfname']+consignerdata['clname']
     consignerid = consignerdata['consignerid']
@@ -52,6 +53,7 @@ def createOder(data, db):
         neworder = Order(orderid =orderid,
          customerid = customerid,
          customername = customername,
+                         branchid=branchid,
          customernotes = customernotes,
          consignername = consignername,
          consignerid = consignerid,

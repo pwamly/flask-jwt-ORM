@@ -1,6 +1,7 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Users
+from server.models import Branch
+from datetime import datetime, timedelta
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -9,32 +10,36 @@ from werkzeug.security import generate_password_hash
 userid = uuid.uuid4()  # todo ........... to be return to the setter and getter
 
 
-def updateUser(data,userId, db):
-    
+def updateBranch(data, branchId, db):
  branchId = data['branchId']
  branchname = data['branchname']
  region = data['region']
  district = data['district']
- robranchaddressle = data['branchaddress']
+ branchaddress = data['branchaddress']
+ updated = datetime.now()
+
  
 #  check if user exists
- user = Users.query.filter_by(branchId=branchId).first()
- if user:
+ branch = Branch.query.filter_by(branchId=branchId).first()
+ if branch:
   try:
       if branchname:
-         user.branchname = branchname
+         branch.branchname = branchname
       
       if region:
-          user.region=region
+          branch.region = region
           
       if district:
-          user.district=district
+          branch.district = district
+
+      if branchaddress:
+          branch.branchaddress = branchaddress
           
-      if robranchaddressle:
-          user.robranchaddressle=robranchaddressle
+      if updated:
+          branch.updated = updated
           
-      user.isadmin=False
-      db.session.add(user)
+      branch.isadmin = False
+      db.session.add(branch)
       db.session.commit()
       return jsonify({'message': 'Branch updated'}), 200
 

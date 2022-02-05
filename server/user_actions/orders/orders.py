@@ -1,6 +1,6 @@
 from flask import jsonify
 import json
-from ...models import Order
+from ...models import Order, Item
 from ...helper import order_serializer
 
 def orders():

@@ -13,7 +13,7 @@ def register(data, db):
  firstname = data['firstname']
  lastname = data['lastname']
  email = data['email']
- branch = data['branch']
+ branchId = data['branchId']
  role = data['role']
  phone = data['phone']
  password = data['password']
@@ -22,7 +22,7 @@ def register(data, db):
  if not user:
   try:
       pas = generate_password_hash(password)
-      user = Users(fname=firstname, lname=lastname, branch=branch, email=email, userid=userid,
+      user = Users(fname=firstname, lname=lastname, branchId=branchId, email=email, userid=userid,
                    role=role, phone=phone, password=pas, isadmin=False)
       db.session.add(user)
       db.session.commit()

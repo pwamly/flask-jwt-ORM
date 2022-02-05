@@ -15,7 +15,7 @@ class Users(db.Model):
     userid = db.Column(db.String(200), nullable=False, unique=True)
     fname = db.Column(db.String(200), nullable=False)
     lname = db.Column(db.String(200), nullable=False)
-    branch = db.Column(db.String(200), nullable=False)
+    branchId = db.Column(db.Integer, nullable=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     phone = db.Column(db.String(120), nullable=False, unique=True)
     role = db.Column(db.String(200), nullable=False)
@@ -31,7 +31,7 @@ class Branch(db.Model):
     __tablename__ = 'Branch'
 
     id = db.Column(db.Integer, primary_key=True)
-    branchId = db.Column(db.String(200), nullable=False, unique=True)
+    branchId = db.Column(db.Integer, nullable=False, unique=True)
     branchname = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
     district = db.Column(db.String(200), nullable=False)
@@ -47,6 +47,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     orderid = db.Column(db.String(200), nullable=False, unique=True)
+    branchid = db.Column(db.Integer, nullable=True)
     customerid = db.Column(db.String(200), nullable=False)
     customername = db.Column(db.String(200), nullable=False)
     customernotes = db.Column(db.String(200), nullable=True)
@@ -75,6 +76,7 @@ class Customer(db.Model):
     __tablename__ = 'Customer'
 
     id = db.Column(db.Integer, primary_key=True)
+    branchId = db.Column(db.Integer, nullable=True)
     customerid = db.Column(db.String(200), nullable=False, unique=True)
     fname = db.Column(db.String(200), nullable=False)
     lname = db.Column(db.String(200), nullable=True)
@@ -128,11 +130,13 @@ class Item(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     itemid = db.Column(db.String(200), nullable=False, unique=True)
+    itemname = db.Column(db.String(200), nullable=True)
     orderid = db.Column(db.String(200), nullable=False)
     itemtype = db.Column(db.String(200), nullable=True)
     units = db.Column(db.String(200), nullable=False)
     weight = db.Column(db.String(200), nullable=False)
     note = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(200), default='not picked', nullable=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)

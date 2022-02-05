@@ -11,11 +11,11 @@ from werkzeug.security import generate_password_hash
 def addItem(data, db):
     id = uuid.uuid4()  # todo ........... to be return to the setter and getter
     orderid = data['orderid']
+    itemname = data['itemname']
     itemtype = data['itemtype']
     units = data['units']
     weight = data['weight']
     note = data['note']
-    vehicledetails = data['vehicledetails']
 
     # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
 
@@ -26,12 +26,12 @@ def addItem(data, db):
         try:
             newitem = Item(
                 itemid=id,
+                itemname=itemname,
                 orderid=orderid,
                 itemtype=itemtype,
                 units=units,
                 weight=weight,
                 note=note,
-                vehicledetails=vehicledetails
             )
 
             # ...................add()

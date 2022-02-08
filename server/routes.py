@@ -13,6 +13,7 @@ from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
 from .user_actions.orders.actions.loadPickup import loadPickup
+from .user_actions.orders.actions.unloadPickup import unloadloadPickup
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -206,6 +207,15 @@ def loadpickup(itmeid):
         pass
 
 
+@main.route('/api/orders/unloadpickup/<itmeid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def unloadpickup(itmeid):
+    if(request.method == 'POST'):
+        data = request.json
+        return unloadloadPickup(itmeid, data, db)
+    else:
+        pass
 
 # ........................... customer url ...............
 

@@ -12,6 +12,7 @@ from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
+from .user_actions.orders.actions.schedulePickup import schedulePickup
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -153,7 +154,6 @@ def delete_Order(orderid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def a_item():
-    print('.........................................................')
     data = request.json
     if(request.method == 'POST'):
         return addItem(data, db)
@@ -180,6 +180,19 @@ def g_itemByid(orderid):
     else:
         pass
 
+
+#................. schedule orders
+
+
+@main.route('/api/orders/schedule/<orderid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def schedlue_order(orderid):
+    if(request.method == 'POST'):
+        data = request.json
+        return schedulePickup(orderid, data, db)
+    else:
+        pass
 
 
 

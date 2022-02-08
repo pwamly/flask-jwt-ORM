@@ -124,7 +124,12 @@ def order_serializer(data):
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
-        "expdlrtime": data.expdlrtime
+        "expdlrtime": data.expdlrtime,
+        "pickupScheduled": data.pickupScheduled,
+        "driverId": data.driverId,
+        "vehicleId": data.vehicleId,
+        "scheduledPickuptime": data.scheduledPickuptime,
+        "pickupnote": data.pickupnote
 
     }
 

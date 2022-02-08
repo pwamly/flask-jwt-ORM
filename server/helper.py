@@ -190,5 +190,6 @@ def item_serializer(data):
         "weight": data.weight,
         "status": data.status,
         "note": data.note,
+        "loadnote": data.loadnote,
         "vehicledetails": data.vehicledetails,
     }

@@ -7,12 +7,12 @@ from .admin_actions.createUser import registerUser
 from .admin_actions.updateUser import updateUser
 from .admin_actions.deleteUser import removeUser
 from .admin_actions.branch.branchCreate import create
-from .admin_actions.branch.branches import branches
 from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
+from .user_actions.orders.actions.loadPickup import loadPickup
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -194,6 +194,16 @@ def schedlue_order(orderid):
     else:
         pass
 
+
+@main.route('/api/orders/loadpickup/<itmeid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def loadpickup(itmeid):
+    if(request.method == 'POST'):
+        data = request.json
+        return loadPickup(itmeid, data, db)
+    else:
+        pass
 
 
 

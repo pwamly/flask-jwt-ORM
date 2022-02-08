@@ -148,6 +148,7 @@ class Item(db.Model):
     units = db.Column(db.String(200), nullable=False)
     weight = db.Column(db.String(200), nullable=False)
     note = db.Column(db.String(200), nullable=False)
+    loadnote = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(200), default='not picked', nullable=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
     pickupLoaded = db.Column(db.Boolean, nullable=True)

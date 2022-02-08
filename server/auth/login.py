@@ -19,7 +19,8 @@ def login(request,Users):
            return jsonify({'message' : 'wrong credentials'}),401
     #    refresh = create_refresh_token(identity=user.userid)
     #    access = create_access_token(identity=user.userid)
-       token = jwt.encode({'id' : user.userid,'exp': datetime.utcnow() + timedelta(seconds=int(os.environ.get('DURATION'),base=0)) },os.environ.get('SECRET_KEY'))
+       token = jwt.encode({'id': user.userid, 'exp': datetime.utcnow() + timedelta(seconds=int(os.environ.get(
+           'DURATION'), base=0)), 'role': user.role, 'branchId': user.branchId}, os.environ.get('SECRET_KEY'))
        return jsonify({'token': token})
    
     return jsonify({'message' : 'authorization is missing'}),403

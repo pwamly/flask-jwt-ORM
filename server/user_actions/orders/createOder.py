@@ -2,7 +2,7 @@ from flask_sqlalchemy import model
 from jwt import exceptions
 from server.models import Order
 from flask_session import Session
-from flask import jsonify
+from flask import jsonify, g
 import uuid
 from werkzeug.security import generate_password_hash
 # from datetime import timezone
@@ -17,13 +17,13 @@ ts = time.time()
 # print the current timestamp
 
 
-def createOder(data, db):    
+def createOder(data, db):
+    print('ttttttttttttttttttttttttttttttttttttttttttttttttttttttt', g.userRole)
     id = uuid.uuid4()  # todo ........... to be return to the setter and getter
     consignerdata=data['consignerdata']
     customerdata = data['customerData']
     customername=customerdata['customername']   
     customerid = customerdata['customerId']
-    branchid = customerdata['branchid']
     customernotes = data['custnote']
     consignername = consignerdata['cfname']+consignerdata['clname']
     consignerid = consignerdata['consignerid']
@@ -53,7 +53,7 @@ def createOder(data, db):
         neworder = Order(orderid =orderid,
          customerid = customerid,
          customername = customername,
-                         branchid=branchid,
+                         branchid=g.userBranchId,
          customernotes = customernotes,
          consignername = consignername,
          consignerid = consignerid,

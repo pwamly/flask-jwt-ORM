@@ -1,34 +1,40 @@
 from functools import wraps
-from flask import request,jsonify
+from flask import request, jsonify,g
 import jwt
 import os
 
 # .............. for any user ..........
+
+
 def token_required_user(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
         if not token:
-            return jsonify({'message':'Token is missing'}),403
-        
+            return jsonify({'message': 'Token is missing'}), 403
+
         parts = token.split()
         if parts[0].lower() != "bearer":
-                return jsonify({"message":"Authorization header must start with Bearer"}, 401)
+            return jsonify({"message": "Authorization header must start with Bearer"}, 401)
         elif len(parts) == 1:
-           return  jsonify({"message": "Token not found"}, 401)
+            return jsonify({"message": "Token not found"}, 401)
         elif len(parts) > 2:
-            return  jsonify({"message":"Invalid header"}, 401)
-        token = parts[1]  
+            return jsonify({"message": "Invalid header"}, 401)
+        token = parts[1]
         try:
 
-          data =jwt.decode(token, os.environ.get('SECRET_KEY'),algorithms="HS256")
-          
+            data = jwt.decode(token, os.environ.get(
+                'SECRET_KEY'), algorithms="HS256")
+
+            # add role and branchId of the user to all transactions
+
+            g.userRole=data['role']
+            g.userBranchId=data['branchId']
+
         except jwt.ExpiredSignatureError as e:
-                     return jsonify({'message': 'Token has expired'})
+            return jsonify({'message': 'Token has expired'})
         return f(*args, **kwargs)
-    return decorated   
-
-
+    return decorated
 
 
 # ................... for admin actions .....add()
@@ -38,25 +44,26 @@ def token_required_admin(f):
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
         if not token:
-            return jsonify({'message':'Token is missing'}),403
-        
+            return jsonify({'message': 'Token is missing'}), 403
+
         parts = token.split()
         if parts[0].lower() != "bearer":
-                return jsonify({"message":"Authorization header must start with Bearer"}, 401)
+            return jsonify({"message": "Authorization header must start with Bearer"}, 401)
         elif len(parts) == 1:
-           return  jsonify({"message": "Token not found"}, 401)
+            return jsonify({"message": "Token not found"}, 401)
         elif len(parts) > 2:
-            return  jsonify({"message":"Invalid header"}, 401)
-        token = parts[1]  
+            return jsonify({"message": "Invalid header"}, 401)
+        token = parts[1]
         try:
 
-          data =jwt.decode(token, os.environ.get('SECRET_KEY'),algorithms="HS256")
-          
+            data = jwt.decode(token, os.environ.get(
+                'SECRET_KEY'), algorithms="HS256")
+        #   add role,branchId to request
+        #   request.data={**request.data,'role':}
         except jwt.ExpiredSignatureError as e:
-                     return jsonify({'message': 'Token has expired'})
+            return jsonify({'message': 'Token has expired'})
         return f(*args, **kwargs)
-    return decorated   
-
+    return decorated
 
 
 def profile_serializer(data):
@@ -80,10 +87,10 @@ def users_serializer(data):
         "created": data.created.isoformat(),
         "updated": data.updated.isoformat(),
     }
-    
-    
+
+
 def branch_serializer(data):
-    
+
     return {
         "branchId": data.branchId,
         "branchname": data.branchname,
@@ -95,20 +102,19 @@ def branch_serializer(data):
     }
 
 
-
 def order_serializer(data):
-    
+
     return {
-        "orderid":data.orderid,
+        "orderid": data.orderid,
         "branchid": data.branchid,
-         "customerid": data.customerid,
-         "customername": data.customername,
-         "customernotes": data.customernotes,
-         "consignername": data.consignername,
-         "consignerid": data.consignerid,
-         "cnotes": data.cnotes,
-         "pregion": data.pregion,
-         "pdistrict": data.pdistrict,
+        "customerid": data.customerid,
+        "customername": data.customername,
+        "customernotes": data.customernotes,
+        "consignername": data.consignername,
+        "consignerid": data.consignerid,
+        "cnotes": data.cnotes,
+        "pregion": data.pregion,
+        "pdistrict": data.pdistrict,
         "pstreet": data.pstreet,
         "pnotes": data.pnotes,
         "dregion": data.dregion,
@@ -119,43 +125,40 @@ def order_serializer(data):
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
         "expdlrtime": data.expdlrtime
-                 
-}
-    
 
+    }
 
 
 def customer_serializer(data):
-    
-    return {
-        "customerid":data.customerid,
-         "fname": data.fname,
-         "lname": data.lname,
-         "username":data.fname+' '+' '+data.lname,
-         "email": data.email,
-         "phone": data.phone,
-         "district": data.district,
-         "region":data.region,
-         "street": data.street,
-         "address": data.address,
-         "generaladdress":data.region+', '+data.district+', '+data.street+' ,'+data.address,
-         "created": data.created
-}
 
+    return {
+        "customerid": data.customerid,
+        "fname": data.fname,
+        "lname": data.lname,
+        "username": data.fname+' '+' '+data.lname,
+        "email": data.email,
+        "phone": data.phone,
+        "district": data.district,
+        "region": data.region,
+        "street": data.street,
+        "address": data.address,
+        "generaladdress": data.region+', '+data.district+', '+data.street+' ,'+data.address,
+        "created": data.created
+    }
 
 
 def vehicle_serializer(data):
-    
+
     return {
-        "vehicleid":data.vehicleid,
-         "name": data.name,
-         "plateno": data.plateno,
-         "model":data.model,
-         "loadcapacity": data.loadcapacity,
-         "status": data.status,
-         "routestatus": data.routestatus,
-         "created": data.created
-}
+        "vehicleid": data.vehicleid,
+        "name": data.name,
+        "plateno": data.plateno,
+        "model": data.model,
+        "loadcapacity": data.loadcapacity,
+        "status": data.status,
+        "routestatus": data.routestatus,
+        "created": data.created
+    }
 
 
 def transporter_serializer(data):

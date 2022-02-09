@@ -15,6 +15,7 @@ from .user_actions.orders.actions.schedulePickup import schedulePickup
 from .user_actions.orders.actions.loadPickup import loadPickup
 from .user_actions.orders.actions.unloadPickup import unloadloadPickup
 from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch
+from .user_actions.orders.actions.deliverDispatch import deliverDispatch
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -239,6 +240,17 @@ def scheduleDispatch_s(orderid):
     if(request.method == 'POST'):
         data = request.json
         return scheduleDispatch(orderid, data, db)
+    else:
+        pass
+
+
+@main.route('/api/orders/deliverDispatch/<itemid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def deliverDispatch_d(itemid):
+    if(request.method == 'POST'):
+        data = request.json
+        return deliverDispatch(itemid, data, db)
     else:
         pass
 

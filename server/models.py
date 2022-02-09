@@ -86,6 +86,9 @@ class Order(db.Model):
     transporterid = db.Column(db.String(200), nullable=True)  # transporter
     scheduledDispatchtime = db.Column(
         db.DateTime, nullable=True)  # scheduled  diapatch time
+
+    dispatchDelivered = db.Column(
+        db.Boolean, nullable=True)  # for dispatch delivery
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -169,6 +172,15 @@ class Item(db.Model):
     scheduledPickuptime = db.Column(db.DateTime, nullable=True)
     Loadedtime = db.Column(db.DateTime, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
+    dispatchScheduled = db.Column(
+        db.Boolean, nullable=True)  # for dispatch scheduled
+    dispatchDelivered = db.Column(
+        db.Boolean, nullable=True)  # dispatch delivered
+    dispatchDeliveredTime = db.Column(
+        db.DateTime, nullable=True)  # delivery time for dispatch
+    dispatchDeliverynote = db.Column(
+        db.String(200), nullable=True)  # delivery note for dispatch
+    dispatchDeliveryunits = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 

@@ -14,6 +14,7 @@ from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
 from .user_actions.orders.actions.loadPickup import loadPickup
 from .user_actions.orders.actions.unloadPickup import unloadloadPickup
+from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -193,7 +194,7 @@ def g_itemByid(orderid):
         pass
 
 
-#................. schedule orders
+#................. schedule orders.........................
 
 
 @main.route('/api/orders/schedule/<orderid>', methods=['POST', 'OPTIONS'])
@@ -227,6 +228,21 @@ def unloadpickup(itmeid):
         return unloadloadPickup(itmeid, data, db)
     else:
         pass
+    
+    
+    
+                                      # .... dispatch...........
+@main.route('/api/orders/scheduleDispatch/<orderid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def scheduleDispatch_s(orderid):
+    if(request.method == 'POST'):
+        data = request.json
+        return scheduleDispatch(orderid, data, db)
+    else:
+        pass
+
+
 
 # ........................... customer url ...............
 

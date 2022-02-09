@@ -171,6 +171,7 @@ def transporter_serializer(data):
     return {
         "transporterid": data.transporterid,
         "name": data.name,
+        "transporterid": data.transporterid,
         "email": data.email,
         "phone": data.phone,
         "address": data.address,

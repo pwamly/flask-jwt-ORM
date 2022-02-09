@@ -71,13 +71,21 @@ class Order(db.Model):
     expdlrtime = db.Column(db.DateTime,nullable=False)
     pickuptime = db.Column(db.DateTime, nullable=True)
     orderStatus = db.Column(
-        db.String(200), default='not picked', nullable=True)
+        db.String(200), default='not picked', nullable=True)  # order status .....
     pickupScheduled = db.Column(db.Boolean, nullable=True)
     pickupLoaded = db.Column(db.Boolean, nullable=True)
     pickupUnloaded = db.Column(db.Boolean, nullable=True)
     scheduledPickuptime = db.Column(db.DateTime, nullable=True)
     Loadedtime = db.Column(db.DateTime, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
+    dispatchScheduled = db.Column(db.Boolean, nullable=True)  # for dispatch
+    dispatchDriverId = db.Column(db.String(200), nullable=True)  # for dispatch
+    dispatchvehicleId = db.Column(
+        db.String(200), nullable=True)  # vehicle for dispatch
+    dispatchnote = db.Column(db.String(200), nullable=True)  # dispatch notes
+    transporterid = db.Column(db.String(200), nullable=True)  # transporter
+    scheduledDispatchtime = db.Column(
+        db.DateTime, nullable=True)  # scheduled  diapatch time
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 

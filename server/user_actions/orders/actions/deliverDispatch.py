@@ -2,6 +2,7 @@ from flask_sqlalchemy import model
 from jwt import exceptions
 from server.models import Item
 from flask import jsonify
+from datetime import datetime, timedelta
 
 
 def deliverDispatch(itemid, data, db):
@@ -13,13 +14,12 @@ def deliverDispatch(itemid, data, db):
         try:
             if dispatchDeliveryunits:
                 item.dispatchDeliveryunits = dispatchDeliveryunits
+                print('vvvvvvvvvvvv')
 
             if dispatchDeliverynote:
                 item.dispatchDeliverynote = dispatchDeliverynote
 
-            # if scheduledDispatchtime:
-            #     item.scheduledDispatchtime = scheduledDispatchtime
-
+            item.dispatchDeliveredTime = datetime.now()
             item.dispatchDelivered = True
             db.session.add(item)
             db.session.commit()

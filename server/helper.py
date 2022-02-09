@@ -129,8 +129,25 @@ def order_serializer(data):
         "driverId": data.driverId,
         "vehicleId": data.vehicleId,
         "scheduledPickuptime": data.scheduledPickuptime,
-        "pickupnote": data.pickupnote
-
+        "pickupnote": data.pickupnote,
+        "driverId": data.driverId,
+        "pickupnote": data.pickupnote,
+        "pickuptime": data.pickuptime,
+        "orderStatus": data.orderStatus,
+        "pickupScheduled": data.pickupScheduled,
+        "pickupLoaded": data.pickupLoaded,
+        "pickupUnloaded": data.pickupUnloaded,
+        "scheduledPickuptime": data.scheduledPickuptime,
+        "Loadedtime": data.Loadedtime,
+        "Unloadedtime": data.Unloadedtime,
+        "dispatchScheduled": data.dispatchScheduled,
+        "dispatchDriverId": data.dispatchDriverId,
+        "dispatchvehicleId": data.dispatchvehicleId,
+        "dispatchnote": data.dispatchnote,
+        "dispatchnote": data.dispatchnote,
+        "transporterid": data.transporterid,
+        "scheduledDispatchtime": data.scheduledDispatchtime,
+        "dispatchDelivered": data.dispatchDelivered,
     }
 
 
@@ -193,4 +210,15 @@ def item_serializer(data):
         "note": data.note,
         "loadnote": data.loadnote,
         "vehicledetails": data.vehicledetails,
+        "unloadnote": data.unloadnote,
+        "pickupLoaded": data.pickupLoaded,
+        "pickupUnloaded": data.pickupUnloaded,
+        "scheduledPickuptime": data.scheduledPickuptime,
+        "Loadedtime": data.Loadedtime,
+        "Unloadedtime": data.Unloadedtime,
+        "dispatchScheduled": data.dispatchScheduled,
+        "dispatchDelivered": data.dispatchDelivered,
+        "dispatchDeliveredTime": data.dispatchDeliveredTime,
+        "dispatchDeliverynote": data.dispatchDeliverynote,
+        "dispatchDeliveryunits": data.dispatchDeliveryunits
     }

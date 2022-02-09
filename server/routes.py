@@ -27,6 +27,7 @@ from .user_actions.Vehicle.deleteVehicle import deleteVehicle
 from .user_actions.Transporter.deleteTransporter import deleteTransporter
 from .auth.register import register
 from .profile.team import users
+from .profile.userRole import getUserbyrole
 from .helper import token_required_user, token_required_admin
 from .profile.userProfile import profile
 from flask_cors import CORS, cross_origin
@@ -102,6 +103,16 @@ def revokeToken():
 def users_():
     if(request.method == 'GET'):
         return users(Users)
+    else:
+        pass
+
+
+@main.route('/api/usersByrole/<role>', methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def users_Byrole(role):
+    if(request.method == 'GET'):
+        return getUserbyrole(role)
     else:
         pass
 

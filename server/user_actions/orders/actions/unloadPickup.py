@@ -5,7 +5,7 @@ from flask import jsonify
 
 
 def unloadloadPickup(itemid, data, db):
-    units = data['units']
+    unloadunits = data['unloadunits']
     unloadnote = data['unloadnote']
 
 #  todo check if order has all items picked.
@@ -13,8 +13,8 @@ def unloadloadPickup(itemid, data, db):
     item = Item.query.filter_by(itemid=itemid).first()
     if Item:
         try:
-            if units:
-                item.units = units
+            if unloadunits:
+                item.unloadunits = unloadunits
 
             if unloadnote:
                 item.unloadnote = unloadnote

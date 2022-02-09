@@ -5,7 +5,7 @@ from flask import jsonify
 
 
 def loadPickup(itemid, data, db):
-    units = data['units']
+    loadunits = data['loadunits']
     loadnote = data['loadnote']
 
 #  todo check if order has all items picked.
@@ -13,8 +13,8 @@ def loadPickup(itemid, data, db):
     item = Item.query.filter_by(itemid=itemid).first()
     if Item:
         try:
-            if units:
-                item.units = units
+            if loadunits:
+                item.units = loadunits
 
             if loadnote:
                 item.loadnote = loadnote
@@ -23,7 +23,7 @@ def loadPickup(itemid, data, db):
             item.status = 'picked'
             db.session.add(item)
             db.session.commit()
-            return jsonify({'message': 'item picked'}), 200
+            return jsonify({'message': 'item loaded'}), 200
 
         except Exception as e:
             print(e)

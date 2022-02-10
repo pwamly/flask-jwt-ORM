@@ -132,7 +132,7 @@ class Vehicle(db.Model):
     vehicleid = db.Column(db.String(200), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
     plateno = db.Column(db.String(200), nullable=True)
-    model = db.Column(db.String(200), nullable=False, unique=True)
+    model = db.Column(db.String(200), nullable=False)
     loadcapacity = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(200), nullable=False)
     routestatus = db.Column(db.String(200), nullable=False)

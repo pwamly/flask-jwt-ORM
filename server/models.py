@@ -79,16 +79,27 @@ class Order(db.Model):
     scheduledPickuptime = db.Column(db.DateTime, nullable=True)
     Loadedtime = db.Column(db.DateTime, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
-    dispatchScheduled = db.Column(db.Boolean, nullable=True)  # for dispatch
-    dispatchDriverId = db.Column(db.String(200), nullable=True)  # for dispatch
-    dispatchvehicleId = db.Column(
-        db.String(200), nullable=True)  # vehicle for dispatch
-    dispatchnote = db.Column(db.String(200), nullable=True)  # dispatch notes
-    transporterid = db.Column(db.String(200), nullable=True)  # transporter
-    scheduledDispatchtime = db.Column(
-        db.DateTime, nullable=True)  # scheduled  diapatch time
-    dispatchDelivered = db.Column(
-        db.Boolean, nullable=True)  # for dispatch delivery
+
+    #....................for  schedule dispatch....................
+
+    dispatchScheduled = db.Column(db.Boolean, nullable=True)
+    dispatchDriverId = db.Column(db.String(200), nullable=True)
+    dispatchvehicleId = db.Column(db.String(200), nullable=True)
+    dispatchnote = db.Column(db.String(200), nullable=True)
+    transporterid = db.Column(db.String(200), nullable=True)
+    scheduledDispatchtime = db.Column(db.DateTime, nullable=True)
+    dispatchDelivered = db.Column(db.Boolean, nullable=True)
+
+ #....................for  dispatch delivery ....................
+
+    deliveryscheduled = db.Column(db.Boolean, nullable=True)
+    deliveryscheduledtime = db.Column(db.DateTime, nullable=True)
+    deliveryDriverId = db.Column(db.String(200), nullable=True)
+    vehicleIdfordelivered = db.Column(db.String(200), nullable=True)
+    deliveryschedulednote = db.Column(db.String(200), nullable=True)
+    orderdeliverytime = db.Column(db.DateTime, nullable=True)
+
+
 
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
@@ -187,6 +198,16 @@ class Item(db.Model):
     unloadeddispatchunits = db.Column(db.String(200), nullable=True)
     unloadeddispatchtime = db.Column(db.String(200), nullable=True)
     unloadeddispatchnotes = db.Column(db.String(200), nullable=True)
+
+    # for schedule delivery dispatch .....................
+
+    # for deliverorder....................................
+
+    deliveredunits = db.Column(db.String(200), nullable=True)
+    itemdeliverynote = db.Column(db.String(200), nullable=True)
+    itemdelivered = db.Column(db.Boolean, nullable=True)
+    deliverytime = db.Column(db.DateTime, nullable=True)
+
 
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)

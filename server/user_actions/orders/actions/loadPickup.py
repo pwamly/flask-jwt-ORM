@@ -20,7 +20,7 @@ def loadPickup(itemid, data, db):
                 item.loadnote = loadnote
 
             item.pickupLoaded = True
-            item.status = 'picked'
+            item.status = 'Picked'
             db.session.add(item)
             db.session.commit()
             return jsonify({'message': 'item loaded'}), 200

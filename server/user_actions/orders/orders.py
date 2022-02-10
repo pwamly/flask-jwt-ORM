@@ -10,3 +10,10 @@ def orders():
        print(data)
        return {'data':data} 
     return jsonify({'message' : 'orders not found'}),403
+
+
+def getDeliveries():
+    order = Order.query.filter_by(deliveryscheduled=True)
+    if order:
+        data = [*map(order_serializer, order)]
+        return {'data': data}

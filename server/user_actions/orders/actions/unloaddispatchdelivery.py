@@ -24,7 +24,7 @@ def unloadDispatch(itemid, data, db):
             item.pickupUnloaded = True
             item.dispatchunloaded = True
             item.unloadeddispatchtime = datetime.now()
-            item.status = 'dispatch unloaded'
+            item.status = 'Dispatch unloaded'
             db.session.add(item)
             db.session.commit()
             return jsonify({'message': 'dispatch unloaded'}), 200

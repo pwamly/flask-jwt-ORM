@@ -22,7 +22,7 @@ def deliverDispatch(itemid, data, db):
                     item.dispatchDeliverynote = dispatchDeliverynote
                 item.dispatchDeliveredTime = datetime.now()
                 orders.dispatchDelivered = True
-                orders.orderStatus = 'dispatched'
+                orders.orderStatus = 'Dispatched'
                 orders.dispatchDeliveredTime = datetime.now()
                 db.session.add(item)
                 db.session.add(orders)

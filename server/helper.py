@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request, jsonify,g
+from flask import request, jsonify, g
 import jwt
 import os
 
@@ -28,8 +28,8 @@ def token_required_user(f):
 
             # add role and branchId of the user to all transactions
 
-            g.userRole=data['role']
-            g.userBranchId=data['branchId']
+            g.userRole = data['role']
+            g.userBranchId = data['branchId']
 
         except jwt.ExpiredSignatureError as e:
             return jsonify({'message': 'Token has expired'})
@@ -148,6 +148,12 @@ def order_serializer(data):
         "transporterid": data.transporterid,
         "scheduledDispatchtime": data.scheduledDispatchtime,
         "dispatchDelivered": data.dispatchDelivered,
+        "dispatchnote": data.dispatchnote,
+        "deliveryscheduledtime": data.deliveryscheduledtime,
+        "deliveryDriverId": data.deliveryDriverId,
+        "vehicleIdfordelivered": data.vehicleIdfordelivered,
+        "deliveryschedulednote": data.deliveryschedulednote,
+        "orderdeliverytime": data.orderdeliverytime
     }
 
 

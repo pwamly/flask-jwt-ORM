@@ -1,4 +1,6 @@
 from flask import Blueprint, request, jsonify
+
+from server.user_actions.orders.actions.scheduleDelivery import scheduleDelivery
 from .extensions import db
 from .models import Users
 from .models import Branch
@@ -9,6 +11,7 @@ from .admin_actions.deleteUser import removeUser
 from .admin_actions.branch.branchCreate import create
 from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
+from .user_actions.orders.orders import getDeliveries
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
@@ -18,6 +21,7 @@ from .user_actions.orders.actions.unloadPickup import unloadloadPickup
 from .user_actions.orders.actions.unloaddispatchdelivery import unloadDispatch
 from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch
 from .user_actions.orders.actions.deliverDispatch import deliverDispatch
+from .user_actions.orders.actions.deliverOrder import deliverOrder
 from .user_actions.Customers.customers import getcustomers
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -278,6 +282,36 @@ def unloadDispatch_d(itemid):
         pass
 
 
+@main.route('/api/scheduleDelivery/<orderid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def scheduleDelivery_d(orderid):
+    if(request.method == 'POST'):
+        data = request.json
+        return scheduleDelivery(orderid, data, db)
+    else:
+        pass
+
+
+@main.route('/api/delivery-item/<itemid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def deliveryItem_d(itemid):
+    if(request.method == 'POST'):
+        data = request.json
+        return deliverOrder(itemid, data, db)
+    else:
+        pass
+
+
+@main.route('/api/deliveries',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def getdeliveredorders_d():
+    if(request.method == 'GET'):
+        return getDeliveries()
+    else:
+        pass
 
 # ........................... customer url ...............
 

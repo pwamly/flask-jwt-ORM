@@ -20,7 +20,7 @@ def unloadloadPickup(itemid, data, db):
                 item.unloadnote = unloadnote
 
             item.pickupUnloaded = True
-            item.status = 'picked and unloaded'
+            item.status = 'Picked and unloaded'
             db.session.add(item)
             db.session.commit()
             return jsonify({'message': 'item picked and unloaded'}), 200

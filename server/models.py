@@ -24,10 +24,10 @@ class Users(db.Model):
     refrestoken = db.Column(db.String(200), nullable=True, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    
+
+
 class Branch(db.Model):
-    
+
     __tablename__ = 'Branch'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -38,11 +38,10 @@ class Branch(db.Model):
     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    
-    
+
+
 class Order(db.Model):
-    
+
     __tablename__ = 'Order'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -63,12 +62,14 @@ class Order(db.Model):
     dstreet = db.Column(db.String(200), nullable=False)
     dnotes = db.Column(db.String(200), nullable=True)
     consigneename = db.Column(db.String(200), nullable=False)
-    cnenotes = db.Column(db.String(200), nullable=True) 
-    driverId = db.Column(db.String(200), nullable=True) # driver id for pickup
-    vehicleId = db.Column(db.String(200), nullable=True) # vehicle id for pickup
-    pickupnote = db.Column(db.String(200), nullable=True) # if there is any details to eraborate
-    pickuptime = db.Column(db.DateTime,nullable=False)
-    expdlrtime = db.Column(db.DateTime,nullable=False)
+    cnenotes = db.Column(db.String(200), nullable=True)
+    driverId = db.Column(db.String(200), nullable=True)  # driver id for pickup
+    # vehicle id for pickup
+    vehicleId = db.Column(db.String(200), nullable=True)
+    # if there is any details to eraborate
+    pickupnote = db.Column(db.String(200), nullable=True)
+    pickuptime = db.Column(db.DateTime, nullable=False)
+    expdlrtime = db.Column(db.DateTime, nullable=False)
     pickuptime = db.Column(db.DateTime, nullable=True)
     orderStatus = db.Column(
         db.String(200), default='not picked', nullable=True)  # order status .....
@@ -86,16 +87,15 @@ class Order(db.Model):
     transporterid = db.Column(db.String(200), nullable=True)  # transporter
     scheduledDispatchtime = db.Column(
         db.DateTime, nullable=True)  # scheduled  diapatch time
-
     dispatchDelivered = db.Column(
         db.Boolean, nullable=True)  # for dispatch delivery
+
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-
 class Customer(db.Model):
-    
+
     __tablename__ = 'Customer'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -103,7 +103,7 @@ class Customer(db.Model):
     customerid = db.Column(db.String(200), nullable=False, unique=True)
     fname = db.Column(db.String(200), nullable=False)
     lname = db.Column(db.String(200), nullable=True)
-    email = db.Column(db.String(200), nullable=False ,unique=True)
+    email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
     district = db.Column(db.String(200), nullable=False)
@@ -113,17 +113,15 @@ class Customer(db.Model):
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-
-
 class Vehicle(db.Model):
-    
+
     __tablename__ = 'Vehicles'
 
     id = db.Column(db.Integer, primary_key=True)
     vehicleid = db.Column(db.String(200), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
     plateno = db.Column(db.String(200), nullable=True)
-    model = db.Column(db.String(200), nullable=False ,unique=True)
+    model = db.Column(db.String(200), nullable=False, unique=True)
     loadcapacity = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(200), nullable=False)
     routestatus = db.Column(db.String(200), nullable=False)
@@ -169,37 +167,41 @@ class Item(db.Model):
     vehicledetails = db.Column(db.String(200), nullable=True)
     pickupLoaded = db.Column(db.Boolean, nullable=True)
     pickupUnloaded = db.Column(db.Boolean, nullable=True)
-    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
     Loadedtime = db.Column(db.DateTime, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
-    dispatchScheduled = db.Column(
-        db.Boolean, nullable=True)  # for dispatch scheduled
-    dispatchDelivered = db.Column(
-        db.Boolean, nullable=True)  # dispatch delivered
-    dispatchDeliveredTime = db.Column(
-        db.DateTime, nullable=True)  # delivery time for dispatch
-    dispatchDeliverynote = db.Column(
-        db.String(200), nullable=True)  # delivery note for dispatch
+
+    # for dispatch scheduled..................
+
+    dispatchScheduled = db.Column(db.Boolean, nullable=True)
+    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
+    # for dispatch delivered..................
+
+    dispatchDelivered = db.Column(db.Boolean, nullable=True)
+    dispatchDeliveredTime = db.Column(db.DateTime, nullable=True)
+    dispatchDeliverynote = db.Column(db.String(200), nullable=True)
     dispatchDeliveryunits = db.Column(db.String(200), nullable=True)
+
+    # for unload dispatch .....................
+
+    dispatchunloaded = db.Column(db.Boolean, nullable=True)
+    unloadeddispatchunits = db.Column(db.String(200), nullable=True)
+    unloadeddispatchtime = db.Column(db.String(200), nullable=True)
+    unloadeddispatchnotes = db.Column(db.String(200), nullable=True)
+
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-
-
-
 
     # @property
     # def password_(self):
     #    raise ArithmeticError('can not use unhashed password')
- 
+
     # @password_.setter
     # def password_(self, password):
     #  self.userid = userid
     #  self.password = generate_password_hash(password)
-    
+
 # class Order(db.Model):
-        
+
 #     __tablename__ = 'Order'
 
 #     id = db.Column(db.Integer, primary_key=True)
@@ -210,4 +212,3 @@ class Item(db.Model):
 #     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
 #     created = db.Column(db.DateTime, default=datetime.utcnow)
 #     updated = db.Column(db.DateTime, default=datetime.utcnow)
-

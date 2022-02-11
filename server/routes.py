@@ -23,10 +23,12 @@ from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch
 from .user_actions.orders.actions.deliverDispatch import deliverDispatch
 from .user_actions.orders.actions.deliverOrder import deliverOrder
 from .user_actions.Customers.customers import getcustomers
+from .user_actions.Customers.consignor.consignors import getconsignors
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
 from .user_actions.orders.items.addItem import addItem
 from .user_actions.Customers.registerCustomer import registerCustomer
+from .user_actions.Customers.consignor.addconsignor import registerConsignor
 from .user_actions.Vehicle.registerVehicle import regvehicle
 from .user_actions.Transporter.registerTransporter import regTransporter
 from .user_actions.Vehicle.vehicles import getvehicle
@@ -329,7 +331,7 @@ def r_customer():
 @main.route('/api/customers',  methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def r_orders():
+def r_customers():
     if(request.method == 'GET'):
         return getcustomers()
     else:
@@ -342,6 +344,27 @@ def r_orders():
 def delete_Customer(customerid):
     if(request.method == 'DELETE'):
         return deleteCustomer(customerid, db)
+    else:
+        pass
+
+
+@main.route('/api/register-consignor', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_consignor():
+    data = request.json
+    if(request.method == 'POST'):
+        return registerConsignor(data, db)
+    else:
+        pass
+
+
+@main.route('/api/consignors',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_consignors():
+    if(request.method == 'GET'):
+        return getconsignors()
     else:
         pass
 

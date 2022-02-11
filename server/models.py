@@ -1,3 +1,4 @@
+from enum import unique
 from sqlalchemy import null
 from .extensions import db
 from datetime import datetime, timedelta
@@ -80,7 +81,7 @@ class Order(db.Model):
     Loadedtime = db.Column(db.DateTime, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
 
-    #....................for  schedule dispatch....................
+    # ....................for  schedule dispatch....................
 
     dispatchScheduled = db.Column(db.Boolean, nullable=True)
     dispatchDriverId = db.Column(db.String(200), nullable=True)
@@ -90,7 +91,7 @@ class Order(db.Model):
     scheduledDispatchtime = db.Column(db.DateTime, nullable=True)
     dispatchDelivered = db.Column(db.Boolean, nullable=True)
 
- #....................for  dispatch delivery ....................
+ # ....................for  dispatch delivery ....................
 
     deliveryscheduled = db.Column(db.Boolean, nullable=True)
     deliveryscheduledtime = db.Column(db.DateTime, nullable=True)
@@ -98,8 +99,6 @@ class Order(db.Model):
     vehicleIdfordelivered = db.Column(db.String(200), nullable=True)
     deliveryschedulednote = db.Column(db.String(200), nullable=True)
     orderdeliverytime = db.Column(db.DateTime, nullable=True)
-
-
 
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
@@ -208,28 +207,20 @@ class Item(db.Model):
     itemdelivered = db.Column(db.Boolean, nullable=True)
     deliverytime = db.Column(db.DateTime, nullable=True)
 
-
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # @property
-    # def password_(self):
-    #    raise ArithmeticError('can not use unhashed password')
 
-    # @password_.setter
-    # def password_(self, password):
-    #  self.userid = userid
-    #  self.password = generate_password_hash(password)
+class Consignor(db.Model):
 
-# class Order(db.Model):
+    __tablename__ = 'consignor'
 
-#     __tablename__ = 'Order'
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     branchId = db.Column(db.String(200), nullable=False, unique=True)
-#     branchname = db.Column(db.String(200), nullable=False)
-#     region = db.Column(db.String(200), nullable=False)
-#     district = db.Column(db.String(200), nullable=False)
-#     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
-#     created = db.Column(db.DateTime, default=datetime.utcnow)
-#     updated = db.Column(db.DateTime, default=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    consginerid = db.Column(db.String(200), nullable=False)
+    customerid = db.Column(db.String(200), nullable=False)
+    fullname = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False, unique=True)
+    phone = db.Column(db.String(200), nullable=False, unique=True)
+    nidano = db.Column(db.String(200), nullable=True, unique=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)

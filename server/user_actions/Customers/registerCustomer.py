@@ -13,8 +13,7 @@ import time
 
 
 def registerCustomer(data, db):    
-    id =uuid.uuid4()  # todo ........... to be return to the setter and getter
-    customerid =id
+    id = uuid.uuid4()  # todo ........... to be return to the setter and getter
     fname = data['fname']
     lname = data['lname']
     email = data['email']

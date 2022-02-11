@@ -153,7 +153,10 @@ def order_serializer(data):
         "deliveryDriverId": data.deliveryDriverId,
         "vehicleIdfordelivered": data.vehicleIdfordelivered,
         "deliveryschedulednote": data.deliveryschedulednote,
-        "orderdeliverytime": data.orderdeliverytime
+        "orderdeliverytime": data.orderdeliverytime,
+        "pagination": {
+            "page": "data"
+        }
     }
 
 
@@ -173,6 +176,22 @@ def customer_serializer(data):
         "generaladdress": data.region+', '+data.district+', '+data.street+' ,'+data.address,
         "created": data.created
     }
+
+
+def consignor_serializer(data):
+
+    return {
+        "consginerid": data.consginerid,
+        "fullname": data.fullname,
+        "nidano": data.nidano,
+        "email": data.email,
+        "customerid": data.customerid,
+        "phone": data.phone,
+        "created": data.created,
+        "updated": data.updated
+    }
+
+
 
 
 def vehicle_serializer(data):

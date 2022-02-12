@@ -7,27 +7,32 @@ from flask import jsonify
 def loadPickup(itemid, data, db):
     loadunits = data['loadunits']
     loadnote = data['loadnote']
+    orderid = data['orderid']
 
 #  todo check if order has all items picked.
-
+    order = Order.query.filter_by(orderid=orderid).first()
     item = Item.query.filter_by(itemid=itemid).first()
-    if Item:
-        try:
-            if loadunits:
-                item.units = loadunits
+    if order:
+        if Item:
+            try:
+                if loadunits:
+                    item.units = loadunits
 
-            if loadnote:
-                item.loadnote = loadnote
+                if loadnote:
+                    item.loadnote = loadnote
 
-            item.pickupLoaded = True
-            item.status = 'Picked'
-            db.session.add(item)
-            db.session.commit()
-            return jsonify({'message': 'item loaded'}), 200
+                order.pickupLoaded = True
+                order.orderStatus = 'Picked'
+                db.session.add(order)
+                item.pickupLoaded = True
+                item.status = 'Picked'
+                db.session.add(item)
+                db.session.commit()
+                return jsonify({'message': 'item loaded'}), 200
 
-        except Exception as e:
-            print(e)
-            return jsonify({'message': 'Failed to load item'}), 403
-            pass
+            except Exception as e:
+                print(e)
+                return jsonify({'message': 'Failed to load item'}), 403
+                pass
 
-    return jsonify({'message': 'item does not exist!'}), 409
+    return jsonify({'message': 'order does not exist!'}), 409

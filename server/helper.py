@@ -154,9 +154,8 @@ def order_serializer(data):
         "vehicleIdfordelivered": data.vehicleIdfordelivered,
         "deliveryschedulednote": data.deliveryschedulednote,
         "orderdeliverytime": data.orderdeliverytime,
-        "pagination": {
-            "page": "data"
-        }
+        "dispatchunloaded": data.dispatchunloaded,
+        "deliveryscheduled": data.deliveryscheduled
     }
 
 

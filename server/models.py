@@ -73,7 +73,7 @@ class Order(db.Model):
     expdlrtime = db.Column(db.DateTime, nullable=False)
     pickuptime = db.Column(db.DateTime, nullable=True)
     orderStatus = db.Column(
-        db.String(200), default='not picked', nullable=True)  # order status .....
+        db.String(200), default='Not Picked', nullable=True)  # order status .....
     pickupScheduled = db.Column(db.Boolean, nullable=True)
     pickupLoaded = db.Column(db.Boolean, nullable=True)
     pickupUnloaded = db.Column(db.Boolean, nullable=True)
@@ -90,6 +90,7 @@ class Order(db.Model):
     transporterid = db.Column(db.String(200), nullable=True)
     scheduledDispatchtime = db.Column(db.DateTime, nullable=True)
     dispatchDelivered = db.Column(db.Boolean, nullable=True)
+    dispatchunloaded = db.Column(db.Boolean, nullable=True)
 
  # ....................for  dispatch delivery ....................
 

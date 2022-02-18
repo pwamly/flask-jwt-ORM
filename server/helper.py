@@ -108,7 +108,7 @@ def order_serializer(data):
         "orderid": data.orderid,
         "branchid": data.branchid,
         "customerid": data.customerid,
-        "customername": data.customername,
+        "customername": data.customername.upper(),
         "customernotes": data.customernotes,
         "consignername": data.consignername,
         "consignerid": data.consignerid,
@@ -155,7 +155,10 @@ def order_serializer(data):
         "deliveryschedulednote": data.deliveryschedulednote,
         "orderdeliverytime": data.orderdeliverytime,
         "dispatchunloaded": data.dispatchunloaded,
-        "deliveryscheduled": data.deliveryscheduled
+        "deliveryscheduled": data.deliveryscheduled,
+        "bundleId": data.bundleId,
+        "destinationbranchid": data.destinationbranchid,
+        "isbundled": data.isbundled
     }
 
 
@@ -245,4 +248,17 @@ def item_serializer(data):
         "dispatchDeliveredTime": data.dispatchDeliveredTime,
         "dispatchDeliverynote": data.dispatchDeliverynote,
         "dispatchDeliveryunits": data.dispatchDeliveryunits
+    }
+
+
+def bundle_serializer(data):
+
+    return {
+        "bundleid": data.bundleid,
+        "bundlename": data.bundlename,
+        "bundleto": data.bundleto,
+        "bundlefrom": data.bundlefrom,
+        "status": data.status,
+        "created": data.updated,
+        "updated": data.created
     }

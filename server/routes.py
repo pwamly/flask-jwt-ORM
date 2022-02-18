@@ -16,6 +16,7 @@ from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
+from .user_actions.bundle.createbundle import createBundle
 from .user_actions.orders.actions.loadPickup import loadPickup
 from .user_actions.orders.actions.unloadPickup import unloadloadPickup
 from .user_actions.orders.actions.unloaddispatchdelivery import unloadDispatch
@@ -33,6 +34,7 @@ from .user_actions.Vehicle.registerVehicle import regvehicle
 from .user_actions.Transporter.registerTransporter import regTransporter
 from .user_actions.Vehicle.vehicles import getvehicle
 from .user_actions.Transporter.transporters import gettransporters
+from .user_actions.bundle.getBundles import getbundles
 from .user_actions.Vehicle.deleteVehicle import deleteVehicle
 from .user_actions.Transporter.deleteTransporter import deleteTransporter
 from .auth.register import register
@@ -431,5 +433,28 @@ def g_transporters():
 def delete_transporter(transporterid):
     if(request.method == 'DELETE'):
         return deleteTransporter(transporterid, db)
+    else:
+        pass
+
+
+#................. bundle ...............................
+
+@main.route('/api/create-bandle', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def create_bundle():
+    if(request.method == 'POST'):
+        data = request.json
+        return createBundle(data, db)
+    else:
+        pass
+
+
+@main.route('/api/bundles',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def g_bundles():
+    if(request.method == 'GET'):
+        return getbundles()
     else:
         pass

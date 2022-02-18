@@ -102,8 +102,8 @@ class Order(db.Model):
     orderdeliverytime = db.Column(db.DateTime, nullable=True)
 
  #............................ for bundle .......................
-    bundleid = db.Column(db.DateTime, nullable=True)
-    destinationbranchid = db.Column(db.String(200), nullable=True)
+    bundleId = db.Column(db.String(200), nullable=True)
+    destinationbranchid = db.Column(db.String(220), nullable=True)
     isbundled = db.Column(db.Boolean, nullable=True)
 
 
@@ -239,6 +239,9 @@ class Bundle(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     bundleid = db.Column(db.String(200), nullable=False)
-    bundlename = db.Column(db.String(200), nullable=False)
+    bundlename = db.Column(db.String(200), nullable=True)
+    bundleto = db.Column(db.String(200), nullable=True)
+    bundlefrom = db.Column(db.String(200), nullable=True)
+    status = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)

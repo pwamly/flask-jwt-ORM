@@ -2,7 +2,7 @@ from server.models import Bundle
 from flask import jsonify
 
 
-def deleteCustomer(id, db):
+def deleteBudle(id, db):
  print(id)
 
  try:
@@ -16,6 +16,6 @@ def deleteCustomer(id, db):
       db.session.commit()
       return jsonify({'message': 'bundle deleted'}), 200
  except Exception as e:
-     print('iiiiiiiiiii', e)
+     print('', e)
      return jsonify({'message': 'Failed to delete bundle'}), 403
      pass

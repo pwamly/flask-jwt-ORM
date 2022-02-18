@@ -11,16 +11,20 @@ from .admin_actions.deleteUser import removeUser
 from .admin_actions.branch.branchCreate import create
 from .user_actions.orders.createOder import createOder
 from .user_actions.orders.orders import orders
+from .user_actions.orders.bundledOrders import bundledOrders
+from .user_actions.bundle.deliverBundle import deliverBundle
 from .user_actions.orders.orders import getDeliveries
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
 from .user_actions.bundle.createbundle import createBundle
+from .user_actions.bundle.updateBundle import updateBundle
+from .user_actions.bundle.deletebundle import deleteBudle
 from .user_actions.orders.actions.loadPickup import loadPickup
 from .user_actions.orders.actions.unloadPickup import unloadloadPickup
 from .user_actions.orders.actions.unloaddispatchdelivery import unloadDispatch
-from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch
+from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch, scheduleDispatchBundle
 from .user_actions.orders.actions.deliverDispatch import deliverDispatch
 from .user_actions.orders.actions.deliverOrder import deliverOrder
 from .user_actions.Customers.customers import getcustomers
@@ -456,5 +460,58 @@ def create_bundle():
 def g_bundles():
     if(request.method == 'GET'):
         return getbundles()
+    else:
+        pass
+
+
+@main.route('/api/edit-bundle/<bundleid>', methods=['PUT', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def e_bundle(bundleid):
+    data = request.json
+    if(request.method == 'PUT'):
+        return updateBundle(data, bundleid, db)
+    else:
+        pass
+
+
+@main.route('/api/delete-bundle/<bundleid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def d_bundle(bundleid):
+    if(request.method == 'DELETE'):
+        return deleteBudle(bundleid, db)
+    else:
+        pass
+
+
+@main.route('/api/bundled-orders/<bundleid>',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def b_getorders(bundleid):
+    if(request.method == 'GET'):
+        return bundledOrders(bundleid)
+    else:
+        pass
+
+
+@main.route('/api/bundle/scheduleDispatch/<bundleid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def b_scheduleDispatch_s(bundleid):
+    if(request.method == 'POST'):
+        data = request.json
+        return scheduleDispatchBundle(bundleid, data, db)
+    else:
+        pass
+
+
+@main.route('/api/bundle/deliver-bundle/<bundleid>', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def b_Deliverbundle(bundleid):
+    if(request.method == 'POST'):
+        data = request.json
+        return deliverBundle(bundleid, data, db)
     else:
         pass

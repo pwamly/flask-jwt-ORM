@@ -8,39 +8,9 @@ from server.models import Bundle
 from flask import jsonify
 
 
-def updateUser(data, bundleid, db):
-
- bundlename = data['bundlenam']
-
-
-#  check if user exists
- bundle = Bundle.query.filter_by(bundleid=bundleid).first()
- if bundle:
-  try:
-      if bundlename:
-          bundle.bundlenam = bundlename
-          print('ccccccccccc', bundlename)
-
-      bundle.isadmin = False
-      db.session.add(bundle)
-      db.session.commit()
-      return jsonify({'message': 'bundle updated'}), 200
-
-  except Exception as e:
-      print(e)
-      return jsonify({'message': 'Failed to register'}), 403
-      pass
- return jsonify({'message': 'User already exist!'}), 409
-
-
-# ..........................add()
-
-
-def createBundle(data, db):
- bundleid = uuid.uuid4()  # to bdo ........... to be return to the setter and getter
- bundlename = data['bundlename']  # example Dar-Mwanza-1-11-2020
+def updateBundle(data, bundleid, db):
  oderstobebundled = data['ordertobebundled']
- bundleto = data['to']
+ bundleid = data['bundleid']
 
  # check if user exists
  bundle = Bundle.query.filter_by(bundleid=bundleid).first()
@@ -58,4 +28,4 @@ def createBundle(data, db):
   except Exception as e:
       return jsonify({'message': 'Failed to update a bundle'}), 403
       pass
- return jsonify({'message': 'Bundle not exist!'}), 407
+ return jsonify({'message': 'Bundle already exist!'}), 407

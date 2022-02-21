@@ -28,7 +28,7 @@ from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch, sche
 from .user_actions.orders.actions.deliverDispatch import deliverDispatch
 from .user_actions.orders.actions.deliverOrder import deliverOrder
 from .user_actions.Customers.customers import getcustomers
-from .user_actions.Customers.consignor.consignors import getconsignors
+from .user_actions.Customers.consignor.consignors import getconsignors, getconsignorsByCustomer
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
 from .user_actions.orders.items.addItem import addItem
@@ -361,6 +361,16 @@ def r_consignor():
     data = request.json
     if(request.method == 'POST'):
         return registerConsignor(data, db)
+    else:
+        pass
+
+
+@main.route('/api/consignors/<customerid>',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_consignors_b(customerid):
+    if(request.method == 'GET'):
+        return getconsignorsByCustomer(customerid)
     else:
         pass
 

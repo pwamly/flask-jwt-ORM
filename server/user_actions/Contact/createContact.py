@@ -28,7 +28,7 @@ def create(data, db):
 
       contact = Contact(phone=name, email=email, tinNumber=tinNumber, created=created, client_id=client.id)
 
-      db.session.add(client)
+      db.session.add(contact)
       db.session.commit()
 
       return 'Contact created'

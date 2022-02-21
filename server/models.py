@@ -41,6 +41,35 @@ class Branch(db.Model):
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class Client(db.Model):
+
+    __tablename__ = 'Client'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    address = db.Column(db.String(200), nullable=False)
+    tinNumber = db.Column(db.Integer(200), nullable=False)
+    contactPerson = db.Column(db.String(200), nullable=False)
+    logo = db.Column(db.String(120), nullable=False, unique=True)
+    status = db.Column(db.String(20), nullable=False, unique=True)
+    contacts = db.relationship('Contact', backref='client')
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Contact(db.Model):
+
+    __tablename__ = 'ContactAddress'
+
+    id = db.Column(db.Integer, primary_key=True)
+    phone = db.Column(db.String(15), nullable=False, unique=True)
+    email = db.Column(db.String(200), nullable=False, unique=True)
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id')
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+
 class Order(db.Model):
 
     __tablename__ = 'Order'

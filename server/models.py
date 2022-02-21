@@ -51,10 +51,12 @@ class Client(db.Model):
     tinNumber = db.Column(db.Integer(200), nullable=False)
     contactPerson = db.Column(db.String(200), nullable=False)
     logo = db.Column(db.String(120), nullable=False, unique=True)
-    status = db.Column(db.String(20), nullable=False, unique=True)
+    status = db.Column(db.String(20), nullable=False)
+    region_id = db.relationship(db.Integer, db.ForeignKey('region.id'))
+    physicalLocation = db.Column(db.String(20), nullable=False)
     contacts = db.relationship('Contact', backref='client')
     created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, nullable=True)
 
 
 class Contact(db.Model):

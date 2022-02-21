@@ -5,15 +5,16 @@ from ..models import Branch, Customer, Vehicle, Transporter
 
 def profile(userId, Users):
     profile = Users.query.filter_by(userid=userId).first()
-    branch = Users.query.filter_by(userid=userId).first()
-    profile = Users.query.filter_by(userid=userId).first()
-    profile = Users.query.filter_by(userid=userId).first()
-    profile = Users.query.filter_by(userid=userId).first()
+    employes = Users.query.filter_by()
+    branch = Branch.query.filter_by()
+    customer = Customer.query.filter_by()
+    vehicle = Vehicle.query.filter_by()
+    transporter = Transporter.query.filter_by()
 
     if profile:
-        data = {'username': profile.fname,
-                'phone': profile.phone, 'email': profile.email,'branchId': profile.branchId}
-        return jsonify({'data': data}), 200
+        data = {'username': profile.fname, 'fname': profile.fname, 'lname': profile.lname, 'userRole': profile.role,
+                'phone': profile.phone, 'email': profile.email, 'branchId': profile.branchId, 'dashData': {'branches': branch.count(), 'vehicles': vehicle.count(), 'customers': customer.count(), 'employes': employes.count(), 'transporters': transporter.count()}}
+        return jsonify(data), 200
     return jsonify({'message': 'User not found'}), 403
 
 

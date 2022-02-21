@@ -245,3 +245,15 @@ class Bundle(db.Model):
     status = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Regions(db.Model):
+
+    __tablename__ = 'region'
+
+    id = db.Column(db.Integer, primary_key=True)
+    regionId = db.Column(db.String(200), nullable=False)
+    region = db.Column(db.String(200), nullable=False)
+    descriptions = db.Column(db.String(200), nullable=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)

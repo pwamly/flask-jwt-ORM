@@ -18,6 +18,10 @@ from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
 from .user_actions.orders.actions.schedulePickup import schedulePickup
+from .user_actions.Settings.addregions import registerRegion
+from .user_actions.Settings.getRegions import getregions
+from .user_actions.Settings.editregions import updateRegion
+from .user_actions.Settings.deleteregions import deleteRegion
 from .user_actions.bundle.createbundle import createBundle
 from .user_actions.bundle.updateBundle import updateBundle
 from .user_actions.bundle.deletebundle import deleteBudle
@@ -523,5 +527,50 @@ def b_Deliverbundle(bundleid):
     if(request.method == 'POST'):
         data = request.json
         return deliverBundle(bundleid, data, db)
+    else:
+        pass
+
+
+#................. Regions ...............................
+
+
+@main.route('/api/add-regions', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def addRegions_a():
+    if(request.method == 'POST'):
+        data = request.json
+        return registerRegion(data, db)
+    else:
+        pass
+
+
+@main.route('/api/regions',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def get_regions():
+    if(request.method == 'GET'):
+        return getregions()
+    else:
+        pass
+
+
+@main.route('/api/update-region/<regionid>', methods=['PUT', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def update_region(regionid):
+    data = request.json
+    if(request.method == 'PUT'):
+        return updateRegion(data, regionid, db)
+    else:
+        pass
+
+
+@main.route('/api/delete-region/<regionid>', methods=['DELETE', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def delete_region(regionid):
+    if(request.method == 'DELETE'):
+        return deleteRegion(regionid, db)
     else:
         pass

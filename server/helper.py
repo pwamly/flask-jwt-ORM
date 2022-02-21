@@ -262,3 +262,12 @@ def bundle_serializer(data):
         "created": data.updated,
         "updated": data.created
     }
+
+
+def regions_serializer(data):
+    return {
+        "region": data.region,
+        "regionId": data.regionId,
+        "created": data.updated,
+        "updated": data.created
+    }

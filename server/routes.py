@@ -121,8 +121,11 @@ def revokeToken():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def users_():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return users(Users)
+        return users(page, sort, q)
     else:
         pass
 
@@ -166,8 +169,11 @@ def c_order():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getorders():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return orders()
+        return orders(page, sort, q)
     else:
         pass
 
@@ -213,7 +219,7 @@ def g_itemByid(orderid):
         pass
 
 
-#................. schedule orders.........................
+# ................. schedule orders.........................
 
 
 @main.route('/api/orders/schedule/<orderid>', methods=['POST', 'OPTIONS'])
@@ -247,10 +253,10 @@ def unloadpickup(itmeid):
         return unloadloadPickup(itmeid, data, db)
     else:
         pass
-    
-    
-    
-                                      # .... dispatch...........
+
+        # .... dispatch...........
+
+
 @main.route('/api/orders/scheduleDispatch/<orderid>', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
@@ -277,8 +283,11 @@ def deliverDispatch_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getDispatch_d():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getdispatchedOrder()
+        return getdispatchedOrder(page, sort, q)
     else:
         pass
 
@@ -320,12 +329,16 @@ def deliveryItem_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getdeliveredorders_d():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getDeliveries()
+        return getDeliveries(page, sort, q)
     else:
         pass
 
 # ........................... customer url ...............
+
 
 @main.route('/api/register-customer', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
@@ -342,8 +355,11 @@ def r_customer():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def r_customers():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getcustomers()
+        return getcustomers(page, sort, q)
     else:
         pass
 
@@ -406,10 +422,14 @@ def r_vehicle():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_vehicles():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getvehicle()
+        return getvehicle(page, sort, q)
     else:
         pass
+
 
 
 @main.route('/api/delete-vehicle/<vehicleid>', methods=['DELETE', 'OPTIONS'])
@@ -439,8 +459,11 @@ def r_transporter():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_transporters():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return gettransporters()
+        return gettransporters(page, sort, q)
     else:
         pass
 
@@ -455,7 +478,7 @@ def delete_transporter(transporterid):
         pass
 
 
-#................. bundle ...............................
+# ................. bundle ...............................
 
 @main.route('/api/create-bandle', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
@@ -472,8 +495,11 @@ def create_bundle():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_bundles():
+    page = request.args.get('gage')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getbundles()
+        return getbundles(page, sort, q)
     else:
         pass
 
@@ -531,7 +557,7 @@ def b_Deliverbundle(bundleid):
         pass
 
 
-#................. Regions ...............................
+# ................. Regions ...............................
 
 
 @main.route('/api/add-regions', methods=['POST', 'OPTIONS'])

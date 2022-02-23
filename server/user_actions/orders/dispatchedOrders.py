@@ -4,9 +4,8 @@ from ...models import Order
 from ...helper import order_serializer
 
 
-def getdispatchedOrder():
-    pages_perpage = 10
-    page = 1
+def getdispatchedOrder(page, sort, q):
+    pages_perpage = 5
     order = Order.query.filter_by(dispatchDelivered=True).order_by(
         Order.created.desc()).paginate(page, pages_perpage, error_out=False)
     if order:

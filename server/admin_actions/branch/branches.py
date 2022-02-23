@@ -1,11 +1,11 @@
 from flask import jsonify
 import json
-from ...helper import profile_serializer, users_serializer, branch_serializer
+from ...models import Branch
+from ...helper import branch_serializer
 
 
-def branches(Branch):
-    pages_perpage = 100
-    page = 1
+def branches(page, sort, q):
+    pages_perpage = 5
     branch = Branch.query.filter_by().order_by(
         Branch.created.desc()).paginate(page, pages_perpage, error_out=False)
     if branch:

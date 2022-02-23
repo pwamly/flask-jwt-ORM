@@ -3,9 +3,9 @@ import json
 from ...models import Customer
 from ...helper import customer_serializer
 
-def getcustomers():
-    pages_perpage = 10
-    page = 1
+
+def getcustomers(page, sort, q):
+    pages_perpage = 1
     customers = Customer.query.filter_by().order_by(
         Customer.created.desc()).paginate(page, pages_perpage, error_out=False)
     pages_perpage = 100

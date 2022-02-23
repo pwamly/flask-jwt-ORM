@@ -4,9 +4,9 @@ from ...models import Order, Item
 from ...helper import order_serializer
 
 
-def orders():
-    pages_perpage = 10
-    page = 1
+def orders(page, sort, q):
+
+    pages_perpage = 5
     order = Order.query.order_by(
         Order.created.desc()).paginate(page, pages_perpage, error_out=False)
     if order:
@@ -16,9 +16,8 @@ def orders():
     return jsonify({'message': 'orders not found'}), 403
 
 
-def getDeliveries():
-    pages_perpage = 10
-    page = 1
+def getDeliveries(page, sort, q):
+    pages_perpage = 5
     order = Order.query.filter_by(
         deliveryscheduled=True).order_by(Order.created.desc()).paginate(page, pages_perpage, error_out=False)
     if order:

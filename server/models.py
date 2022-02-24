@@ -52,6 +52,7 @@ class Order(db.Model):
     customername = db.Column(db.String(200), nullable=False)
     customernotes = db.Column(db.String(200), nullable=True)
     consignername = db.Column(db.String(200), nullable=False)
+    trackingNo = db.Column(db.String(200), nullable=True)
     consignerid = db.Column(db.String(200), nullable=False)
     cnotes = db.Column(db.String(200), nullable=True)
     pregion = db.Column(db.String(200), nullable=False)

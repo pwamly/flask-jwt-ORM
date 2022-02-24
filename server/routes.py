@@ -172,8 +172,11 @@ def getorders():
     page = request.args.get('gage')
     sort = request.args.get('sort')
     q = request.args.get('q')
+    date = request.args.get('date')
+    status = request.args.get('status')
+
     if(request.method == 'GET'):
-        return orders(page, sort, q)
+        return orders(page, sort, q, date, status)
     else:
         pass
 

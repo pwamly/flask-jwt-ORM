@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Order
+from server.models import Order, Bundle
 from flask import jsonify
 
 
@@ -44,7 +44,7 @@ def scheduleDispatch(orderid, data, db):
 
 
 def scheduleDispatchBundle(bundleid, data, db):
-    bundleid = data['bundleid']
+    bundle_id = data['bundleid']
     dispatchDriverId = data['dispatchDriverId']
     transporterid = data['transporterid']
     dispatchvehicleId = data['dispatchvehicleId']
@@ -52,6 +52,7 @@ def scheduleDispatchBundle(bundleid, data, db):
     dispatchnote = data['dispatchnote']
 
     orders = Order.query.filter_by(bundleId=bundleid)
+    bundledata = Bundle.query.filter_by(bundleid=bundle_id)
     if orders.count() > 0:
         for order in orders:
             try:
@@ -70,13 +71,12 @@ def scheduleDispatchBundle(bundleid, data, db):
                     order.dispatchnote = dispatchnote
 
                 order.dispatchScheduled = True
+                db.session.add(bundledata)
                 db.session.add(order)
                 db.session.commit()
-
+                return jsonify({'message': 'dispatch scheduled'}), 200
             except Exception as e:
                 return jsonify({'message': 'Failed to schedule dispatch'}), 403
                 pass
-
-        return jsonify({'message': 'dispatch scheduled'}), 200
 
     return jsonify({'message': 'Orders does not exist!'}), 409

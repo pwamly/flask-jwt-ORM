@@ -2,7 +2,10 @@ from functools import wraps
 from flask import request, jsonify, g
 import jwt
 import os
+import random
 
+
+size = os.environ.get('TRACKING_ID_SIZE')
 # .............. for any user ..........
 
 
@@ -66,6 +69,14 @@ def token_required_admin(f):
     return decorated
 
 
+# ................................ random generator ..............
+
+def randomGenerator():
+    min = pow(10, int(size)-1)
+    max = pow(10, int(size)) - 1
+    return random.randint(min, max)
+
+
 def profile_serializer(data):
     return {
         'username': data.name,
@@ -121,6 +132,7 @@ def order_serializer(data):
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
         "dnotes": data.dnotes,
+        "trackingNo": data.trackingNo,
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
@@ -159,7 +171,7 @@ def order_serializer(data):
         "bundleId": data.bundleId,
         "destinationbranchid": data.destinationbranchid,
         "isbundled": data.isbundled,
-        "created":data.created
+        "created": data.created
     }
 
 
@@ -193,8 +205,6 @@ def consignor_serializer(data):
         "created": data.created,
         "updated": data.updated
     }
-
-
 
 
 def vehicle_serializer(data):

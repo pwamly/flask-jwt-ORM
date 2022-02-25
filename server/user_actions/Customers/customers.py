@@ -18,8 +18,7 @@ def getcustomers(page, sort, q):
 
     customers = Customer.query.filter_by().order_by(
         Customer.created.desc()).paginate(page, pages_perpage, error_out=False)
-    pages_perpage = 100
-    page = 1
+    pages_perpage = 5
     if customers:
        data = [*map(customer_serializer, customers.items)]
        print(data)

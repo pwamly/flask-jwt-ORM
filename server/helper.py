@@ -89,8 +89,8 @@ def users_serializer(data):
 
     return {
         "userid": data.userid,
-        "fname": data.fname,
-        "lname": data.lname,
+        "fname": data.fname.lower(),
+        "lname": data.lname.lower(),
         "branchId": data.branchId,
         "email": data.email,
         "phone": data.phone,

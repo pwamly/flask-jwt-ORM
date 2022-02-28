@@ -46,7 +46,6 @@ def createOder(data, db):
     expdlrtime = data['expdlrtime']
 
     # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
-    print('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',ts)
     orderid = 'sga-'+pregion+'-'+'-'+dregion+str(ts).lower()
    #  check if user exists
     order = Order.query.filter_by(orderid=orderid).first()

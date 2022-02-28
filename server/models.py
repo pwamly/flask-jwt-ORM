@@ -68,6 +68,7 @@ class Order(db.Model):
     driverId = db.Column(db.String(200), nullable=True)  # driver id for pickup
     # vehicle id for pickup
     vehicleId = db.Column(db.String(200), nullable=True)
+
     # if there is any details to eraborate
     pickupnote = db.Column(db.String(200), nullable=True)
     pickuptime = db.Column(db.DateTime, nullable=False)

@@ -247,9 +247,12 @@ def transporter_serializer(data):
 
 
 def item_serializer(data):
-    drivers = Users.query.filter_by(userid=data.driverId).first()
+    if data.driverId:
+        drivers = Users.query.filter_by(userid=data.driverId).first()
 
-    fullName = drivers.fname.upper() + ' ' + drivers.lname.upper()
+        fullName = drivers.fname.upper() + ' ' + drivers.lname.upper()
+    else:
+        fullName = ''
 
 
     return {

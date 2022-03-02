@@ -1,6 +1,6 @@
-from flask import jsonify
+from flask import jsonify, g
 import json
-from ....models import Item
+from ....models import Item, Users
 from ....helper import item_serializer
 
 

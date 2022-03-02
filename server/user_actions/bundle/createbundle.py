@@ -4,13 +4,13 @@ from server.models import Bundle, Order, Branch
 from flask_session import Session
 from flask import jsonify, g
 import uuid
-
+from ...helper import randomGenerator
 
 def createBundle(data, db):
  bundleid = uuid.uuid4()  # to bdo ........... to be return to the setter and getter
  bundlename = data['bundlename']  # example Dar-Mwanza-1-11-2020
  oderstobebundled = data['ordertobebundled']
- bundleto = data['to']
+ bundleto = data['bundleto']
 
  # check if user exists
  bundle = Bundle.query.filter_by(bundlename=bundlename).first()

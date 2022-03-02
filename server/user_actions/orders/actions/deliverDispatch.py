@@ -1,5 +1,7 @@
+from xmlrpc.client import Boolean
 from flask_sqlalchemy import model
 from jwt import exceptions
+from sqlalchemy import true
 from server.models import Item, Order
 from flask import jsonify
 from datetime import datetime, timedelta
@@ -20,13 +22,17 @@ def deliverDispatch(itemid, data, db):
 
                 if dispatchDeliverynote:
                     item.dispatchDeliverynote = dispatchDeliverynote
+
+
                 item.dispatchDeliveredTime = datetime.now()
                 orders.dispatchDelivered = True
                 orders.orderStatus = 'Dispatched'
                 orders.dispatchDeliveredTime = datetime.now()
+
                 db.session.add(item)
                 db.session.add(orders)
                 db.session.commit()
+
                 return jsonify({'message': 'dispatch delivered'}), 200
 
             except Exception as e:

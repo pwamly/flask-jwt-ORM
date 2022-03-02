@@ -538,13 +538,13 @@ def b_getorders(bundleid):
         pass
 
 
-@main.route('/api/bundle/scheduleDispatch/<bundleid>', methods=['POST', 'OPTIONS'])
+@main.route('/api/bundle/scheduleDispatch', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def b_scheduleDispatch_s(bundleid):
+def b_scheduleDispatch_s():
     if(request.method == 'POST'):
         data = request.json
-        return scheduleDispatchBundle(bundleid, data, db)
+        return scheduleDispatchBundle(data, db)
     else:
         pass
 

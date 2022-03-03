@@ -43,11 +43,14 @@ def schedulePickup(orderid, data, db):
             return jsonify({'message': 'No item i'}), 403
 
     order = Order.query.filter_by(orderid=orderid).first()
-
+    print('all list.................',itemslist.count() )
+    print('scheduled list gggggggggggg',scheduledItems.count())
     if order:
+        
         if itemslist.count() == scheduledItems.count():
             order.pickupScheduled = True
             order.orderStatus = 'Pickup Scheduled'
+        
             print(' all has been scheduled')
 
         try:

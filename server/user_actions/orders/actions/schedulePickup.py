@@ -27,7 +27,7 @@ def schedulePickup(orderid, data, db):
                     order = Order.query.filter_by(orderid=orderid).first()
                     try:
                         item.driverId = driverId
-                        # item.pickupScheduled = True
+                        item.pickupScheduled = True
                         item.status = 'Pickup Scheduled'
                         order.orderStatus = 'Partial Pickup Scheduled'
                         item.scheduledPickuptime = datetime.now()
@@ -35,13 +35,11 @@ def schedulePickup(orderid, data, db):
                         db.session.add(order) 
                         db.session.add(item)
                         db.session.commit()
-                        
-                        if itemslist.count() == scheduledItems.count(): # if all all items 
+                        NewscheduledItems = Item.query.filter_by(orderid=orderid, pickupScheduled=True)
+                        if itemslist.count() == NewscheduledItems.count(): # if all all items 
                                 order.pickupScheduled = True
                                 order.orderStatus = 'Pickup Scheduled'
                     
-                                print(' all has been scheduled')
-
                                 if driverId:
                                     order.driverId = driverId
 
@@ -55,14 +53,16 @@ def schedulePickup(orderid, data, db):
 
                                 db.session.add(order)
                                 db.session.commit()
-                        return jsonify({'message': 'pickup scheduled'}), 200
+                                print('...................................... all has been scheduled',itemslist.count(),scheduledItems.count())
 
                     except Exception as e:
                         print(e)
                         return jsonify({'message': 'Failed to schedule pickup'}), 403
+            return jsonify({'message': 'pickup scheduled'}), 200
+        return jsonify({'message': 'no items'}), 403
+
+
              
       
 
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> No items..........')
-    return jsonify({'message': 'Not items found'}), 403
-   
+     

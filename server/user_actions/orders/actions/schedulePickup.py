@@ -13,65 +13,56 @@ def schedulePickup(orderid, data, db):
     orderid = data['orderid']
 
     #  fetch all sheduled items............................
+    scheduledItems = Item.query.filter_by(orderid=orderid, pickupScheduled=True)
 
-    scheduledItems = Item.query.filter_by(
-        orderid=orderid, pickupScheduled=True)
-    itemslist = Item.query.filter_by(
-        orderid=orderid)
-    if itemslist.count() > scheduledItems.count():
+    #  fetch all  items.........................................
+
+    itemslist = Item.query.filter_by(orderid=orderid)
+
+    if itemslist: # check if items are present 
         if isinstance(listitems, list):
-            print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',listitems)
-            for item in listitems:
-                item = Item.query.filter_by(itemid=item['itemid']).first()
-                order = Order.query.filter_by(orderid=orderid).first()
-                try:
-                    item.driverId = driverId
-                    # item.pickupScheduled = True
-                    item.status = 'Pickup Scheduled'
-                    order.orderStatus = 'Partial Pickup Scheduled'
-                    item.scheduledPickuptime = datetime.now()
-                    order.vehicleId = vehicleId
-                    db.session.add(order) 
-                    db.session.add(item)
-                    db.session.commit()
-                    # return jsonify({'message': ' Pickup Scheduled'}), 200
-                except Exception as e:
-                    print(e)
-                    return jsonify({'message': 'Failed to schedule pickup'}), 403
-    
+            if itemslist.count() > scheduledItems.count(): # check if still there un scheduled items
+                for item in listitems:
+                    item = Item.query.filter_by(itemid=item['itemid']).first()
+                    order = Order.query.filter_by(orderid=orderid).first()
+                    try:
+                        item.driverId = driverId
+                        # item.pickupScheduled = True
+                        item.status = 'Pickup Scheduled'
+                        order.orderStatus = 'Partial Pickup Scheduled'
+                        item.scheduledPickuptime = datetime.now()
+                        order.vehicleId = vehicleId
+                        db.session.add(order) 
+                        db.session.add(item)
+                        db.session.commit()
+                        
+                        if itemslist.count() == scheduledItems.count(): # if all all items 
+                                order.pickupScheduled = True
+                                order.orderStatus = 'Pickup Scheduled'
+                    
+                                print(' all has been scheduled')
 
-            return jsonify({'message': 'No item i'}), 403
+                                if driverId:
+                                    order.driverId = driverId
 
-    order = Order.query.filter_by(orderid=orderid).first()
-    print('all list.................',itemslist.count() )
-    print('scheduled list gggggggggggg',scheduledItems.count())
-    if order:
-        print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',itemslist.count() , scheduledItems.count())
-        if itemslist.count() == scheduledItems.count():
-            order.pickupScheduled = True
-            order.orderStatus = 'Pickup Scheduled'
-        
-            print(' all has been scheduled')
+                                if vehicleId:
+                                    order.vehicleId = vehicleId
 
-        try:
-            if driverId:
-                order.driverId = driverId
+                                if pickupnote:
+                                    order.pickupnote = pickupnote
 
-            if vehicleId:
-                order.vehicleId = vehicleId
+                                order.scheduledPickuptime = datetime.now()
 
-            if pickupnote:
-                order.pickupnote = pickupnote
+                                db.session.add(order)
+                                db.session.commit()
+                        return jsonify({'message': 'pickup scheduled'}), 200
 
-            order.scheduledPickuptime = datetime.now()
+                    except Exception as e:
+                        print(e)
+                        return jsonify({'message': 'Failed to schedule pickup'}), 403
+             
+      
 
-            db.session.add(order)
-            db.session.commit()
-            # return jsonify({'message': 'pickup scheduled'}), 200
-
-        except Exception as e:
-            print(e)
-            return jsonify({'message': 'Failed to schedule pickup'}), 403
-            pass
-
-    return jsonify({'message': 'Order does not exist!'}), 409
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> No items..........')
+    return jsonify({'message': 'Not items found'}), 403
+   

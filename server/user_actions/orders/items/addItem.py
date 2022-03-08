@@ -40,7 +40,7 @@ def addItem(data, db):
             db.session.commit()
 
             itemList = Item.query.filter_by(orderid=orderid).all()
-            print("The Item sum returned is ", itemList)
+            print("The Item sum returned is from the model list", itemList)
 
             return jsonify({'message': 'Item created'}), 200
 

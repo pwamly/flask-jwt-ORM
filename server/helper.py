@@ -2,8 +2,12 @@ from functools import wraps
 from flask import request, jsonify, g
 import jwt
 import os
+from .models import Weight
+from .models import Price
+from .models import Destination
+from .models import Zone
 
-from server.models import Weight, Zone
+from server.models import Users
 
 # .............. for any user ..........
 
@@ -81,7 +85,6 @@ def users_serializer(data):
     return {
         "userid": data.userid,
         "fname": data.fname,
-        "lname": data.lname,
         "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
@@ -217,10 +220,10 @@ def transporter_serializer(data):
 
     return {
         "transporterid": data.transporterid,
-        "vrn": data.vrntype,
-        "tin": data.tin,
         "name": data.name,
         "transporterid": data.transporterid,
+        "vrn": data.vrntype,
+        "tin": data.tin,
         "email": data.email,
         "phone": data.phone,
         "address": data.address,
@@ -231,6 +234,13 @@ def transporter_serializer(data):
 
 
 def item_serializer(data):
+
+    if data.driverId:
+        drivers = Users.query.filter_by(userid=data.driverId).first()
+        fullName = drivers.fname.upper() + ' ' + drivers.lname.upper()
+
+    else:
+        fullName = ''
 
     return {
         "itemid": data.itemid,

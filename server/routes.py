@@ -31,7 +31,7 @@ from .user_actions.orders.actions.unloaddispatchdelivery import unloadDispatch
 from .user_actions.orders.actions.scheduleDispatch import scheduleDispatch, scheduleDispatchBundle
 from .user_actions.orders.actions.deliverDispatch import deliverDispatch
 from .user_actions.orders.actions.deliverOrder import deliverOrder
-from .user_actions.Customers.customers import getcustomers
+from .user_actions.Customers.customers import getcustomers,getCustomerById
 from .user_actions.Customers.consignor.consignors import getconsignors, getconsignorsByCustomer
 from .user_actions.Customers.deleteCustomer import deleteCustomer
 from .user_actions.orders.deleteOrder import deleteOrder
@@ -365,6 +365,17 @@ def r_customers():
         return getcustomers(page, sort, q)
     else:
         pass
+
+
+@main.route('/api/customers/<customerId>',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def _customer(customerId):
+    if(request.method == 'GET'):
+        return getCustomerById(customerId)
+    else:
+        pass
+
 
 
 @main.route('/api/delete-customer/<customerid>', methods=['DELETE', 'OPTIONS'])

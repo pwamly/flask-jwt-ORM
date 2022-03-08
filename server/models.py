@@ -64,6 +64,7 @@ class Order(db.Model):
     dstreet = db.Column(db.String(200), nullable=False)
     dnotes = db.Column(db.String(200), nullable=True)
     consigneename = db.Column(db.String(200), nullable=False)
+    consigneephone=db.Column(db.String(200), nullable=True)
     cnenotes = db.Column(db.String(200), nullable=True)
     orderStatus = db.Column(
         db.String(200), default='', nullable=True)

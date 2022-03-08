@@ -42,6 +42,7 @@ def createOder(data, db):
     dstreet = data['destinationstreet']
     dnotes = data['destinationnotes']
     consigneename = data['consigneename']
+    consigneephone = data['consigneePhone']
     pickuptime = data['pickuptime']
     expdlrtime = data['expdlrtime']
 
@@ -55,7 +56,6 @@ def createOder(data, db):
             # print('Time:', date_time_obj.time())
             # print('Date-time:', date_time_obj)
             trackongNo = randomGenerator()
-
             neworder = Order(orderid=orderid,
                              customerid=customerid,
                              trackingNo=str(trackongNo),

@@ -24,3 +24,10 @@ def getcustomers(page, sort, q):
        print(data)
        return {'data': data, "pagination": {"currentpage": customers.page, "totalPages": customers.pages, "totalItems": customers.total, "prev_page": customers.prev_num, "next_page": customers.next_num, "has_next": customers.has_next, "has_prev": customers.has_prev}}
     return jsonify({'message' : 'customers not found'}),403
+
+def getCustomerById(customerId):
+     customer = Customer.query.filter_by(customerid=customerId).order_by(
+            Customer.created.desc())
+     if customer:
+            data = [*map(customer_serializer, customer)]
+            return {'data': data}

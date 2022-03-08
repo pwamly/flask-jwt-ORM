@@ -41,6 +41,7 @@ def createOder(data, db):
     dstreet = data['destinationstreet']
     dnotes = data['destinationnotes']
     consigneename = data['consigneename']
+    consigneephone = data['consigneePhone']
     pickuptime = data['pickuptime']
     expdlrtime = data['expdlrtime']
 

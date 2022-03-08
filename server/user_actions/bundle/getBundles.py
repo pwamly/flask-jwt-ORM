@@ -4,8 +4,9 @@ from ...models import Bundle
 from ...helper import bundle_serializer
 
 
-def getbundles(page, sort, q):
+def getbundles():
     pages_perpage = 5
+    page = 1
     bundle = Bundle.query.filter_by().order_by(
         Bundle.created.desc()).paginate(page, pages_perpage, error_out=False)
     if bundle:

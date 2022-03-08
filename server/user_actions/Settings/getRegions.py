@@ -5,7 +5,7 @@ from ...models import Regions
 
 
 def getregions():
-    pages_perpage = 40
+    pages_perpage = 10
     page = 1
     region = Regions.query.filter_by().order_by(
         Regions.created.desc()).paginate(page, pages_perpage, error_out=False)

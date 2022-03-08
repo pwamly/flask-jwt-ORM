@@ -4,9 +4,9 @@ from ...helper import vehicle_serializer
 from ...models import Vehicle
 
 
-def getvehicle(page, sort, q):
-    pages_perpage = 5
-
+def getvehicle():
+    pages_perpage = 10
+    page = 1
     vehicle = Vehicle.query.filter_by().order_by(
         Vehicle.created.desc()).paginate(page, pages_perpage, error_out=False)
     if vehicle:

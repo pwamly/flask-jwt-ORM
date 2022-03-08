@@ -1,68 +1,39 @@
-from datetime import datetime
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Order, Item
+from server.models import Order
 from flask import jsonify
 
 
 def schedulePickup(orderid, data, db):
-    listitems = data['items']
     driverId = data['driverId']
     vehicleId = data['vehicleId']
+    scheduledPickuptime = data['scheduledPickuptime']
     pickupnote = data['pickupnote']
     orderid = data['orderid']
 
-    #  fetch all sheduled items............................
-    scheduledItems = Item.query.filter_by(orderid=orderid, pickupScheduled=True)
+    order = Order.query.filter_by(orderid=orderid).first()
+    if order:
+        try:
+            if driverId:
+                order.driverId = driverId
 
-    #  fetch all  items.........................................
+            if vehicleId:
+                order.vehicleId = vehicleId
 
-    itemslist = Item.query.filter_by(orderid=orderid)
+            if scheduledPickuptime:
+                order.scheduledPickuptime = scheduledPickuptime
 
-    if itemslist: # check if items are present 
-        if isinstance(listitems, list):
-            if itemslist.count() > scheduledItems.count(): # check if still there un scheduled items
-                for item in listitems:
-                    item = Item.query.filter_by(itemid=item['itemid']).first()
-                    order = Order.query.filter_by(orderid=orderid).first()
-                    try:
-                        item.driverId = driverId
-                        item.pickupScheduled = True
-                        item.status = 'Pickup Scheduled'
-                        order.orderStatus = 'Partial Pickup Scheduled'
-                        item.scheduledPickuptime = datetime.now()
-                        order.vehicleId = vehicleId
-                        db.session.add(order) 
-                        db.session.add(item)
-                        db.session.commit()
-                        NewscheduledItems = Item.query.filter_by(orderid=orderid, pickupScheduled=True)
-                        if itemslist.count() == NewscheduledItems.count(): # if all all items 
-                                order.pickupScheduled = True
-                                order.orderStatus = 'Pickup Scheduled'
-                    
-                                if driverId:
-                                    order.driverId = driverId
+            if pickupnote:
+                order.pickupnote = pickupnote
 
-                                if vehicleId:
-                                    order.vehicleId = vehicleId
-
-                                if pickupnote:
-                                    order.pickupnote = pickupnote
-
-                                order.scheduledPickuptime = datetime.now()
-
-                                db.session.add(order)
-                                db.session.commit()
-                                print('...................................... all has been scheduled',itemslist.count(),scheduledItems.count())
-
-                    except Exception as e:
-                        print(e)
-                        return jsonify({'message': 'Failed to schedule pickup'}), 403
+            order.pickupScheduled = True
+            db.session.add(order)
+            db.session.commit()
             return jsonify({'message': 'pickup scheduled'}), 200
-        return jsonify({'message': 'no items'}), 403
 
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'Failed to schedule pickup'}), 403
+            pass
 
-             
-      
-
-     
+    return jsonify({'message': 'Order does not exist!'}), 409

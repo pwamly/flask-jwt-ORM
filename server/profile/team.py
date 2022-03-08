@@ -1,12 +1,10 @@
 from flask import jsonify
 import json
-from ..models import Users
 
-from ..helper import users_serializer
-
-
-def users(page, sort, q):
-    pages_perpage = 5
+from ..helper import profile_serializer,users_serializer
+def users(Users):
+    pages_perpage = 100
+    page = 1
     profile = Users.query.filter_by().order_by(
         Users.created.desc()).paginate(page, pages_perpage, error_out=False)
     if profile:

@@ -14,24 +14,3 @@ def getitemByorder(orderid):
         if item:
             data = [*map(item_serializer, item.items)]
             return {'data': data, "pagination": {"currentpage": item.page, "totalPages": item.pages, "totalItems": item.total, "prev_page": item.prev_num, "next_page": item.next_num, "has_next": item.has_next, "has_prev": item.has_prev}}
-
-
-# from flask import jsonify, g
-# import json
-# from ....models import Item
-# from ....helper import item_serializer
-
-
-# def getitemByorder(orderid):
-
-
-#     pages_perpage = 100
-#     page = 1
-#     if orderid:
-#         if g.userRole == 'Driver':
-
-#             item = Item.query.filter((Item.orderid == orderid)&(Item.driverId == True)).order_by(
-#                 Item.created.desc()).paginate(page, pages_perpage, error_out=False)
-#             if item:
-#                 data = [*map(item_serializer, item.items)]
-#                 return {'data': data, "pagination": {"currentpage": item.page, "totalPages": item.pages, "totalItems": item.total, "prev_page": item.prev_num, "next_page": item.next_num, "has_next": item.has_next, "has_prev": item.has_prev}}

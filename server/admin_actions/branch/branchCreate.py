@@ -12,15 +12,15 @@ userid = uuid.uuid4()  # to bdo ........... to be return to the setter and gette
 def create(data, db):
  branchId=data['branchId']
  branchname=data['branchname']
- region = data['region']
+ region=data['region']
+ district=data['district']
  branchaddress=data['branchaddress']
  
  # check if user exists
  user = Branch.query.filter_by(branchname=branchname).first()
  if not user:
   try:
-      user = Branch(branchId=branchId, branchname=branchname,
-                    region=region, branchaddress=branchaddress)
+      user = Branch(branchId=branchId, branchname=branchname, region=region, district=district, branchaddress=branchaddress)
       db.session.add(user)
       db.session.commit()
       print('Branch created')
@@ -30,6 +30,6 @@ def create(data, db):
       print(e)
       return jsonify({'message': 'Failed to create branch'}), 403
       pass
- return jsonify({'message': 'Branch already exist!'}), 407
+ return jsonify({'message': 'User already exist!'}), 407
  
  

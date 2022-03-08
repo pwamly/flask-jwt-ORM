@@ -3,8 +3,6 @@ from flask import request, jsonify, g
 import jwt
 import os
 
-from server.models import Weight, Zone
-
 # .............. for any user ..........
 
 
@@ -82,7 +80,6 @@ def users_serializer(data):
         "userid": data.userid,
         "fname": data.fname,
         "lname": data.lname,
-        "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
         "phone": data.phone,
@@ -169,10 +166,8 @@ def customer_serializer(data):
 
     return {
         "customerid": data.customerid,
-        "fullname": data.fullname,
-        "customertype": data.customertype,
-        "vrn": data.vrntype,
-        "tin": data.tin,
+        "fname": data.fname,
+        "lname": data.lname,
         "username": data.fname+' '+' '+data.lname,
         "email": data.email,
         "phone": data.phone,
@@ -199,6 +194,8 @@ def consignor_serializer(data):
     }
 
 
+
+
 def vehicle_serializer(data):
 
     return {
@@ -217,8 +214,6 @@ def transporter_serializer(data):
 
     return {
         "transporterid": data.transporterid,
-        "vrn": data.vrntype,
-        "tin": data.tin,
         "name": data.name,
         "transporterid": data.transporterid,
         "email": data.email,
@@ -231,7 +226,6 @@ def transporter_serializer(data):
 
 
 def item_serializer(data):
-
     return {
         "itemid": data.itemid,
         "itemname": data.itemname,
@@ -276,57 +270,4 @@ def regions_serializer(data):
         "regionId": data.regionId,
         "created": data.updated,
         "updated": data.created
-    }
-
-
-def zones_serializer(data):
-    return {
-        "name": data.name,
-        "zoneid": data.zoneid,
-        "description": data.description,
-        "created": data.created,
-        "updated": data.created
-    }
-
-
-def destination_serializer(data):
-    return {
-        "name": data.name,
-        "destinationid": data.destinationid,
-        "zoneid": data.zoneid,
-        "created": data.created,
-        "updated": data.created
-    }
-
-
-def weight_serializer(data):
-    return {
-        "unit": data.unit,
-        "created": data.created,
-        "updated": data.created
-    }
-
-
-def price_serializer(data):
-
-    if data.zoneid:
-        zones = Zone.query.filter_by(zoneid=data.zoneid).first()
-        zonename = zones.name
-    else:
-        zonename = ''
-
-    if data.wightid:
-        weights = Weight.query.filter_by(wightid=data.wightid).first()
-        unitname = weights.wightid
-    else:
-        unitname = ''
-
-    return {
-
-        "price": data.price,
-        "zone": zonename,
-        "weight": unitname,
-        "created": data.created,
-        "updated": data.created
-
     }

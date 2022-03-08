@@ -1,7 +1,6 @@
-from multiprocessing.connection import Client
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Branch, Contact
+from server.models import Branch
 from flask_session import Session
 from flask import jsonify
 from datetime import datetime
@@ -22,12 +21,12 @@ def create(data, db):
  # check if contact exists
  contact = Contact.query.filter_by(id=id).first()
 
- if not contact:
+ if not user:
   try:
 
       client = Client.query.filter_by(id=client_id).first()
 
-      contact = Contact(phone=phone, email=email, created=created, client_id=client.id)
+      contact = Contact(phone=name, email=email, tinNumber=tinNumber, created=created, client_id=client.id)
 
       db.session.add(contact)
       db.session.commit()

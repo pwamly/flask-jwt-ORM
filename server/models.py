@@ -35,7 +35,7 @@ class Branch(db.Model):
     branchId = db.Column(db.Integer, nullable=False, unique=True)
     branchname = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
-    district = db.Column(db.String(200), nullable=False)
+    district = db.Column(db.String(200), nullable=True)
     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
@@ -83,36 +83,44 @@ class Order(db.Model):
     customername = db.Column(db.String(200), nullable=False)
     customernotes = db.Column(db.String(200), nullable=True)
     consignername = db.Column(db.String(200), nullable=False)
+    trackingNo = db.Column(db.String(200), nullable=True)
     consignerid = db.Column(db.String(200), nullable=False)
     cnotes = db.Column(db.String(200), nullable=True)
     pregion = db.Column(db.String(200), nullable=False)
-    pdistrict = db.Column(db.String(200), nullable=False)
+    pdistrict = db.Column(db.String(200), nullable=True)
     pstreet = db.Column(db.String(200), nullable=False)
     pnotes = db.Column(db.String(200), nullable=True)
     dregion = db.Column(db.String(200), nullable=False)
-    ddistrict = db.Column(db.String(200), nullable=False)
+    ddistrict = db.Column(db.String(200), nullable=True)
     dstreet = db.Column(db.String(200), nullable=False)
     dnotes = db.Column(db.String(200), nullable=True)
     consigneename = db.Column(db.String(200), nullable=False)
     cnenotes = db.Column(db.String(200), nullable=True)
-    driverId = db.Column(db.String(200), nullable=True)  # driver id for pickup
-    # vehicle id for pickup
-    vehicleId = db.Column(db.String(200), nullable=True)
-    # if there is any details to eraborate
-    pickupnote = db.Column(db.String(200), nullable=True)
-    pickuptime = db.Column(db.DateTime, nullable=False)
+    orderStatus = db.Column(
+        db.String(200), default='', nullable=True)
     expdlrtime = db.Column(db.DateTime, nullable=False)
     pickuptime = db.Column(db.DateTime, nullable=True)
-    orderStatus = db.Column(
-        db.String(200), default='Not Picked', nullable=True)  # order status .....
-    pickupScheduled = db.Column(db.Boolean, nullable=True)
-    pickupLoaded = db.Column(db.Boolean, nullable=True)
-    pickupUnloaded = db.Column(db.Boolean, nullable=True)
-    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
-    Loadedtime = db.Column(db.DateTime, nullable=True)
-    Unloadedtime = db.Column(db.DateTime, nullable=True)
 
-    # ....................for  schedule dispatch....................
+    # ............. 1. for Add items..............
+    itemsAdded = db.Column(db.Boolean, nullable=True)
+
+    # ............. 2. for schedule pickup..............
+
+    driverId = db.Column(db.String(200), nullable=True)
+    vehicleId = db.Column(db.String(200), nullable=True)
+    pickupnote = db.Column(db.String(200), nullable=True)
+    pickupScheduled = db.Column(db.Boolean, nullable=True)
+    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
+
+ # ................ 3. for  loadpickup ....................
+
+    pickupLoaded = db.Column(db.Boolean, nullable=True)
+    Loadedtime = db.Column(db.DateTime, nullable=True)
+
+ # ................ 3. for  unloadpickup ....................
+
+    pickupUnloaded = db.Column(db.Boolean, nullable=True)
+    Unloadedtime = db.Column(db.DateTime, nullable=True)
 
     dispatchScheduled = db.Column(db.Boolean, nullable=True)
     dispatchDriverId = db.Column(db.String(200), nullable=True)
@@ -137,9 +145,16 @@ class Order(db.Model):
     destinationbranchid = db.Column(db.String(220), nullable=True)
     isbundled = db.Column(db.Boolean, nullable=True)
 
-
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+#................................. for unziping .......................
+    nextDestination = db.Column(db.String(200), nullable=True)
+    nextDestinationBranchId = db.Column(db.String(200), nullable=True)
+    newBundleid = db.Column(db.String(200), nullable=True)
+    Unbundled = db.Column(db.Boolean, nullable=True)
+    UnbundledBy = db.Column(db.String(200), nullable=True)
+
 
 
 class Customer(db.Model):
@@ -154,7 +169,7 @@ class Customer(db.Model):
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
-    district = db.Column(db.String(200), nullable=False)
+    district = db.Column(db.String(200), nullable=True)
     street = db.Column(db.String(200), nullable=False)
     address = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -168,6 +183,7 @@ class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vehicleid = db.Column(db.String(200), nullable=False, unique=True)
     name = db.Column(db.String(200), nullable=False)
+    type = db.Column(db.String(200), nullable=True)
     plateno = db.Column(db.String(200), nullable=True)
     model = db.Column(db.String(200), nullable=False)
     loadcapacity = db.Column(db.String(200), nullable=False)
@@ -213,6 +229,15 @@ class Item(db.Model):
     unloadnote = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(200), default='not picked', nullable=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
+
+    # ........... 1. for schedule pickup.............
+    driverId = db.Column(db.String(200), nullable=True)
+    vehicleId = db.Column(db.String(200), nullable=True)
+    pickupnote = db.Column(db.String(200), nullable=True)
+    pickupScheduled = db.Column(db.Boolean, nullable=True)
+    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
+
+
     pickupLoaded = db.Column(db.Boolean, nullable=True)
     pickupUnloaded = db.Column(db.Boolean, nullable=True)
     Loadedtime = db.Column(db.DateTime, nullable=True)
@@ -221,7 +246,6 @@ class Item(db.Model):
     # for dispatch scheduled..................
 
     dispatchScheduled = db.Column(db.Boolean, nullable=True)
-    scheduledPickuptime = db.Column(db.DateTime, nullable=True)
     # for dispatch delivered..................
 
     dispatchDelivered = db.Column(db.Boolean, nullable=True)
@@ -274,6 +298,20 @@ class Bundle(db.Model):
     bundleto = db.Column(db.String(200), nullable=True)
     bundlefrom = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(200), nullable=True)
+
+    #........................ for shedule dispatch and deliver dispatch ...........add()
+
+    dispatchScheduled = db.Column(db.Boolean, nullable=True)
+    dispatchDelivered = db.Column(db.Boolean, nullable=True)
+
+
+    #................................. for unziping .......................
+    nextDestination = db.Column(db.String(200), nullable=True)
+    nextDestinationBranchId = db.Column(db.String(200), nullable=True)
+    newBundleid = db.Column(db.String(200), nullable=True)
+    Unbundled = db.Column(db.Boolean, nullable=True)
+    UnbundledBy = db.Column(db.String(200), nullable=True)
+
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -286,5 +324,18 @@ class Regions(db.Model):
     regionId = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
     descriptions = db.Column(db.String(200), nullable=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Pickup(db.Model):
+
+    __tablename__ = 'pickup'
+
+    id = db.Column(db.Integer, primary_key=True)
+    orderId = db.Column(db.String(200), nullable=False)
+    itemId = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(200), nullable=False)
+    pickedBy = db.Column(db.String(200), nullable=False)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)

@@ -1,8 +1,13 @@
 from functools import wraps
+from lib2to3.pgen2 import driver
 from flask import request, jsonify, g
 import jwt
 import os
+import random
+from .models import Users
 
+
+size = os.environ.get('TRACKING_ID_SIZE')
 # .............. for any user ..........
 
 
@@ -30,6 +35,7 @@ def token_required_user(f):
 
             g.userRole = data['role']
             g.userBranchId = data['branchId']
+            g.userId = data['id']
 
         except jwt.ExpiredSignatureError as e:
             return jsonify({'message': 'Token has expired'})
@@ -64,6 +70,14 @@ def token_required_admin(f):
             return jsonify({'message': 'Token has expired'})
         return f(*args, **kwargs)
     return decorated
+
+
+# ................................ random generator ..............
+
+def randomGenerator():
+    min = pow(10, int(size)-1)
+    max = pow(10, int(size)) - 1
+    return random.randint(min, max)
 
 
 def profile_serializer(data):
@@ -121,6 +135,7 @@ def order_serializer(data):
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
         "dnotes": data.dnotes,
+        "trackingNo": data.trackingNo,
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
@@ -158,7 +173,14 @@ def order_serializer(data):
         "deliveryscheduled": data.deliveryscheduled,
         "bundleId": data.bundleId,
         "destinationbranchid": data.destinationbranchid,
-        "isbundled": data.isbundled
+        "isbundled": data.isbundled,
+        "created": data.created,
+        "itemsAdded": data.itemsAdded,
+        "nextDestination": data.nextDestination,
+        "nextDestinationBranchId": data.nextDestinationBranchId,
+        "newBundleid": data.newBundleid,
+        "Unbundled": data.Unbundled,
+
     }
 
 
@@ -194,8 +216,6 @@ def consignor_serializer(data):
     }
 
 
-
-
 def vehicle_serializer(data):
 
     return {
@@ -206,6 +226,7 @@ def vehicle_serializer(data):
         "loadcapacity": data.loadcapacity,
         "status": data.status,
         "routestatus": data.routestatus,
+        "type": data.type,
         "created": data.created
     }
 
@@ -226,6 +247,14 @@ def transporter_serializer(data):
 
 
 def item_serializer(data):
+    if data.driverId:
+        drivers = Users.query.filter_by(userid=data.driverId).first()
+
+        fullName = drivers.fname.upper() + ' ' + drivers.lname.upper()
+    else:
+        fullName = ''
+
+
     return {
         "itemid": data.itemid,
         "itemname": data.itemname,
@@ -247,7 +276,11 @@ def item_serializer(data):
         "dispatchDelivered": data.dispatchDelivered,
         "dispatchDeliveredTime": data.dispatchDeliveredTime,
         "dispatchDeliverynote": data.dispatchDeliverynote,
-        "dispatchDeliveryunits": data.dispatchDeliveryunits
+        "dispatchDeliveryunits": data.dispatchDeliveryunits,
+        "driverId":  fullName,
+        "vehicleId": data.vehicleId,
+        "pickupnote": data.pickupnote,
+        "pickupScheduled": data.pickupScheduled
     }
 
 
@@ -259,8 +292,15 @@ def bundle_serializer(data):
         "bundleto": data.bundleto,
         "bundlefrom": data.bundlefrom,
         "status": data.status,
+        "nextDestination": data.nextDestination,
+        "nextDestinationBranchId": data.nextDestinationBranchId,
+        "newBundleid": data.newBundleid,
+        "Unbundled": data.Unbundled,
         "created": data.updated,
-        "updated": data.created
+        "updated": data.created,
+        "dispatchScheduled": data.dispatchScheduled,
+        "dispatchDelivered": data.dispatchDelivered
+
     }
 
 

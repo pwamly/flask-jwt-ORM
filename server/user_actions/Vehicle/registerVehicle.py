@@ -16,6 +16,7 @@ def regvehicle(data, db):
  loadcapacity=data['loadcapacity']
  status = data['status']
  routestatus = data['routestatus']
+ type = data['type']
  
  # check if user exists
  vehicle = Vehicle.query.filter_by(plateno=plateno).first()
@@ -27,6 +28,7 @@ def regvehicle(data, db):
       model=model,
       loadcapacity=loadcapacity,
       status = status,
+                         type=type,
       routestatus = routestatus)
       db.session.add(vehicle)
       db.session.commit()

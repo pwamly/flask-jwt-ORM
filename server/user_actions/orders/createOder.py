@@ -5,6 +5,7 @@ from flask_session import Session
 from flask import jsonify, g
 import uuid
 from werkzeug.security import generate_password_hash
+from ...helper import randomGenerator
 # from datetime import timezone
 import datetime
 import time
@@ -45,7 +46,6 @@ def createOder(data, db):
     expdlrtime = data['expdlrtime']
 
     # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
-
     orderid = 'sga-'+pregion+'-'+'-'+dregion+str(ts).lower()
    #  check if user exists
     order = Order.query.filter_by(orderid=orderid).first()
@@ -54,8 +54,11 @@ def createOder(data, db):
             # print('Date:...........', date_time_obj)
             # print('Time:', date_time_obj.time())
             # print('Date-time:', date_time_obj)
+            trackongNo = randomGenerator()
+
             neworder = Order(orderid=orderid,
                              customerid=customerid,
+                             trackingNo=str(trackongNo),
                              customername=customername,
                              branchid=g.userBranchId,
                              customernotes=customernotes,
@@ -78,6 +81,7 @@ def createOder(data, db):
             return jsonify({'message': 'Order created'}), 200
 
         except Exception as e:
+
             print(e)
             return jsonify({'message': 'Failed to create Order'}), 403
             pass

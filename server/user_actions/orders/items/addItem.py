@@ -1,5 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
+from sqlalchemy import func
 from server.models import Item, Order
 from flask_session import Session
 from flask import jsonify
@@ -21,8 +22,8 @@ def addItem(data, db):
 
    #  check if order exists
 
-    Ord = Order.query.filter_by(orderid=orderid).first()
-    if Ord:
+    Order = Order.query.filter_by(orderid=orderid).first()
+    if Order:
         try:
             newitem = Item(
                 itemid=id,
@@ -37,6 +38,10 @@ def addItem(data, db):
             # ...................add()
             db.session.add(newitem)
             db.session.commit()
+
+            itemList = Item.query.filter_by(orderid=orderid).all()
+            print("The Item sum returned is ", itemList)
+
             return jsonify({'message': 'Item created'}), 200
 
         except Exception as e:

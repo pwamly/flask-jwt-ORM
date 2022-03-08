@@ -47,7 +47,7 @@ class Order(db.Model):
     __tablename__ = 'Order'
 
     id = db.Column(db.Integer, primary_key=True)
-    orderid = db.Column(db.String(200), nullable=False, unique=True)  #
+    orderid = db.Column(db.String(200), nullable=False, unique=True)
     branchid = db.Column(db.Integer, nullable=True)
     customerid = db.Column(db.String(200), nullable=False)
     customername = db.Column(db.String(200), nullable=False)
@@ -202,6 +202,7 @@ class Item(db.Model):
     unloadnote = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(200), default='not picked', nullable=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
+      cost = db.Column(db.Numeric, nullable=True)
 
     # ........... 1. for schedule pickup.............
     driverId = db.Column(db.String(200), nullable=True)

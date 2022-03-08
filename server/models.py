@@ -17,6 +17,7 @@ class Users(db.Model):
     fname = db.Column(db.String(200), nullable=False)
     lname = db.Column(db.String(200), nullable=False)
     branchId = db.Column(db.Integer, nullable=True)
+    employeenumber = db.Column(db.String(20), unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     phone = db.Column(db.String(120), nullable=False, unique=True)
     role = db.Column(db.String(200), nullable=False)
@@ -66,10 +67,9 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     phone = db.Column(db.String(15), nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    client_id = db.Column(db.Integer, db.ForeignKey('client.id')
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'))
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
-
 
 
 class Order(db.Model):
@@ -132,11 +132,10 @@ class Order(db.Model):
     deliveryschedulednote = db.Column(db.String(200), nullable=True)
     orderdeliverytime = db.Column(db.DateTime, nullable=True)
 
- #............................ for bundle .......................
+ # ............................ for bundle .......................
     bundleId = db.Column(db.String(200), nullable=True)
     destinationbranchid = db.Column(db.String(220), nullable=True)
     isbundled = db.Column(db.Boolean, nullable=True)
-
 
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
@@ -149,14 +148,15 @@ class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     branchId = db.Column(db.Integer, nullable=True)
     customerid = db.Column(db.String(200), nullable=False, unique=True)
-    fname = db.Column(db.String(200), nullable=False)
-    lname = db.Column(db.String(200), nullable=True)
+    fullname = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
-    district = db.Column(db.String(200), nullable=False)
     street = db.Column(db.String(200), nullable=False)
     address = db.Column(db.String(200), nullable=True)
+    customertype = db.Column(db.String(10))
+    vrn = db.Column(db.Integer, nullable=True, unique=True)
+    tin = db.Column(db.Integer, nullable=False, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -188,6 +188,8 @@ class Transporter(db.Model):
     phone = db.Column(db.String(200), nullable=False, unique=True)
     address = db.Column(db.String(200), nullable=False)
     route = db.Column(db.String(200), nullable=False)
+    vrn = db.Column(db.Integer, nullable=True, unique=True)
+    tin = db.Column(db.Integer, nullable=False, unique=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
@@ -288,3 +290,54 @@ class Regions(db.Model):
     descriptions = db.Column(db.String(200), nullable=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Zone(db.Model):
+
+    __tablename__ = 'zone'
+
+    id = db.Column(db.Integer, primary_key=True)
+    zoneid = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, unique=True)
+    description = db.Column(db.String(200), nullable=True)
+    destinations = db.relationship('Destination', backref='zone')
+    prices = db.relationship('Price', backref='zone')
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, nullable=True)
+
+
+class Destination(db.Model):
+
+    __tablename__ = 'destination'
+
+    id = db.Column(db.Integer, primary_key=True)
+    destinationid = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, unique=True)
+    zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, nullable=True)
+
+
+class Weight(db.Model):
+
+    __tabllname__ = 'weight'
+
+    id = db.Column(db.Integer, primary_key=True)
+    weightid = db.Column(db.String(200), nullable=False)
+    unit = db.Column(db.Numeric, unique=True)
+    prices = db.relationship('Price', backref='weight')
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, nullable=True)
+
+
+class Price(db.Model):
+
+    __tablename__ = 'price'
+
+    id = db.Column(db.Integer, primary_key=True)
+    priceid = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.Numeric, nullable=False)
+    zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
+    weightid = db.Column(db.Integer, db.ForeignKey('weight.id'))
+    created = db.Column(db.DateTime, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, nullable=True)

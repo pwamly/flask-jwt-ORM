@@ -27,11 +27,8 @@ def createbranch():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getbranch():
-    page = request.args.get('gage')
-    sort = request.args.get('sort')
-    q = request.args.get('q')
     if(request.method == 'GET'):
-      return branches(page, sort, q)
+      return branches(Branch)
     else:
        pass
 

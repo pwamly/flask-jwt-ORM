@@ -1,14 +1,13 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Item, Order, Pickup
-from flask import jsonify, g
+from server.models import Item, Order
+from flask import jsonify
 
 
 def loadPickup(itemid, data, db):
     loadunits = data['loadunits']
     loadnote = data['loadnote']
     orderid = data['orderid']
-
 
 #  todo check if order has all items picked.
     order = Order.query.filter_by(orderid=orderid).first()
@@ -27,9 +26,6 @@ def loadPickup(itemid, data, db):
                 db.session.add(order)
                 item.pickupLoaded = True
                 item.status = 'Picked'
-                pickup = Pickup(orderId=orderid, itemId=itemid,
-                                status='Picked', pickedBy=g.userId)
-                db.session.add(pickup)
                 db.session.add(item)
                 db.session.commit()
                 return jsonify({'message': 'item loaded'}), 200

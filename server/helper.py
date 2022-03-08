@@ -1,13 +1,14 @@
 from functools import wraps
-from lib2to3.pgen2 import driver
 from flask import request, jsonify, g
 import jwt
 import os
-import random
-from .models import Users
+from .models import Weight
+from .models import Price
+from .models import Destination
+from .models import Zone
 
+from server.models import Users
 
-size = os.environ.get('TRACKING_ID_SIZE')
 # .............. for any user ..........
 
 
@@ -35,7 +36,6 @@ def token_required_user(f):
 
             g.userRole = data['role']
             g.userBranchId = data['branchId']
-            g.userId = data['id']
 
         except jwt.ExpiredSignatureError as e:
             return jsonify({'message': 'Token has expired'})
@@ -72,14 +72,6 @@ def token_required_admin(f):
     return decorated
 
 
-# ................................ random generator ..............
-
-def randomGenerator():
-    min = pow(10, int(size)-1)
-    max = pow(10, int(size)) - 1
-    return random.randint(min, max)
-
-
 def profile_serializer(data):
     return {
         'username': data.name,
@@ -93,7 +85,7 @@ def users_serializer(data):
     return {
         "userid": data.userid,
         "fname": data.fname,
-        "lname": data.lname,
+        "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
         "phone": data.phone,
@@ -135,7 +127,6 @@ def order_serializer(data):
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
         "dnotes": data.dnotes,
-        "trackingNo": data.trackingNo,
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
@@ -173,14 +164,7 @@ def order_serializer(data):
         "deliveryscheduled": data.deliveryscheduled,
         "bundleId": data.bundleId,
         "destinationbranchid": data.destinationbranchid,
-        "isbundled": data.isbundled,
-        "created": data.created,
-        "itemsAdded": data.itemsAdded,
-        "nextDestination": data.nextDestination,
-        "nextDestinationBranchId": data.nextDestinationBranchId,
-        "newBundleid": data.newBundleid,
-        "Unbundled": data.Unbundled,
-
+        "isbundled": data.isbundled
     }
 
 
@@ -188,8 +172,10 @@ def customer_serializer(data):
 
     return {
         "customerid": data.customerid,
-        "fname": data.fname,
-        "lname": data.lname,
+        "fullname": data.fullname,
+        "customertype": data.customertype,
+        "vrn": data.vrntype,
+        "tin": data.tin,
         "username": data.fname+' '+' '+data.lname,
         "email": data.email,
         "phone": data.phone,
@@ -226,7 +212,6 @@ def vehicle_serializer(data):
         "loadcapacity": data.loadcapacity,
         "status": data.status,
         "routestatus": data.routestatus,
-        "type": data.type,
         "created": data.created
     }
 
@@ -237,6 +222,8 @@ def transporter_serializer(data):
         "transporterid": data.transporterid,
         "name": data.name,
         "transporterid": data.transporterid,
+        "vrn": data.vrntype,
+        "tin": data.tin,
         "email": data.email,
         "phone": data.phone,
         "address": data.address,
@@ -247,13 +234,13 @@ def transporter_serializer(data):
 
 
 def item_serializer(data):
+
     if data.driverId:
         drivers = Users.query.filter_by(userid=data.driverId).first()
-
         fullName = drivers.fname.upper() + ' ' + drivers.lname.upper()
+
     else:
         fullName = ''
-
 
     return {
         "itemid": data.itemid,
@@ -276,11 +263,7 @@ def item_serializer(data):
         "dispatchDelivered": data.dispatchDelivered,
         "dispatchDeliveredTime": data.dispatchDeliveredTime,
         "dispatchDeliverynote": data.dispatchDeliverynote,
-        "dispatchDeliveryunits": data.dispatchDeliveryunits,
-        "driverId":  fullName,
-        "vehicleId": data.vehicleId,
-        "pickupnote": data.pickupnote,
-        "pickupScheduled": data.pickupScheduled
+        "dispatchDeliveryunits": data.dispatchDeliveryunits
     }
 
 
@@ -292,15 +275,8 @@ def bundle_serializer(data):
         "bundleto": data.bundleto,
         "bundlefrom": data.bundlefrom,
         "status": data.status,
-        "nextDestination": data.nextDestination,
-        "nextDestinationBranchId": data.nextDestinationBranchId,
-        "newBundleid": data.newBundleid,
-        "Unbundled": data.Unbundled,
         "created": data.updated,
-        "updated": data.created,
-        "dispatchScheduled": data.dispatchScheduled,
-        "dispatchDelivered": data.dispatchDelivered
-
+        "updated": data.created
     }
 
 
@@ -310,4 +286,57 @@ def regions_serializer(data):
         "regionId": data.regionId,
         "created": data.updated,
         "updated": data.created
+    }
+
+
+def zones_serializer(data):
+    return {
+        "name": data.name,
+        "zoneid": data.zoneid,
+        "description": data.description,
+        "created": data.created,
+        "updated": data.created
+    }
+
+
+def destination_serializer(data):
+    return {
+        "name": data.name,
+        "destinationid": data.destinationid,
+        "zoneid": data.zoneid,
+        "created": data.created,
+        "updated": data.created
+    }
+
+
+def weight_serializer(data):
+    return {
+        "unit": data.unit,
+        "created": data.created,
+        "updated": data.created
+    }
+
+
+def price_serializer(data):
+
+    if data.zoneid:
+        zones = Zone.query.filter_by(zoneid=data.zoneid).first()
+        zonename = zones.name
+    else:
+        zonename = ''
+
+    if data.wightid:
+        weights = Weight.query.filter_by(wightid=data.wightid).first()
+        unitname = weights.wightid
+    else:
+        unitname = ''
+
+    return {
+
+        "price": data.price,
+        "zone": zonename,
+        "weight": unitname,
+        "created": data.created,
+        "updated": data.created
+
     }

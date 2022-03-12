@@ -121,7 +121,7 @@ def revokeToken():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def users_():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):
@@ -169,7 +169,7 @@ def c_order():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getorders():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     date = request.args.get('date')

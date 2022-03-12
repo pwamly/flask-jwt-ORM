@@ -18,7 +18,7 @@ def createZone(data, db):
 
     if not zone:
         try:
-            zones = Zone(zoneid=zoneid, name=name, zoneid=zoneid, description=description)
+            zones = Zone(zoneid=zoneid, name=name, description=description)
 
             zones.created = datetime.utcnow
             

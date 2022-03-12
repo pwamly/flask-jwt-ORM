@@ -1,8 +1,6 @@
 from flask import Blueprint, request, jsonify
 from server.user_actions.billing.weight.create import createWeight
 from server.user_actions.billing.weight.update import updateWeight
-
-from server.user_actions.billing.zones.add_destination import createDestinationOnZone
 from server.user_actions.billing.zones.create import createZone
 from server.user_actions.billing.zones.update import updateZone
 from ....helper import token_required_user, token_required_admin

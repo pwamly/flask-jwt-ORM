@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
-
-from server.user_actions.billing.zones.add_destination import createDestinationOnZone
+from server.user_actions.billing.zones.adddestination import createDestinationOnZone
 from server.user_actions.billing.zones.create import createZone
 from server.user_actions.billing.zones.update import updateZone
 from ....helper import token_required_user, token_required_admin

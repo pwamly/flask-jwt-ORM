@@ -17,7 +17,7 @@ def createDestinationOnZone(data, db):
     
     if not destionation:
         try:
-            destionation = Destination(destinationid=destinationid, name=name, zoneid=zoneid)
+            destionation = Destination(destinationid=destinationid, name=name.upper() , zoneid=zoneid)
             
             db.session.add(destionation)
             db.session.commit()

@@ -1,7 +1,7 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
 from sqlalchemy import func
-from server.models import Item, Order
+from server.models import Destination, Item, Order, Price, Weight
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -36,12 +36,12 @@ def addItem(data, db):
             )
 
             # ...................add()
+            
+            newitem.cost = calculateBilling(Order.dregion, newitem.id)
+            
             db.session.add(newitem)
             db.session.commit()
-
-            itemList = Item.query.filter_by(orderid=orderid).all()
-            print("The Item sum returned is from the model list", itemList)
-
+            
             return jsonify({'message': 'Item created'}), 200
 
         except Exception as e:
@@ -49,3 +49,23 @@ def addItem(data, db):
             return jsonify({'message': 'Failed to create Item'}), 403
             pass
     return jsonify({'message': 'Order not exist'}), 409
+
+
+def calculateBilling(location, itemId):
+    destination = Destination.query.filter_by(name=location).first()
+    item = Item.query.get(itemId)
+    itemWeight = item.weight
+
+    weightList = Weight.query().all()
+    subtotal = 0.0
+    additionalCost = 0.0
+    for weight in weightList:
+        if(itemWeight > weight.min and itemWeight <= weight.max):
+            priceObj = Price.query.filter_by(
+                weightid=weight.id, zoneid=destination.zoneid).first()
+            subtotal = priceObj.price
+
+    if itemWeight - 10 >= 0.5:
+        additionalCost = itemWeight - 10*1500
+
+    return subtotal + additionalCost

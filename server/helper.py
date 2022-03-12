@@ -312,7 +312,8 @@ def destination_serializer(data):
 
 def weight_serializer(data):
     return {
-        "unit": data.unit,
+        "min": data.min,
+        "max": data.max,
         "created": data.created,
         "updated": data.created
     }

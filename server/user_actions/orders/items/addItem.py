@@ -35,13 +35,12 @@ def addItem(data, db):
                 note=note,
             )
 
-            # ...................add()
-            
-            newitem.cost = calculateBilling(Order.dregion, newitem.id)
-            
+            # .........Calculate billing per Item Added.........#
+            newitem.cost = calculateBilling(Order.dregion, weight)
+
             db.session.add(newitem)
             db.session.commit()
-            
+
             return jsonify({'message': 'Item created'}), 200
 
         except Exception as e:
@@ -51,19 +50,18 @@ def addItem(data, db):
     return jsonify({'message': 'Order not exist'}), 409
 
 
-def calculateBilling(location, itemId):
+
+def calculateBilling(location, weightItem):
     destination = Destination.query.filter_by(name=location).first()
-    item = Item.query.get(itemId)
-    itemWeight = item.weight
+    itemWeight = weightItem
 
     weightList = Weight.query().all()
     subtotal = 0.0
     additionalCost = 0.0
     for weight in weightList:
         if(itemWeight > weight.min and itemWeight <= weight.max):
-            priceObj = Price.query.filter_by(
-                weightid=weight.id, zoneid=destination.zoneid).first()
-            subtotal = priceObj.price
+            subtotal = Price.query.filter_by(
+                weightid=weight.id, zoneid=destination.zoneid).first().price
 
     if itemWeight - 10 >= 0.5:
         additionalCost = itemWeight - 10*1500

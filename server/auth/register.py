@@ -5,6 +5,7 @@ from flask_session import Session
 from flask import jsonify
 import uuid
 from werkzeug.security import generate_password_hash
+from ..user_actions.notification.email.send import sendEmail
 
 userid = uuid.uuid4()  # to bdo ........... to be return to the setter and getter
 
@@ -26,7 +27,10 @@ def register(data, db):
                    role=role, phone=phone, password=pas, isadmin=False)
       db.session.add(user)
       db.session.commit()
-      print('registered')
+      
+      #.......Send an email...............#
+      sendEmail(user.email, "User created successfully! - Test Email")
+      
       return 'registered'
 
   except Exception as e:

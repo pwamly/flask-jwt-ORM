@@ -8,6 +8,11 @@ import uuid
 userid = uuid.uuid4()
 
 
+class TimestampMixin(object):
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated = db.Column(db.DateTime, onupdate=datetime.utcnow)
+
+
 class Users(db.Model):
 
     __tablename__ = 'Users'
@@ -26,6 +31,9 @@ class Users(db.Model):
     refrestoken = db.Column(db.String(200), nullable=True, unique=True)
     created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<User %r>' % self.fname + self.lname
 
 
 class Branch(db.Model):
@@ -65,7 +73,7 @@ class Order(db.Model):
     dstreet = db.Column(db.String(200), nullable=False)
     dnotes = db.Column(db.String(200), nullable=True)
     consigneename = db.Column(db.String(200), nullable=False)
-    consigneephone=db.Column(db.String(200), nullable=True)
+    consigneephone = db.Column(db.String(200), nullable=True)
     cnenotes = db.Column(db.String(200), nullable=True)
     orderStatus = db.Column(db.String(200), default='', nullable=True)
     expdlrtime = db.Column(db.DateTime, nullable=False)
@@ -314,7 +322,7 @@ class Pickup(db.Model):
     updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Zone(db.Model):
+class Zone(TimestampMixin, db.Model):
 
     __tablename__ = 'zone'
 
@@ -324,11 +332,14 @@ class Zone(db.Model):
     description = db.Column(db.String(200), nullable=True)
     destinations = db.relationship('Destination', backref='zone')
     prices = db.relationship('Price', backref='zone')
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, nullable=True)
+    
+    def __repr__(self):
+        return '<Zone %r>' % self.name
+    
+    
 
 
-class Destination(db.Model):
+class Destination(TimestampMixin, db.Model):
 
     __tablename__ = 'destination'
 
@@ -336,11 +347,12 @@ class Destination(db.Model):
     destinationid = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(200), nullable=False, unique=True)
     zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, nullable=True)
+    
+    def __repr__(self):
+        return '<Destination %r>' % self.name
 
 
-class Weight(db.Model):
+class Weight(TimestampMixin, db.Model):
 
     __tabllname__ = 'weight'
 
@@ -349,11 +361,12 @@ class Weight(db.Model):
     min = db.Column(db.Numeric, unique=True)
     max = db.Column(db.Numeric, unique=True)
     prices = db.relationship('Price', backref='weight')
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, nullable=True)
+    
+    def __repr__(self):
+        return '<Weight %r>' % self.id
 
 
-class Price(db.Model):
+class Price(TimestampMixin, db.Model):
 
     __tablename__ = 'price'
 
@@ -363,5 +376,6 @@ class Price(db.Model):
     itemid = db.Column(db.Integer, db.ForeignKey('Item.id'))
     zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
     weightid = db.Column(db.Integer, db.ForeignKey('weight.id'))
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, nullable=True)
+
+    def __repr__(self):
+        return '<Price %r>' % self.price

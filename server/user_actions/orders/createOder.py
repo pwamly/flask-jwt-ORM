@@ -5,7 +5,6 @@ from flask_session import Session
 from flask import jsonify, g
 import uuid
 from werkzeug.security import generate_password_hash
-# from datetime import timezone
 import datetime
 import time
 
@@ -76,6 +75,8 @@ def createOder(data, db):
             # ...................add()
             db.session.add(neworder)
             db.session.commit()
+        
+            
             return jsonify({'message': 'Order created'}), 200
 
         except Exception as e:

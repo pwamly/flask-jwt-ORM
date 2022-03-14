@@ -3,4 +3,8 @@ import os
 SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DURATION = os.environ.get('DURATION')
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+

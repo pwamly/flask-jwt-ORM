@@ -1,23 +1,24 @@
 from datetime import datetime
 import smtplib
+from email.mime.text import MIMEText
+import os
 
 
-def sendEmail(message, user):
-    
-    sender_email_id = "samuel.l.jeremia@gmail.com"
-    sender_email_id_password = "3AuD!EJ38Us!NnE$7&#7202$++"
-    
+def sendEmail(receiver, subject, message):
+
+    sender = os.environ.get('SENDER_EMAIL_ID')
+    sender_email_id_password = os.environ.get('SENDER_EMAIL_PASSWORD')
+
+    msg = MIMEText(message)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = receiver
+
     try:
-        
-        smtp = smtplib.SMTP('smtp.gmail.com', 587)
-        smtp.starttls()
-        smtp.login(sender_email_id, sender_email_id_password)
-        message = message
-        smtp.sendmail(sender_email_id, user, message)
-        
-        smtp.quit()
-        
-        print("Email sent successfully! at : ", datetime.utcnow)
-
-    except Exception as ex:
-        print("Something went wrong....", ex)
+        smtpObj = smtplib.SMTP(os.environ.get('SMTP_SERVER'), os.environ.get('SMTP_PORT'))
+        smtpObj.starttls()
+        smtpObj.login(sender, sender_email_id_password)
+        smtpObj.send_message(msg)
+        print("Successfully sent email to, ", receiver)
+    except smtplib.SMTPException as ex:
+        print(ex.with_traceback)

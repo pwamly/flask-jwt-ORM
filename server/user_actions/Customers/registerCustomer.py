@@ -12,39 +12,44 @@ import time
 
 
 
-def registerCustomer(data, db):    
-    id = uuid.uuid4()  # todo ........... to be return to the setter and getter
-    fname = data['fname']
-    lname = data['lname']
-    email = data['email']
-    phone = data['phone']
-    region = data['region'] 
-    district = data['district']
-    street = data['street']
-    address = data['address']
+def registerCustomer(data, db): 
+   
+   id = uuid.uuid4()  # todo ........... to be return to the setter and getter
+   
+   if data['customertype'] == "Individual":    
+      fullname = data['fname'] + " " + data['lname']
+   
+   elif data['customertype'] == "Company" :
+      fullname =  data['companyname']
+          
+   email = data['email']
+   phone = data['phone']
+   region = data['region'] 
+   street = data['street']
+   tin = data['tin']
+   vrn  = data['vrn']
+   address = data['address']
     
 
    #  check if user exists
-    customer = Customer.query.filter_by(email=email).first()
-    if not customer:
-     try:
-        newocustomer = Customer(customerid = id,
-        fname = fname,
-        lname = lname,
-        email = email,
-        phone = phone,
-        region = region,
-        district = district,
-        address = address,
-        street = street)
-        db.session.add(newocustomer)
-        db.session.commit()
-        return jsonify({'message': 'Customer registered'}), 200
-
-     except Exception as e:
-      print(e)
-      return jsonify({'message': 'Failed to register customer'}), 403
+   
+   customer = Customer.query.filter_by(email=email).first()
+   
+   if not customer:
+      try:
+         newocustomer = Customer(customerid = id, email = email, fullname = fullname
+                                 phone = phone, region = region, tin = tin, vrn = vrn,
+                                 address = address, street = street)
+         
+         db.session.add(newocustomer)
+         db.session.commit()
+         
+         return jsonify({'message': 'Customer registered'}), 200
+      
+      except Exception as e:
+         print(e)
+         return jsonify({'message': 'Failed to register customer'}), 403
       pass
-    return jsonify({'message': 'Customer  already exist'}), 409
+   return jsonify({'message': 'Customer  already exist'}), 409
  
  

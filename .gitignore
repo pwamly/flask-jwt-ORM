@@ -20,7 +20,11 @@
 .env
 
 
-/venv
+# virtualenv
+venv/
+.venv/
+
+
 /migrations
 npm-debug.log*
 yarn-debug.log*

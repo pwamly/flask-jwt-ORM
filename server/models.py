@@ -13,7 +13,7 @@ class TimestampMixin(object):
     updated = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
 
-class Users(db.Model):
+class Users(TimestampMixin, db.Model):
 
     __tablename__ = 'Users'
 
@@ -29,14 +29,12 @@ class Users(db.Model):
     password = db.Column(db.String(200), nullable=False)
     isadmin = db.Column(db.Boolean, nullable=False)
     refrestoken = db.Column(db.String(200), nullable=True, unique=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<User %r>' % self.fname + self.lname
 
 
-class Branch(db.Model):
+class Branch(TimestampMixin, db.Model):
 
     __tablename__ = 'Branch'
 
@@ -46,11 +44,9 @@ class Branch(db.Model):
     region = db.Column(db.String(200), nullable=False)
     district = db.Column(db.String(200), nullable=True)
     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Order(db.Model):
+class Order(TimestampMixin, db.Model):
 
     __tablename__ = 'Order'
 
@@ -123,8 +119,6 @@ class Order(db.Model):
     destinationbranchid = db.Column(db.String(220), nullable=True)
     isbundled = db.Column(db.Boolean, nullable=True)
 
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 # ................................. for unziping .......................
     nextDestination = db.Column(db.String(200), nullable=True)
@@ -134,7 +128,7 @@ class Order(db.Model):
     UnbundledBy = db.Column(db.String(200), nullable=True)
 
 
-class Customer(db.Model):
+class Customer(TimestampMixin, db.Model):
 
     __tablename__ = 'Customer'
 
@@ -151,11 +145,9 @@ class Customer(db.Model):
     vrn = db.Column(db.Integer, nullable=True, unique=True)
     tin = db.Column(db.Integer, nullable=False, unique=True)
     address = db.Column(db.String(200), nullable=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Vehicle(db.Model):
+class Vehicle(TimestampMixin, db.Model):
 
     __tablename__ = 'Vehicles'
 
@@ -169,11 +161,9 @@ class Vehicle(db.Model):
     status = db.Column(db.String(200), nullable=False)
     customertype = db.Column(db.String(10))
     routestatus = db.Column(db.String(200), nullable=False)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Transporter(db.Model):
+class Transporter(TimestampMixin, db.Model):
 
     __tablename__ = 'Transporters'
 
@@ -187,11 +177,9 @@ class Transporter(db.Model):
     vrn = db.Column(db.Integer, nullable=True, unique=True)
     tin = db.Column(db.Integer, nullable=False, unique=True)
     vehicledetails = db.Column(db.String(200), nullable=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Item(db.Model):
+class Item(TimestampMixin, db.Model):
 
     __tablename__ = 'Item'
 
@@ -251,13 +239,10 @@ class Item(db.Model):
     itemdelivered = db.Column(db.Boolean, nullable=True)
     deliverytime = db.Column(db.DateTime, nullable=True)
 
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Consignor(TimestampMixin, db.Model):
 
-class Consignor(db.Model):
-
-    __tablename__ = 'consignor'
+    __tablename__ = 'Consignor'
 
     id = db.Column(db.Integer, primary_key=True)
     consginerid = db.Column(db.String(200), nullable=False)
@@ -266,13 +251,11 @@ class Consignor(db.Model):
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False, unique=True)
     nidano = db.Column(db.String(200), nullable=True, unique=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Bundle(db.Model):
+class Bundle(TimestampMixin, db.Model):
 
-    __tablename__ = 'bundle'
+    __tablename__ = 'Bundle'
 
     id = db.Column(db.Integer, primary_key=True)
     bundleid = db.Column(db.String(200), nullable=False)
@@ -293,38 +276,32 @@ class Bundle(db.Model):
     Unbundled = db.Column(db.Boolean, nullable=True)
     UnbundledBy = db.Column(db.String(200), nullable=True)
 
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Regions(db.Model):
+class Regions(TimestampMixin, db.Model):
 
-    __tablename__ = 'region'
+    __tablename__ = 'Region'
 
     id = db.Column(db.Integer, primary_key=True)
     regionId = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(200), nullable=False)
     descriptions = db.Column(db.String(200), nullable=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
-class Pickup(db.Model):
+class Pickup(TimestampMixin, db.Model):
 
-    __tablename__ = 'pickup'
+    __tablename__ = 'Pickup'
 
     id = db.Column(db.Integer, primary_key=True)
     orderId = db.Column(db.String(200), nullable=False)
     itemId = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(200), nullable=False)
     pickedBy = db.Column(db.String(200), nullable=False)
-    created = db.Column(db.DateTime, default=datetime.utcnow)
-    updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class Zone(TimestampMixin, db.Model):
 
-    __tablename__ = 'zone'
+    __tablename__ = 'Zone'
 
     id = db.Column(db.Integer, primary_key=True)
     zoneid = db.Column(db.String(200), nullable=False)
@@ -341,7 +318,7 @@ class Zone(TimestampMixin, db.Model):
 
 class Destination(TimestampMixin, db.Model):
 
-    __tablename__ = 'destination'
+    __tablename__ = 'Destination'
 
     id = db.Column(db.Integer, primary_key=True)
     destinationid = db.Column(db.String(200), nullable=False)
@@ -354,7 +331,7 @@ class Destination(TimestampMixin, db.Model):
 
 class Weight(TimestampMixin, db.Model):
 
-    __tabllname__ = 'weight'
+    __tabllname__ = 'Weight'
 
     id = db.Column(db.Integer, primary_key=True)
     weightid = db.Column(db.String(200), nullable=False)
@@ -368,7 +345,7 @@ class Weight(TimestampMixin, db.Model):
 
 class Price(TimestampMixin, db.Model):
 
-    __tablename__ = 'price'
+    __tablename__ = 'Price'
 
     id = db.Column(db.Integer, primary_key=True)
     priceid = db.Column(db.String(200), nullable=False)

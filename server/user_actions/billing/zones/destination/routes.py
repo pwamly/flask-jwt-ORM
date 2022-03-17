@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-
 from server.user_actions.billing.zones.destination.update import updateDestination
 from .....helper import token_required_user, token_required_admin
 from flask_cors import CORS, cross_origin

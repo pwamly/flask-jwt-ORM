@@ -64,7 +64,7 @@ class Order(TimestampMixin, db.Model):
     pdistrict = db.Column(db.String(200), nullable=True)
     pstreet = db.Column(db.String(200), nullable=False)
     pnotes = db.Column(db.String(200), nullable=True)
-    dregion = db.Column(db.String(200), nullable=False)
+    dregion = db.Column(db.Integer, db.ForeignKey('Destination.id'))
     ddistrict = db.Column(db.String(200), nullable=True)
     dstreet = db.Column(db.String(200), nullable=False)
     dnotes = db.Column(db.String(200), nullable=True)
@@ -322,6 +322,7 @@ class Destination(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     destinationid = db.Column(db.String(200), nullable=False)
+    orders = db.relationship('Order', backref='Destination')
     name = db.Column(db.String(200), nullable=False, unique=True)
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     

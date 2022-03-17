@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Branch, Destination
+from server.models import Branch, Destination, Zone
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -11,9 +11,10 @@ def createDestinationOnZone(data, db):
 
     destinationid = uuid.uuid4()
     name=data['name']
-    zoneid=data['zoneid']
+    zone = Zone.query.filter_by(zoneid=data['zoneid']).first()
+    zoneid = zone.id
     
-    destionation = Destination.query.filter_by(destinationid=destinationid).first()
+    destionation = Destination.query.filter_by(name=name).first()
     
     if not destionation:
         try:

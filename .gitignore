@@ -21,8 +21,13 @@
 
 
 # virtualenv
-venv/
-.venv/
+venv/Include
+venv/Lib
+venv/Scripts
+
+.venv/Include/
+.venv/Lib/*
+.venv/venv/Scripts/
 
 
 /migrations

@@ -1,12 +1,13 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Order, Consignor, Customer
+from server.models import Order, Consignor, Customer, Users
 from flask_session import Session
 from flask import jsonify, g
 import uuid
 from werkzeug.security import generate_password_hash
 import datetime
 import time
+from ..notification.email.send import sendEmail
 
 
 # ts stores the time in seconds
@@ -75,7 +76,10 @@ def createOder(data, db):
             # ...................add()
             db.session.add(neworder)
             db.session.commit()
-        
+            
+            user_email = Users.query.filter_by(branchid=neworder.branchid).first()
+            
+            sendEmail(user_email, "New Orders - ", neworder.customername, "The new has been created")
             
             return jsonify({'message': 'Order created'}), 200
 

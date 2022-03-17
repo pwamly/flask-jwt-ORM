@@ -11,13 +11,14 @@ from werkzeug.security import generate_password_hash
 def createWeight(data, db):
 
     weightid = uuid.uuid4()
-    unit = data['unit']
+    min = data['min']
+    max = data["max"]
 
     zone = Zone.query.filter_by(weightid=weightid).first()
 
     if not zone:
         try:
-            weight = Weight(weightid=weightid, unit=unit)
+            weight = Weight(weightid=weightid, min=min, max=max)
 
             weight.created = datetime.utcnow
             db.session.add(weight)

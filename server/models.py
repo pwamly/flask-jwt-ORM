@@ -21,7 +21,7 @@ class Users(TimestampMixin, db.Model):
     userid = db.Column(db.String(200), nullable=False, unique=True)
     fname = db.Column(db.String(200), nullable=False)
     lname = db.Column(db.String(200), nullable=False)
-    branchId = db.Column(db.Integer, nullable=True)
+    branchId = db.Column(db.Integer, db.ForeignKey('Branch.id'))
     employeenumber = db.Column(db.String(20), unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     phone = db.Column(db.String(120), nullable=False, unique=True)
@@ -36,13 +36,13 @@ class Users(TimestampMixin, db.Model):
 
 class Branch(TimestampMixin, db.Model):
 
-    __tablename__ = 'Branch'
+    __tablename__ = 'Branch' 
 
     id = db.Column(db.Integer, primary_key=True)
     branchId = db.Column(db.Integer, nullable=False, unique=True)
     branchname = db.Column(db.String(200), nullable=False)
-    region = db.Column(db.String(200), nullable=False)
-    district = db.Column(db.String(200), nullable=True)
+    users = db.relationship('Users', backref='Branch')
+    region = db.Column(db.Integer, db.ForeignKey('Destination.id'))
     branchaddress = db.Column(db.String(120), nullable=False, unique=True)
 
 
@@ -138,8 +138,7 @@ class Customer(TimestampMixin, db.Model):
     fullname = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
-    region = db.Column(db.String(200), nullable=False)
-    district = db.Column(db.String(200), nullable=True)
+    region = db.Column(db.Integer, db.ForeignKey('Destination.id'))
     street = db.Column(db.String(200), nullable=False)
     customertype = db.Column(db.String(10))
     vrn = db.Column(db.Integer, nullable=True, unique=True)
@@ -318,11 +317,13 @@ class Zone(TimestampMixin, db.Model):
 
 class Destination(TimestampMixin, db.Model):
 
-    __tablename__ = 'Destination'
+    __tablename__ = 'Destination'  
 
     id = db.Column(db.Integer, primary_key=True)
     destinationid = db.Column(db.String(200), nullable=False)
+    branches = db.relationship('Branch', backref='Destination')
     orders = db.relationship('Order', backref='Destination')
+    customers = db.relationship('Customer', backref='Destination')
     name = db.Column(db.String(200), nullable=False, unique=True)
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     

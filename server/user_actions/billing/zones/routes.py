@@ -5,6 +5,7 @@ from server.user_actions.billing.zones.update import updateZone
 from ....helper import token_required_user, token_required_admin
 from flask_cors import CORS, cross_origin
 from ....extensions import db
+from ...billing.zones.zones import getZones
 
 
 zones = Blueprint('zones', __name__)
@@ -15,7 +16,7 @@ zones = Blueprint('zones', __name__)
 @token_required_user
 def getAllZones():
     if(request.method == 'GET'):
-        return getAllZones()
+        return getZones()
     else:
         pass
 
@@ -26,7 +27,7 @@ def getAllZones():
 def registerZone():
     data = request.json
     if(request.method == 'POST'):
-        return createZone(data, db)
+        return createZone(data, db)  
     else:
         pass
 

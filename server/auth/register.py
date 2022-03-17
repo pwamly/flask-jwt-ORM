@@ -29,9 +29,9 @@ def register(data, db):
       db.session.commit()
       
       #.......Send an email...............#
-      sendEmail(user.email, "User created successfully! - Test Email")
+      #sendEmail(user.email, "User created successfully! - Test Email")
       
-      return 'registered'
+      return jsonify({'message': 'user registered'}), 200
 
   except Exception as e:
       print(e)

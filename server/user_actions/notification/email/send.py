@@ -10,6 +10,7 @@ def sendEmail(receiver, subject, message):
     sender_email_id_password = os.environ.get('SENDER_EMAIL_PASSWORD')
 
     msg = MIMEText(message)
+    
     msg['Subject'] = subject
     msg['From'] = sender
     msg['To'] = receiver

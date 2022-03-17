@@ -307,8 +307,8 @@ class Zone(TimestampMixin, db.Model):
     zoneid = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(200), nullable=False, unique=True)
     description = db.Column(db.String(200), nullable=True)
-    destinations = db.relationship('Destination', backref='zone')
-    prices = db.relationship('Price', backref='zone')
+    destinations = db.relationship('Destination', backref='Zone')
+    prices = db.relationship('Price', backref='Zone')
     
     def __repr__(self):
         return '<Zone %r>' % self.name
@@ -323,7 +323,7 @@ class Destination(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     destinationid = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(200), nullable=False, unique=True)
-    zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
+    zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     
     def __repr__(self):
         return '<Destination %r>' % self.name
@@ -337,7 +337,7 @@ class Weight(TimestampMixin, db.Model):
     weightid = db.Column(db.String(200), nullable=False)
     min = db.Column(db.Numeric, unique=True)
     max = db.Column(db.Numeric, unique=True)
-    prices = db.relationship('Price', backref='weight')
+    # prices = db.relationship('Price', backref='CSWeight')
     
     def __repr__(self):
         return '<Weight %r>' % self.id
@@ -351,8 +351,8 @@ class Price(TimestampMixin, db.Model):
     priceid = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Numeric, nullable=False)
     itemid = db.Column(db.Integer, db.ForeignKey('Item.id'))
-    zoneid = db.Column(db.Integer, db.ForeignKey('zone.id'))
-    weightid = db.Column(db.Integer, db.ForeignKey('weight.id'))
+    zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
+    weight_d = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return '<Price %r>' % self.price

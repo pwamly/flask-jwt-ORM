@@ -7,7 +7,8 @@ import uuid
 from werkzeug.security import generate_password_hash
 # from datetime import timezone
 import datetime
-import def registerCustomer(data, db): 
+
+def registerCustomer(data, db): 
    
    id = uuid.uuid4()  # todo ........... to be return to the setter and getter
    
@@ -46,8 +47,6 @@ import def registerCustomer(data, db):
          return jsonify({'message': 'Failed to register customer'}), 403
       pass
    return jsonify({'message': 'Customer  already exist'}), 409
-essage': 'Customer  already exist'}), 409
-'Customer  already exist'}), 409
-ge': 'Customer  already exist'}), 409
+
  
  

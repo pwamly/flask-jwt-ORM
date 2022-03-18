@@ -142,7 +142,7 @@ class Customer(TimestampMixin, db.Model):
     street = db.Column(db.String(200), nullable=False)
     customertype = db.Column(db.String(10))
     vrn = db.Column(db.Integer, nullable=True, unique=True)
-    tin = db.Column(db.Integer, nullable=False, unique=True)
+    tin = db.Column(db.Integer, nullable=True, unique=True)
     address = db.Column(db.String(200), nullable=True)
 
 
@@ -352,7 +352,6 @@ class Price(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     priceid = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Numeric, nullable=False)
-    itemid = db.Column(db.Integer, db.ForeignKey('Item.id'))
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     weight_d = db.Column(db.Integer, nullable=True)
 

@@ -7,7 +7,7 @@ from ....helper import weight_serializer
 
 def getAllWeight():
 
-    pages_perpage = 10
+    pages_perpage = 30
     page = 1
 
     weight = Weight.query.filter_by().order_by(Weight.created.desc()).paginate(page, pages_perpage, error_out=False)

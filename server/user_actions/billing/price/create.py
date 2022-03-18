@@ -16,13 +16,19 @@ def createPrice(data, db):
     zoneid = data['zoneid']
     weightid = data['weightid']
 
-    priceCheck = Price.query.filter_by(priceid=priceid).first()
+    priceCheck = Price.query.filter_by(price=price).first()
 
     if not priceCheck:
         try:
-            price = Weight(priceid=priceid, price=price, zoneid= zoneid, weightid=weightid)
+            zone_id = Zone.query.filter_by(zoneid=zoneid).first().id
+           
+            weight_id = Weight.query.filter_by(weightid=weightid).first().id
 
-            price.created = datetime.utcnow
+         
+
+            price = Price(priceid=priceid, price=price, zoneid= zone_id, weight_d=weight_id)
+
+            price.created = datetime.utcnow()
 
             db.session.add(price)
             db.session.commit()

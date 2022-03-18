@@ -6,7 +6,7 @@ from ....helper import zones_serializer
 
 def getZones():
 
-    pages_perpage = 10
+    pages_perpage = 20
     page = 1
 
     zones = Zone.query.filter_by().order_by(

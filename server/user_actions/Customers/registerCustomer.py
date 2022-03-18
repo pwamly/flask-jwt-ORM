@@ -11,29 +11,32 @@ import datetime
 def registerCustomer(data, db): 
    
    id = uuid.uuid4()  # todo ........... to be return to the setter and getter
+
+   #  check if user exists
    
-   if data['customertype'] == "Individual":    
-      fullname = data['fname'] + " " + data['lname']
-   
-   elif data['customertype'] == "Company" :
-      fullname =  data['companyname']
-          
    email = data['email']
    phone = data['phone']
    region = data['region'] 
    street = data['street']
-   tin = data['tin']
-   vrn  = data['vrn']
    address = data['address']
-    
 
-   #  check if user exists
-   
    customer = Customer.query.filter_by(email=email).first()
    
    if not customer:
       try:
-         newocustomer = Customer(customerid = id, email = email, fullname = fullname,
+         if data['customertype'] == "individual":
+            fullname = data['fname'] + " " + data['lname']
+
+            newocustomer = Customer(customerid = id, email = email, fullname = fullname,
+                                 phone = phone, region = region,
+                                 address = address, street = street)
+            
+         elif data['customertype'] == "company" :
+            fullname =  data['companyname']
+            tin = data['tin']
+            vrn  = data['vrn']
+            
+            newocustomer = Customer(customerid = id, email = email, fullname = fullname,
                                  phone = phone, region = region, tin = tin, vrn = vrn,
                                  address = address, street = street)
          

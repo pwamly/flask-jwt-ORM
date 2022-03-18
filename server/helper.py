@@ -173,15 +173,15 @@ def customer_serializer(data):
         "customerid": data.customerid,
         "fullname": data.fullname,
         "customertype": data.customertype,
-        "vrn": data.vrntype,
+        "vrn": data.vrn,
         "tin": data.tin,
-        "username": data.fname+' '+' '+data.lname,
+        "username": data.fullname,
         "email": data.email,
         "phone": data.phone,
         "region": data.region,
         "street": data.street,
         "address": data.address,
-        "generaladdress": data.region+', '+data.district+', '+data.street+' ,'+data.address,
+        "generaladdress": data.street+' ,'+data.address,
         "created": data.created
     }
 
@@ -310,6 +310,7 @@ def destination_serializer(data):
 
 def weight_serializer(data):
     return {
+        "weightid": data.weightid,
         "min": str(data.min) ,
         "max": str(data.max),
         "created": data.created,
@@ -320,22 +321,26 @@ def weight_serializer(data):
 def price_serializer(data):
 
     if data.zoneid:
-        zones = Zone.query.filter_by(zoneid=data.zoneid).first()
+        zones = Zone.query.filter_by(id=data.zoneid).first()
         zonename = zones.name
     else:
         zonename = ''
 
-    if data.wightid:
-        weights = Weight.query.filter_by(wightid=data.wightid).first()
-        unitname = weights.wightid
+    if data.weight_d:
+        weights = Weight.query.filter_by(id=data.weight_d).first()
+        unitname = weights.weightid
     else:
         unitname = ''
 
-    return {
+    if unitname:
+        min  = Weight.query.filter_by(weightid=unitname).first().min 
+        max  = Weight.query.filter_by(weightid=unitname).first().max 
 
-        "price": data.price,
+        
+    return {
+        "price": str(data.price),
         "zone": zonename,
-        "weight": unitname,
+        "weight": str(min) + " - " + str(max),
         "created": data.created,
         "updated": data.created
 

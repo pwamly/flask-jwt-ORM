@@ -14,13 +14,13 @@ def createWeight(data, db):
     min = data['min']
     max = data["max"]
 
-    zone = Zone.query.filter_by(weightid=weightid).first()
+    weight = Weight.query.filter_by(min=min,max=max).first()
 
-    if not zone:
+    if not weight:
         try:
             weight = Weight(weightid=weightid, min=min, max=max)
 
-            weight.created = datetime.utcnow
+            weight.created = datetime.utcnow()
             db.session.add(weight)
             db.session.commit()
 

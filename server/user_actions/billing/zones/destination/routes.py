@@ -9,7 +9,7 @@ from ....billing.zones.destination.get_zone import getDestinationByZone
 
 destination = Blueprint('destination', __name__)
 
-@destination.route('/api/get_destinations/',  methods=['GET', 'OPTIONS'])
+@destination.route('/api/get_destinations',  methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getDestinationsByZoneId():

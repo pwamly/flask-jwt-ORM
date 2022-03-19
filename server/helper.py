@@ -2,7 +2,7 @@ from functools import wraps
 from flask import request, jsonify, g
 import jwt
 import os
-from .models import Weight
+from .models import Weight,Regions
 from .models import Price
 from .models import Destination
 from .models import Zone
@@ -168,6 +168,11 @@ def order_serializer(data):
 
 
 def customer_serializer(data):
+    region=''
+    _region= Regions.query.filter_by(regionId=data.regionId).first()
+
+    if _region:
+        region=_region.region
 
     return {
         "customerid": data.customerid,
@@ -178,7 +183,7 @@ def customer_serializer(data):
         "username": data.fullname,
         "email": data.email,
         "phone": data.phone,
-        "region": data.region,
+        "region": region,
         "street": data.street,
         "address": data.address,
         "generaladdress": data.street+' ,'+data.address,
@@ -299,10 +304,12 @@ def zones_serializer(data):
 
 
 def destination_serializer(data):
+    zone = Zone.query.filter_by(id=data.zoneid).first().name
     return {
         "name": data.name,
         "destinationid": data.destinationid,
         "zoneid": data.zoneid,
+        "zone":zone,
         "created": data.created,
         "updated": data.created
     }

@@ -1,4 +1,5 @@
 from flask_sqlalchemy import model
+from datetime import datetime
 from jwt import exceptions
 from server.models import Regions
 from flask_session import Session
@@ -9,16 +10,17 @@ from werkzeug.security import generate_password_hash
 
 def registerRegion(data, db):
  regionId = uuid.uuid4()  # todo ........... to be return to the setter and getter
- regiondata = data['region']
+ region_ = data['region']
 
 
 #  check if user exists
- region = Regions.query.filter_by(region=regiondata).first()
+ region = Regions.query.filter_by(region=region_).first()
 
  if not region:
 
   try:
-      regions = Regions(region=regiondata, regionId=regionId)
+      regions = Regions(region=region_, regionId=regionId)
+      regions.created = datetime.utcnow()
       db.session.add(regions)
       db.session.commit()
       return jsonify({'message': 'region  added'}), 200

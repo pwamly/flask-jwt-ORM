@@ -16,7 +16,7 @@ def registerCustomer(data, db):
    
    email = data['email']
    phone = data['phone']
-   region = data['region'] 
+   regionId = data['region'] 
    street = data['street']
    address = data['address']
 
@@ -25,10 +25,11 @@ def registerCustomer(data, db):
    if not customer:
       try:
          if data['customertype'] == "individual":
+            print('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',data['customertype'])
             fullname = data['fname'] + " " + data['lname']
 
             newocustomer = Customer(customerid = id, email = email, fullname = fullname,
-                                 phone = phone, region = region,
+                                 phone = phone, regionId = regionId,
                                  address = address, street = street)
             
          elif data['customertype'] == "company" :
@@ -37,7 +38,7 @@ def registerCustomer(data, db):
             vrn  = data['vrn']
             
             newocustomer = Customer(customerid = id, email = email, fullname = fullname,
-                                 phone = phone, region = region, tin = tin, vrn = vrn,
+                                 phone = phone, regionId = regionId, tin = tin, vrn = vrn,
                                  address = address, street = street)
          
          db.session.add(newocustomer)

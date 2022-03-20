@@ -6,6 +6,8 @@ from .models import Weight,Regions
 from .models import Price
 from .models import Destination
 from .models import Zone
+import random
+
 
 from server.models import Users
 
@@ -70,6 +72,12 @@ def token_required_admin(f):
             return jsonify({'message': 'Token has expired'})
         return f(*args, **kwargs)
     return decorated
+
+
+def randomGenerator():
+    min = pow(10, int(size)-1)
+    max = pow(10, int(size)) - 1
+    return random.randint(min, max)
 
 
 def profile_serializer(data):

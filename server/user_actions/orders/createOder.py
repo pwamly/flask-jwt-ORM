@@ -8,6 +8,8 @@ from werkzeug.security import generate_password_hash
 import datetime
 import time
 from ..notification.email.send import sendEmail
+from ...helper import randomGenerator
+
 
 
 # ts stores the time in seconds

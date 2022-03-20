@@ -23,7 +23,7 @@ def getAllZones():
 
 @zones.route('/api/zones/register', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
-#@token_required_user
+@token_required_user
 def registerZone():
     data = request.json
     if(request.method == 'POST'):
@@ -34,7 +34,7 @@ def registerZone():
 
 @zones.route('/api/zones/register-destination', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
-#@token_required_user
+@token_required_user
 def registerDestination():
     data = request.json
     if(request.method == 'POST'):
@@ -46,9 +46,10 @@ def registerDestination():
 @zones.route('/api/zones/edit-zone/<zoneid>', methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def editZones(destinationid):
+
+def editZones(zoneid):
     data = request.json
     if(request.method == 'PUT'):
-        return updateZone(data, destinationid, db)
+        return updateZone(data, zoneid, db)
     else:
         pass

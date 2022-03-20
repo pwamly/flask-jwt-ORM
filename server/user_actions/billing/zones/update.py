@@ -9,11 +9,11 @@ from ....models import Zone
 
 
     
-def updateZone(data, branchId, db):
+def updateZone(data, zoneid, db):
 
-    zoneid = uuid.uuid4()
     name = data['name']
-    description = data['destination']
+    description = data['description']
+    
     
 
 

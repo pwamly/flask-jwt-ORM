@@ -9,18 +9,21 @@ from ....models import Weight, Zone
 
 
     
-def updateWeight(data, branchId, db):
+def updateWeight(data, weightid, db):
 
-    weightid = data['weightid']
-    unit = data['unit']
+    min = data['min']
+    max = data['max']
     
 
     weight = Weight.query.filter_by(weightid=weightid).first()
 
     if weight:
         try:
-            if unit:
-                weight.unit = unit
+            if min:
+                weight.min = min
+
+            if max:
+                weight.max = max
 
             weight.updated = datetime.now()
 

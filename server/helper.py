@@ -358,6 +358,7 @@ def price_serializer(data):
     return {
         "price": str(data.price),
         "zone": zonename,
+        "priceid":data.priceid,
         "weight": str(min) + " - " + str(max),
         "created": data.created,
         "updated": data.created

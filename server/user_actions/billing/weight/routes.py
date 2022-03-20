@@ -36,9 +36,9 @@ def registerWeight():
 @weight.route('/api/wight/edit-weight/<weightid>', methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def editWeight(destinationid):
+def editWeight(weightid):
     data = request.json
     if(request.method == 'PUT'):
-        return updateWeight(data, destinationid, db)
+        return updateWeight(data, weightid, db)
     else:
         pass

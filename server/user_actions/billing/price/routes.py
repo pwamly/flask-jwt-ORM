@@ -26,7 +26,7 @@ def _getAllPrice():
 
 @price.route('/api/price/register', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
-#@token_required_user
+@token_required_user
 def register():
     data = request.json
     if(request.method == 'POST'):
@@ -38,9 +38,9 @@ def register():
 @price.route('/api/price/edit-price/<priceid>', methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def editWeight(destinationid):
+def updatePrice_(priceid):
     data = request.json
     if(request.method == 'PUT'):
-        return updatePrice(data, destinationid, db)
+        return updatePrice(data, priceid, db)
     else:
         pass

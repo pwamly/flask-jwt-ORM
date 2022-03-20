@@ -9,11 +9,9 @@ from server.helper import destination_serializer
 from .....models import Destination
 
 
-def updateDestination(data, branchId, db):
+def updateDestination(data, destinationid, db):
 
-    destinationid = data['destinationid']
     name = data['name']
-    zoneid = data['destination']
 
     destinations = Destination.query.filter_by(destinationid=destinationid).first()
 
@@ -21,9 +19,6 @@ def updateDestination(data, branchId, db):
         try:
             if name:
                 destinations.name = name
-
-            if zoneid:
-                destinations.zoneid = zoneid
 
             destinations.updated = datetime.now()
 

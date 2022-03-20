@@ -7,6 +7,7 @@ from .models import Price
 from .models import Destination
 from .models import Zone
 import random
+size = os.environ.get('TRACKING_ID_SIZE')
 
 
 from server.models import Users

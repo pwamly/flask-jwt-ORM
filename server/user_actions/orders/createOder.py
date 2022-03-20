@@ -57,9 +57,12 @@ def createOder(data, db):
             # print('Date:...........', date_time_obj)
             # print('Time:', date_time_obj.time())
             # print('Date-time:', date_time_obj)
+            trackongNo = randomGenerator()
+
             neworder = Order(orderid=orderid,
                              customerid=customerid,
                              customername=customername,
+                             trackingNo=trackongNo,
                              branchid=g.userBranchId,
                              customernotes=customernotes,
                              consignername=consignername,

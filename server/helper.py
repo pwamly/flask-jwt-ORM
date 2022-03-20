@@ -94,6 +94,7 @@ def users_serializer(data):
     return {
         "userid": data.userid,
         "fname": data.fname,
+        "lname":data.lname,
         "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
@@ -134,6 +135,7 @@ def order_serializer(data):
         "dregion": data.dregion,
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
+        "trackingNo": data.trackingNo,
         "dnotes": data.dnotes,
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,

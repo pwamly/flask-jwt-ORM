@@ -10,7 +10,7 @@ from .admin_actions.updateUser import updateUser
 from .admin_actions.deleteUser import removeUser
 from .admin_actions.branch.branchCreate import create
 from .user_actions.orders.createOder import createOder
-from .user_actions.orders.orders import orders
+from .user_actions.orders.orders import orders,ordersBycustomer
 from .user_actions.orders.bundledOrders import bundledOrders
 from .user_actions.bundle.deliverBundle import deliverBundle
 from .user_actions.orders.orders import getDeliveries
@@ -180,6 +180,16 @@ def getorders():
     else:
         pass
 
+#  for customer tracking orders
+
+@main.route('/api/orders/<trackingNo>',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+def getordersbycustomer(trackingNo):
+    if(request.method == 'GET'):
+        return ordersBycustomer(trackingNo)
+    else:
+        pass
+
 
 @main.route('/api/delete-order/<orderid>', methods=['DELETE', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
@@ -286,7 +296,7 @@ def deliverDispatch_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getDispatch_d():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):
@@ -332,7 +342,7 @@ def deliveryItem_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getdeliveredorders_d():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):
@@ -357,7 +367,7 @@ def r_customer():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def r_customers():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):
@@ -435,7 +445,7 @@ def r_vehicle():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_vehicles():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):
@@ -471,7 +481,7 @@ def r_transporter():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_transporters():
-    page = request.args.get('gage')
+    page = request.args.get('page')
     sort = request.args.get('sort')
     q = request.args.get('q')
     if(request.method == 'GET'):

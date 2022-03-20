@@ -8,7 +8,7 @@ from ...helper import order_serializer
 
 def orders(page, sort, q, date, status):
     search = "%{}%".format(q)
-    pages_perpage = 2
+    pages_perpage = 5
     if q:
         order = Order.query.filter(
             (Order.customername.like(search)) | (
@@ -41,6 +41,19 @@ def getDeliveries(page, sort, q):
         data = [*map(order_serializer, order.items)]
         return {'data': data, "pagination": {"currentpage": order.page, "totalPages": order.pages, "totalItems": order.total, "prev_page": order.prev_num, "next_page": order.next_num, "has_next": order.has_next, "has_prev": order.has_prev}}
 
+
+
+
+def ordersBycustomer(trackingnumber):
+    pages_perpage = 1
+    page=1
+  
+
+    order = Order.query.filter_by(trackingNo=trackingnumber).paginate(int(page), pages_perpage, error_out=False)
+    if order:
+        data = [*map(order_serializer, order.items)]
+        return {'data': data, "pagination": {"currentpage": order.page, "totalPages": order.pages, "totalItems": order.total, "prev_page": order.prev_num, "next_page": order.next_num, "has_next": order.has_next, "has_prev": order.has_prev}}
+    return jsonify({'message': 'orders not found'}), 403
 
 # from datetime import datetime
 

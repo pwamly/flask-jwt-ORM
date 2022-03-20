@@ -10,7 +10,7 @@ def getAllPrice():
     pages_perpage = 50
     page = 1
 
-    price = Price.query.filter_by().order_by(Price.created.desc()).paginate(page, pages_perpage, error_out=False)
+    price = Price.query.filter_by().order_by(Price.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     pages_perpage = 100
     page = 1
 

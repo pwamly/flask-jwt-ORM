@@ -10,7 +10,7 @@ def getZones():
     page = 1
 
     zones = Zone.query.filter_by().order_by(
-        Zone.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Zone.created.desc()).paginate(int(page), pages_perpage, error_out=False)
 
     pages_perpage = 100
     page = 1

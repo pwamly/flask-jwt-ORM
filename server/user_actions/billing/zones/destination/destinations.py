@@ -8,7 +8,7 @@ def getAllDestinations():
     pages_perpage = 10
     page = 1
     
-    destinations = Destination.query.filter_by().order_by(Destination.created.desc()).paginate(page, pages_perpage, error_out=False)
+    destinations = Destination.query.filter_by().order_by(Destination.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     pages_perpage = 100
     page = 1
     

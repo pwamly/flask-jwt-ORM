@@ -9,7 +9,7 @@ def getitems(orderid='null'):
     page = 1
     if orderid == 'null':
         item = Item.query.filter_by().order_by(Item.created.desc()).paginate(
-            page, pages_perpage, error_out=False)
+            int(page), pages_perpage, error_out=False)
         if item:
             data = [*map(item_serializer, item)]
             print('order id not found')

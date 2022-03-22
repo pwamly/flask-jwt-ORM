@@ -17,7 +17,7 @@ from .user_actions.orders.orders import getDeliveries
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
-from .user_actions.orders.actions.schedulePickup import schedulePickup
+from .user_actions.orders.actions.schedulePickup import schedulePickup,reschedulePickup
 from .user_actions.Settings.addregions import registerRegion
 from .user_actions.Settings.getRegions import getregions
 from .user_actions.Settings.editregions import updateRegion
@@ -244,6 +244,19 @@ def schedlue_order(orderid):
         return schedulePickup(orderid, data, db)
     else:
         pass
+
+
+@main.route('/api/orders/reschedule/<itemid>', methods=['PUT', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_schedlue_order(itemid):
+    if(request.method == 'PUT'):
+        data = request.json
+        return reschedulePickup(itemid, data, db)
+    else:
+        pass
+
+    
 
 
 @main.route('/api/orders/loadpickup/<itmeid>', methods=['POST', 'OPTIONS'])

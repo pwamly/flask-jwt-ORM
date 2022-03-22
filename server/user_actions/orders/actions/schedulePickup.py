@@ -11,6 +11,7 @@ def schedulePickup(orderid, data, db):
     vehicleId = data['vehicleId']
     pickupnote = data['pickupnote']
     orderid = data['orderid']
+    scheduledPickuptime=data['scheduledPickuptime']
 
     #  fetch all sheduled items............................
     scheduledItems = Item.query.filter_by(orderid=orderid, pickupScheduled=True)
@@ -30,7 +31,7 @@ def schedulePickup(orderid, data, db):
                         item.pickupScheduled = True
                         item.status = 'Pickup Scheduled'
                         order.orderStatus = 'Partial Pickup Scheduled'
-                        item.scheduledPickuptime = datetime.now()
+                        item.scheduledPickuptime = scheduledPickuptime
                         order.vehicleId = vehicleId
                         db.session.add(order) 
                         db.session.add(item)
@@ -60,3 +61,41 @@ def schedulePickup(orderid, data, db):
                         return jsonify({'message': 'Failed to schedule pickup'}), 403
             return jsonify({'message': 'pickup scheduled'}), 200
         return jsonify({'message': 'no items found'}), 403
+
+
+
+
+def reschedulePickup(itemid, data, db):
+    driverId = data['driverId']
+    vehicleId = data['vehicleId']
+    pickupnote = data['pickupnote']
+    scheduledPickuptime=data['scheduledPickuptime']
+
+
+    item = Item.query.filter_by(itemid=itemid).first()
+    if item:
+        try:
+            if driverId:
+                item.driverId = driverId
+
+            if vehicleId:
+                item.vehicleId = vehicleId
+
+            if pickupnote:
+                item.pickupnote = pickupnote
+            
+            if scheduledPickuptime:
+                item.scheduledPickuptime = scheduledPickuptime
+
+
+            
+            db.session.add(item)
+            db.session.commit()
+            return jsonify({'message': 'pickup re scheduled'}), 200
+
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'Failed to re schedule pickup'}), 403
+            pass
+
+    return jsonify({'message': 'Item does not exist!'}), 409

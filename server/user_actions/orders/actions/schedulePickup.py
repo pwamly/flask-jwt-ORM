@@ -59,7 +59,7 @@ def schedulePickup(orderid, data, db):
                         print(e)
                         return jsonify({'message': 'Failed to schedule pickup'}), 403
             return jsonify({'message': 'pickup scheduled'}), 200
-        return jsonify({'message': 'no items'}), 403
+        return jsonify({'message': 'no items found'}), 403
 
 
              

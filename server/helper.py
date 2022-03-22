@@ -7,6 +7,7 @@ from .models import Price
 from .models import Destination
 from .models import Zone
 import random
+
 size = os.environ.get('TRACKING_ID_SIZE')
 
 
@@ -262,9 +263,9 @@ def item_serializer(data):
         "orderid": data.orderid,
         "itemtype": data.itemtype,
         "units": data.units,
-        "weight": data.weight,
+        "weight": str(data.weight),
         "status": data.status,
-        "cost": data.cost,
+        "cost": str(data.cost),
         "note": data.note,
         "loadnote": data.loadnote,
         "vehicledetails": data.vehicledetails,
@@ -358,7 +359,7 @@ def price_serializer(data):
     return {
         "price": str(data.price),
         "zone": zonename,
-        "priceid":data.priceid,
+        "priceid": str(data.priceid),
         "weight": str(min) + " - " + str(max),
         "created": data.created,
         "updated": data.created

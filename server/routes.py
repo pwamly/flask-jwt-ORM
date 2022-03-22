@@ -209,7 +209,7 @@ def a_item():
     if(request.method == 'POST'):
         return addItem(data, db)
     else:
-        pass
+            pass
 
 
 @main.route('/api/orders/items', methods=['GET', 'OPTIONS'])

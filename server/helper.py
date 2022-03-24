@@ -261,6 +261,7 @@ def item_serializer(data):
         "orderid": data.orderid,
         "itemtype": data.itemtype,
         "units": data.units,
+        "pickupnote":data.pickupnote,
         "weight": str(data.weight),
         "status": data.status,
         "cost": str(data.cost),

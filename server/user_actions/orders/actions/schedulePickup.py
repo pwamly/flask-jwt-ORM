@@ -66,11 +66,11 @@ def schedulePickup(orderid, data, db):
 
 
 def reschedulePickup(itemid, data, db):
-    driverId = data['driverId']
-    vehicleId = data['vehicleId']
-    pickupnote = data['pickupnote']
+    driverId = data['driverId'] 
+    vehicleId = data['vehicleId'] 
+    pickupnote = data['pickupnote'] 
     scheduledPickuptime=data['scheduledPickuptime']
-
+    print(driverId)
 
     item = Item.query.filter_by(itemid=itemid).first()
     if item:

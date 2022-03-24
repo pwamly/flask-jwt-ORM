@@ -57,7 +57,7 @@ class Order(TimestampMixin, db.Model):
     customername = db.Column(db.String(200), nullable=False)
     customernotes = db.Column(db.String(200), nullable=True)
     consignername = db.Column(db.String(200), nullable=False)
-    trackingNo = db.Column(db.String(200), nullable=True)
+    trackingNo = db.Column(db.Integer, nullable=True)
     consignerid = db.Column(db.String(200), nullable=False)
     cnotes = db.Column(db.String(200), nullable=True)
     pregion = db.Column(db.String(200), nullable=False)
@@ -138,11 +138,13 @@ class Customer(TimestampMixin, db.Model):
     fullname = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
-    region = db.Column(db.Integer, db.ForeignKey('Destination.id'))
+    # region = db.Column(db.Integer, db.ForeignKey('Destination.id'))
+    regionId = db.Column(db.String(200), nullable=True)
+    phone = db.Column(db.String(200), nullable=False)
     street = db.Column(db.String(200), nullable=False)
     customertype = db.Column(db.String(10))
     vrn = db.Column(db.Integer, nullable=True, unique=True)
-    tin = db.Column(db.Integer, nullable=False, unique=True)
+    tin = db.Column(db.Integer, nullable=True, unique=True)
     address = db.Column(db.String(200), nullable=True)
 
 
@@ -323,7 +325,7 @@ class Destination(TimestampMixin, db.Model):
     destinationid = db.Column(db.String(200), nullable=False)
     branches = db.relationship('Branch', backref='Destination')
     orders = db.relationship('Order', backref='Destination')
-    customers = db.relationship('Customer', backref='Destination')
+    # customers = db.relationship('Customer', backref='Destination')
     name = db.Column(db.String(200), nullable=False, unique=True)
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     
@@ -352,7 +354,6 @@ class Price(TimestampMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     priceid = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Numeric, nullable=False)
-    itemid = db.Column(db.Integer, db.ForeignKey('Item.id'))
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
     weight_d = db.Column(db.Integer, nullable=True)
 

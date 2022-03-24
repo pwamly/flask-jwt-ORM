@@ -13,14 +13,14 @@ def create(data, db):
  branchId=data['branchId']
  branchname=data['branchname']
  region=data['region']
- district=data['district']
+#  district=data['district']
  branchaddress=data['branchaddress']
  
  # check if user exists
  user = Branch.query.filter_by(branchname=branchname).first()
  if not user:
   try:
-      user = Branch(branchId=branchId, branchname=branchname, region=region, district=district, branchaddress=branchaddress)
+      user = Branch(branchId=branchId, branchname=branchname, region=region, branchaddress=branchaddress)
       db.session.add(user)
       db.session.commit()
       print('Branch created')

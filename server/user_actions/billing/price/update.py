@@ -8,30 +8,29 @@ from werkzeug.security import generate_password_hash
 from ....models import Price, Weight, Zone
 
     
-def updatePrice(data, branchId, db):
+def updatePrice(data, priceid, db):
 
-    priceid = data['priceid']
-    price = data['price']
-    zoneid = data['zoneid']
-    weightid = data['weightid']
+    price_ = data['price']
+    # zoneid = data['zoneid']
+    # weightid = data['weightid']
     
 
-    price = Price.query.filter_by(priceid=priceid).first()
+    pricedata = Price.query.filter_by(priceid=priceid).first()
 
-    if price:
+    if pricedata:
         try:
-            if price:
-                price.price = price
+            if price_:
+                pricedata.price = price_
 
-            if zoneid:
-                price.zoneid = zoneid
+            # if zoneid:
+            #     price.zoneid = zoneid
 
-            if weightid:
-                price.weightid = weightid
+            # if weightid:
+            #     price.weightid = weightid
 
-            price.updated = datetime.now()
+            pricedata.updated = datetime.now()
 
-            db.session.add(price)
+            db.session.add(pricedata)
             db.session.commit()
 
             return jsonify({'message': 'Price updated'}), 200

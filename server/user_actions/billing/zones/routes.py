@@ -46,9 +46,10 @@ def registerDestination():
 @zones.route('/api/zones/edit-zone/<zoneid>', methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def editZones(destinationid):
+
+def editZones(zoneid):
     data = request.json
     if(request.method == 'PUT'):
-        return updateZone(data, destinationid, db)
+        return updateZone(data, zoneid, db)
     else:
         pass

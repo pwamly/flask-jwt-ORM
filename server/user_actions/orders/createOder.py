@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Order, Consignor, Customer, Users
+from server.models import Destination, Order, Consignor, Customer, Users
 from flask_session import Session
 from flask import jsonify, g
 import uuid
@@ -8,6 +8,8 @@ from werkzeug.security import generate_password_hash
 import datetime
 import time
 from ..notification.email.send import sendEmail
+from ...helper import randomGenerator
+
 
 
 # ts stores the time in seconds
@@ -27,17 +29,17 @@ def createOder(data, db):
     customerdata = Customer.query.filter_by(customerid=customerid).first()
     consignordata = Consignor.query.filter_by(consginerid=consignerid).first()
 
-    customername = customerdata.fname+''+customerdata.lname
+    customername = customerdata.fullname
     customerid = customerdata.customerid
     customernotes = data['custnote']
     consignername = consignordata.fullname
     consignerid = consignordata.consginerid
-    pregion = data['packageRegionData']
-    pdistrict = data['Packagedistdata']
+    pregion = Destination.query.filter_by(destinationid=data['destinationRegionData']).first().id
+    # pdistrict = data['Packagedistdata']
     pstreet = data['packagestreet']
     pnotes = data['packagenotes']
-    dregion = data['destinationRegionData']
-    ddistrict = data['destinationData']
+    dregion = Destination.query.filter_by(destinationid=data['packageRegionData']).first().id
+    # ddistrict = data['destinationData']
     dstreet = data['destinationstreet']
     dnotes = data['destinationnotes']
     consigneename = data['consigneename']
@@ -47,7 +49,7 @@ def createOder(data, db):
 
     # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
 
-    orderid = 'sga-'+pregion+'-'+'-'+dregion+str(ts).lower()
+    orderid = 'sga-'+str(pregion)+'-'+'-'+str(dregion)+str(ts).lower()
    #  check if user exists
     order = Order.query.filter_by(orderid=orderid).first()
     if not order:
@@ -55,19 +57,20 @@ def createOder(data, db):
             # print('Date:...........', date_time_obj)
             # print('Time:', date_time_obj.time())
             # print('Date-time:', date_time_obj)
+            trackongNo = randomGenerator()
+
             neworder = Order(orderid=orderid,
                              customerid=customerid,
                              customername=customername,
+                             trackingNo=trackongNo,
                              branchid=g.userBranchId,
                              customernotes=customernotes,
                              consignername=consignername,
                              consignerid=consignerid,
                              pregion=pregion,
-                             pdistrict=pdistrict,
                              pstreet=pstreet,
                              pnotes=pnotes,
                              dregion=dregion,
-                             ddistrict=ddistrict,
                              dstreet=dstreet,
                              dnotes=dnotes,
                              consigneename=consigneename,
@@ -77,9 +80,11 @@ def createOder(data, db):
             db.session.add(neworder)
             db.session.commit()
             
-            user_email = Users.query.filter_by(branchid=neworder.branchid).first().email
+            print("GGGGGGGGGGGGGGGGG", neworder.branchid)
+            user_email = Users.query.filter_by(branchId=neworder.branchid).first().email
+            print("VVVVVVVVVVVVVVVV", user_email)
             
-            sendEmail(user_email, "New Orders - ", neworder.customername, "The new has been created")
+            sendEmail(user_email, "New Orders - ", "The new has been created")
             
             return jsonify({'message': 'Order created'}), 200
 

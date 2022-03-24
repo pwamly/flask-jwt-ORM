@@ -14,7 +14,7 @@ branch = Blueprint('branch', __name__)
 
 @branch.route('/admin/create-branch',  methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
-@token_required_user
+# @token_required_user
 def createbranch():
     data = request.json
     if(request.method == 'POST'):

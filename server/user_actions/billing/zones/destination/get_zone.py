@@ -1,14 +1,17 @@
 from flask import jsonify
 import json
-from .....models import Destination 
+from .....models import Destination,Zone 
 from .....helper import destination_serializer
 
 def getDestinationByZone(zoneid):
-    
-    pages_perpage = 10
+
+    zone_id = Zone.query.filter_by(zoneid=zoneid).first().id
+   
+
+    pages_perpage = 100
     page = 1
     
-    destinations = Destination.query.filter_by(zoneid=zoneid).order_by(Destination.created.desc()).paginate(page, pages_perpage, error_out=False)
+    destinations = Destination.query.filter_by(zoneid=zone_id).order_by(Destination.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     pages_perpage = 100
     page = 1
     

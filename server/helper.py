@@ -2,10 +2,14 @@ from functools import wraps
 from flask import request, jsonify, g
 import jwt
 import os
-from .models import Weight
+from .models import Weight,Regions
 from .models import Price
 from .models import Destination
 from .models import Zone
+import random
+
+size = os.environ.get('TRACKING_ID_SIZE')
+
 
 from server.models import Users
 
@@ -72,6 +76,12 @@ def token_required_admin(f):
     return decorated
 
 
+def randomGenerator():
+    min = pow(10, int(size)-1)
+    max = pow(10, int(size)) - 1
+    return random.randint(min, max)
+
+
 def profile_serializer(data):
     return {
         'username': data.name,
@@ -85,13 +95,14 @@ def users_serializer(data):
     return {
         "userid": data.userid,
         "fname": data.fname,
+        "lname":data.lname,
         "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
         "phone": data.phone,
         "role": data.role,
-        "created": data.created.isoformat(),
-        "updated": data.updated.isoformat(),
+        "created": data.created,
+        "updated": data.updated,
     }
 
 
@@ -125,6 +136,7 @@ def order_serializer(data):
         "dregion": data.dregion,
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
+        "trackingNo": data.trackingNo,
         "dnotes": data.dnotes,
         "consigneename": data.consigneename,
         "cnenotes": data.cnenotes,
@@ -135,11 +147,9 @@ def order_serializer(data):
         "vehicleId": data.vehicleId,
         "scheduledPickuptime": data.scheduledPickuptime,
         "pickupnote": data.pickupnote,
-        "driverId": data.driverId,
         "pickupnote": data.pickupnote,
         "pickuptime": data.pickuptime,
         "orderStatus": data.orderStatus,
-        "pickupScheduled": data.pickupScheduled,
         "pickupLoaded": data.pickupLoaded,
         "pickupUnloaded": data.pickupUnloaded,
         "scheduledPickuptime": data.scheduledPickuptime,
@@ -168,20 +178,25 @@ def order_serializer(data):
 
 
 def customer_serializer(data):
+    region=''
+    _region= Regions.query.filter_by(regionId=data.regionId).first()
+
+    if _region:
+        region=_region.region
 
     return {
         "customerid": data.customerid,
         "fullname": data.fullname,
         "customertype": data.customertype,
-        "vrn": data.vrntype,
+        "vrn": data.vrn,
         "tin": data.tin,
-        "username": data.fname+' '+' '+data.lname,
+        "username": data.fullname,
         "email": data.email,
         "phone": data.phone,
-        "region": data.region,
+        "region": region,
         "street": data.street,
         "address": data.address,
-        "generaladdress": data.region+', '+data.district+', '+data.street+' ,'+data.address,
+        "generaladdress": data.street+' ,'+data.address,
         "created": data.created
     }
 
@@ -246,18 +261,23 @@ def item_serializer(data):
         "orderid": data.orderid,
         "itemtype": data.itemtype,
         "units": data.units,
-        "weight": data.weight,
+        "pickupnote":data.pickupnote,
+        "weight": str(data.weight),
         "status": data.status,
-        "cost": data.cost,
+        "cost": str(data.cost),
         "note": data.note,
         "loadnote": data.loadnote,
         "vehicledetails": data.vehicledetails,
         "unloadnote": data.unloadnote,
+        "driverId":data.driverId,
+        "vehicleId":data.vehicleId,
         "pickupLoaded": data.pickupLoaded,
         "pickupUnloaded": data.pickupUnloaded,
+        "pickupScheduled":data.pickupScheduled,
         "scheduledPickuptime": data.scheduledPickuptime,
         "Loadedtime": data.Loadedtime,
         "Unloadedtime": data.Unloadedtime,
+        "driver":fullName,
         "dispatchScheduled": data.dispatchScheduled,
         "dispatchDelivered": data.dispatchDelivered,
         "dispatchDeliveredTime": data.dispatchDeliveredTime,
@@ -299,10 +319,12 @@ def zones_serializer(data):
 
 
 def destination_serializer(data):
+    zone = Zone.query.filter_by(id=data.zoneid).first().name
     return {
         "name": data.name,
         "destinationid": data.destinationid,
         "zoneid": data.zoneid,
+        "zone":zone,
         "created": data.created,
         "updated": data.created
     }
@@ -310,8 +332,9 @@ def destination_serializer(data):
 
 def weight_serializer(data):
     return {
-        "min": data.min,
-        "max": data.max,
+        "weightid": data.weightid,
+        "min": str(data.min) ,
+        "max": str(data.max),
         "created": data.created,
         "updated": data.created
     }
@@ -320,22 +343,27 @@ def weight_serializer(data):
 def price_serializer(data):
 
     if data.zoneid:
-        zones = Zone.query.filter_by(zoneid=data.zoneid).first()
+        zones = Zone.query.filter_by(id=data.zoneid).first()
         zonename = zones.name
     else:
         zonename = ''
 
-    if data.wightid:
-        weights = Weight.query.filter_by(wightid=data.wightid).first()
-        unitname = weights.wightid
+    if data.weight_d:
+        weights = Weight.query.filter_by(id=data.weight_d).first()
+        unitname = weights.weightid
     else:
         unitname = ''
 
-    return {
+    if unitname:
+        min  = Weight.query.filter_by(weightid=unitname).first().min 
+        max  = Weight.query.filter_by(weightid=unitname).first().max 
 
-        "price": data.price,
+        
+    return {
+        "price": str(data.price),
         "zone": zonename,
-        "weight": unitname,
+        "priceid": str(data.priceid),
+        "weight": str(min) + " - " + str(max),
         "created": data.created,
         "updated": data.created
 

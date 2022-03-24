@@ -1,10 +1,9 @@
 from flask import Blueprint, request, jsonify
 from server.user_actions.billing.price.create import createPrice
 from server.user_actions.billing.price.update import updatePrice
+from server.user_actions.billing.price.prices import getAllPrice
 from server.user_actions.billing.weight.create import createWeight
 from server.user_actions.billing.weight.update import updateWeight
-
-from server.user_actions.billing.zones.add_destination import createDestinationOnZone
 from server.user_actions.billing.zones.create import createZone
 from server.user_actions.billing.zones.update import updateZone
 from ....helper import token_required_user, token_required_admin
@@ -18,7 +17,7 @@ price = Blueprint('price', __name__)
 @price.route('/api/price',  methods=['GET', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def getAllPrice():
+def _getAllPrice():
     if(request.method == 'GET'):
         return getAllPrice()
     else:
@@ -28,7 +27,7 @@ def getAllPrice():
 @price.route('/api/price/register', methods=['POST', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def registerWeight():
+def register():
     data = request.json
     if(request.method == 'POST'):
         return createPrice(data, db)
@@ -39,9 +38,9 @@ def registerWeight():
 @price.route('/api/price/edit-price/<priceid>', methods=['PUT', 'OPTIONS'])
 @cross_origin(supports_credentials=True)
 @token_required_user
-def editWeight(destinationid):
+def updatePrice_(priceid):
     data = request.json
     if(request.method == 'PUT'):
-        return updatePrice(data, destinationid, db)
+        return updatePrice(data, priceid, db)
     else:
         pass

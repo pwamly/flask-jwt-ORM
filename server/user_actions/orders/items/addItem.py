@@ -6,64 +6,93 @@ from flask_session import Session
 from flask import jsonify
 import uuid
 from werkzeug.security import generate_password_hash
-# from datetime import timezone
+import os
+
+
+
 
 
 def addItem(data, db):
-    id = uuid.uuid4()  # todo ........... to be return to the setter and getter
+    vat_percentage = os.environ.get('VAT_PERCENTAGE')
+
     orderid = data['orderid']
-    itemname = data['itemname']
-    itemtype = data['itemtype']
-    units = data['units']
-    weight = data['weight']
-    note = data['note']
+    itmeslist = data['items']
 
-    # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
+    
+    def calculateBilling(location, weightItem):
+                destination = Destination.query.filter_by(id=location).first()
+                itemWeight = weightItem
 
-   #  check if order exists
+                print("Location  ", location)
+                print("Weight  ", type(itemWeight))
 
-    Order = Order.query.filter_by(orderid=orderid).first()
-    if Order:
-        try:
-            newitem = Item(
-                itemid=id,
-                itemname=itemname,
-                orderid=orderid,
-                itemtype=itemtype,
-                units=units,
-                weight=weight,
-                note=note,
-            )
+                weightList = Weight.query.all()
 
-            # .........Calculate billing per Item Added.........#
-            newitem.cost = calculateBilling(Order.dregion, weight)
+                print("WeightList Array ", weightList)
 
-            db.session.add(newitem)
-            db.session.commit()
+                subtotal = 0.0
+                additionalCost = 0.0
 
-            return jsonify({'message': 'Item created'}), 200
+                if int(itemWeight) - 10 >= 0.5:
+                    additionalCost = (int(itemWeight) - 10)*1500
 
-        except Exception as e:
-            print(e)
-            return jsonify({'message': 'Failed to create Item'}), 403
-            pass
+                    for weight in weightList:
+                        if(10 > weight.min and 10 <= weight.max):
+                            subtotal = Price.query.filter_by(
+                                weight_d=weight.id, zoneid=destination.zoneid).first().price
+                else:
+                    for weight in weightList:
+                        if(int(itemWeight) > weight.min and int(itemWeight) <= weight.max):
+                            subtotal = Price.query.filter_by(
+                                weight_d=weight.id, zoneid=destination.zoneid).first().price
+
+                print("Subtotal ", subtotal)
+
+                print("Additional ", additionalCost)
+
+                return int(subtotal) + int(additionalCost)
+
+    order = Order.query.filter_by(orderid=orderid).first()
+                
+
+    if order:
+        for items in itmeslist:
+            itemname = items['itemname']
+            itemtype = items['itemtype']
+            units = items['units']
+            weight = items['weight']
+            note = items['note']
+
+            #  date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
+
+           #  check if order exists
+            print('bbbbbbbbbbb', order)
+            try:
+                    newitem = Item(
+                        itemid=uuid.uuid4(),
+                        itemname=itemname,
+                        orderid=orderid,
+                        itemtype=itemtype,
+                        units=units,
+                        weight=weight,
+                        note=note,
+                    )
+
+                    # .........Calculate billing per Item Added.........#
+                    newitem.cost = calculateBilling(order.dregion, weight)
+
+                    db.session.add(newitem)
+                    db.session.commit()
+
+            except Exception as e:
+                print(e)
+                return jsonify({'message': 'Failed to create Item'}), 403
+                pass
+        return jsonify({'message': 'Item created'}), 200
+
     return jsonify({'message': 'Order not exist'}), 409
+            
 
 
 
-def calculateBilling(location, weightItem):
-    destination = Destination.query.filter_by(name=location).first()
-    itemWeight = weightItem
-
-    weightList = Weight.query().all()
-    subtotal = 0.0
-    additionalCost = 0.0
-    for weight in weightList:
-        if(itemWeight > weight.min and itemWeight <= weight.max):
-            subtotal = Price.query.filter_by(
-                weightid=weight.id, zoneid=destination.zoneid).first().price
-
-    if itemWeight - 10 >= 0.5:
-        additionalCost = itemWeight - 10*1500
-
-    return subtotal + additionalCost
+          

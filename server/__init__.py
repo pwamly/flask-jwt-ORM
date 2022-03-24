@@ -7,6 +7,7 @@ from .admin_actions.branch.routes import branch
 from .user_actions.billing.zones.routes import zones
 from .user_actions.billing.zones.destination.routes import destination
 from .user_actions.billing.weight.routes import weight
+from .user_actions.billing.price.routes import price
 from flask_mail import Mail
 
 
@@ -23,6 +24,7 @@ def create_app(config_file='settings.py'):
     app.register_blueprint(destination)
     app.register_blueprint(zones)
     app.register_blueprint(weight)
+    app.register_blueprint(price)
 
     app.cli.add_command(create_tables)
     

@@ -8,7 +8,7 @@ def getregions():
     pages_perpage = 10
     page = 1
     region = Regions.query.filter_by().order_by(
-        Regions.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Regions.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if region:
        data = [*map(regions_serializer, region.items)]
        print(data)

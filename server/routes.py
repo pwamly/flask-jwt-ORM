@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from server.user_actions.billing.price.create import createPrice
 from server.user_actions.orders.actions.scheduleDelivery import scheduleDelivery
 from .extensions import db
 from .models import Users
@@ -10,14 +10,14 @@ from .admin_actions.updateUser import updateUser
 from .admin_actions.deleteUser import removeUser
 from .admin_actions.branch.branchCreate import create
 from .user_actions.orders.createOder import createOder
-from .user_actions.orders.orders import orders
+from .user_actions.orders.orders import orders,ordersBycustomer
 from .user_actions.orders.bundledOrders import bundledOrders
 from .user_actions.bundle.deliverBundle import deliverBundle
 from .user_actions.orders.orders import getDeliveries
 from .user_actions.orders.items.getitem import getitems
 from .user_actions.orders.items.getitemByorder import getitemByorder
 from .user_actions.orders.dispatchedOrders import getdispatchedOrder
-from .user_actions.orders.actions.schedulePickup import schedulePickup
+from .user_actions.orders.actions.schedulePickup import schedulePickup,reschedulePickup
 from .user_actions.Settings.addregions import registerRegion
 from .user_actions.Settings.getRegions import getregions
 from .user_actions.Settings.editregions import updateRegion
@@ -121,8 +121,11 @@ def revokeToken():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def users_():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return users(Users)
+        return users(page, sort, q)
     else:
         pass
 
@@ -166,8 +169,24 @@ def c_order():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getorders():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
+    date = request.args.get('date')
+    status = request.args.get('status')
+
     if(request.method == 'GET'):
-        return orders()
+        return orders(page, sort, q, date, status)
+    else:
+        pass
+
+#  for customer tracking orders
+
+@main.route('/api/orders/<trackingNo>',  methods=['GET', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+def getordersbycustomer(trackingNo):
+    if(request.method == 'GET'):
+        return ordersBycustomer(trackingNo)
     else:
         pass
 
@@ -190,7 +209,7 @@ def a_item():
     if(request.method == 'POST'):
         return addItem(data, db)
     else:
-        pass
+            pass
 
 
 @main.route('/api/orders/items', methods=['GET', 'OPTIONS'])
@@ -225,6 +244,19 @@ def schedlue_order(orderid):
         return schedulePickup(orderid, data, db)
     else:
         pass
+
+
+@main.route('/api/orders/reschedule/<itemid>', methods=['PUT', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+@token_required_user
+def r_schedlue_order(itemid):
+    if(request.method == 'PUT'):
+        data = request.json
+        return reschedulePickup(itemid, data, db)
+    else:
+        pass
+
+    
 
 
 @main.route('/api/orders/loadpickup/<itmeid>', methods=['POST', 'OPTIONS'])
@@ -277,8 +309,11 @@ def deliverDispatch_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getDispatch_d():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getdispatchedOrder()
+        return getdispatchedOrder(page, sort, q)
     else:
         pass
 
@@ -320,8 +355,11 @@ def deliveryItem_d(itemid):
 @cross_origin(supports_credentials=True)
 @token_required_user
 def getdeliveredorders_d():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getDeliveries()
+        return getDeliveries(page, sort, q)
     else:
         pass
 
@@ -342,8 +380,11 @@ def r_customer():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def r_customers():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getcustomers()
+        return getcustomers(page, sort, q)
     else:
         pass
 
@@ -417,8 +458,11 @@ def r_vehicle():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_vehicles():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return getvehicle()
+        return getvehicle(page, sort, q)
     else:
         pass
 
@@ -450,8 +494,11 @@ def r_transporter():
 @cross_origin(supports_credentials=True)
 @token_required_user
 def g_transporters():
+    page = request.args.get('page')
+    sort = request.args.get('sort')
+    q = request.args.get('q')
     if(request.method == 'GET'):
-        return gettransporters()
+        return gettransporters(page, sort, q)
     else:
         pass
 

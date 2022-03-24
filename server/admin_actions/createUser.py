@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Users
+from server.models import Users,Branch
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -25,7 +25,8 @@ def registerUser(data, db):
  if not user:
   try:
       pas = generate_password_hash(password)
-      user = Users(fname=firstname, lname=lastname, branchId=branchId, email=email, userid=userid,
+      branchid=Branch.query.filter_by(branchId=branchId).first().id
+      user = Users(fname=firstname, lname=lastname, branchId=branchid, email=email, userid=userid,
                    role=role, phone=phone, password=pas, isadmin=False)
       db.session.add(user)
       db.session.commit()

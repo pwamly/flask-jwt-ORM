@@ -77,7 +77,7 @@ def createOder(data, db):
             db.session.add(neworder)
             db.session.commit()
             
-            user_email = Users.query.filter_by(branchid=neworder.branchid).first()
+            user_email = Users.query.filter_by(branchid=neworder.branchid).first().email
             
             sendEmail(user_email, "New Orders - ", neworder.customername, "The new has been created")
             

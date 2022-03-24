@@ -32,12 +32,11 @@ def registerCustomer(data, db):
     
 
    #  check if user exists
-   
    customer = Customer.query.filter_by(email=email).first()
    
    if not customer:
       try:
-         newocustomer = Customer(customerid = id, email = email, fullname = fullname
+         newocustomer = Customer(customerid = id, email = email, fullname = fullname,
                                  phone = phone, region = region, tin = tin, vrn = vrn,
                                  address = address, street = street)
          

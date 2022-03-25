@@ -235,7 +235,7 @@ def transporter_serializer(data):
         "transporterid": data.transporterid,
         "name": data.name,
         "transporterid": data.transporterid,
-        "vrn": data.vrntype,
+        "vrn": data.vrn,
         "tin": data.tin,
         "email": data.email,
         "phone": data.phone,

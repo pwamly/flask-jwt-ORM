@@ -26,6 +26,8 @@ def scheduleDispatch(orderid, data, db):
 
             if scheduledDispatchtime:
                 order.scheduledDispatchtime = scheduledDispatchtime
+                order.orderStatus = 'Dispatch sheduled'
+
 
             if dispatchnote:
                 order.dispatchnote = dispatchnote

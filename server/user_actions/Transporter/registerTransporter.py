@@ -17,6 +17,8 @@ def regTransporter(data, db):
  address = data['address']
  route = data['route']
  vehicledetails = data['vehicledetails']
+ tin =data['tin']
+ vrn=data['vrn']
 
  # check if user exists
  transporter = Transporter.query.filter_by(email=email).first()
@@ -26,7 +28,7 @@ def regTransporter(data, db):
                           name=name,
                           phone=phone,
                           email=email,
-                          address=address, vehicledetails=vehicledetails,
+                          address=address, vehicledetails=vehicledetails,tin=tin,vrn=vrn,
                           route=route)
       db.session.add(trans)
       db.session.commit()

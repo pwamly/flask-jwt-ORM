@@ -20,20 +20,11 @@ def registerCustomer(data, db):
    street = data['street']
    address = data['address']
 
-<<<<<<< HEAD
-   #  check if user exists
-=======
->>>>>>> 1bc8cf1d245b7e3b133e8ba7c980f4fd6604e4da
    customer = Customer.query.filter_by(email=email).first()
    
    if not customer:
       try:
-<<<<<<< HEAD
-         newocustomer = Customer(customerid = id, email = email, fullname = fullname,
-                                 phone = phone, region = region, tin = tin, vrn = vrn,
-=======
          if data['customertype'] == "individual":
-            print('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',data['customertype'])
             fullname = data['fname'] + " " + data['lname']
 
             newocustomer = Customer(customerid = id, email = email, fullname = fullname,
@@ -47,7 +38,6 @@ def registerCustomer(data, db):
             
             newocustomer = Customer(customerid = id, email = email, fullname = fullname,
                                  phone = phone, regionId = regionId, tin = tin, vrn = vrn,
->>>>>>> 1bc8cf1d245b7e3b133e8ba7c980f4fd6604e4da
                                  address = address, street = street)
          
          db.session.add(newocustomer)

@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Branch
+from server.models import Branch,Destination
 from datetime import datetime, timedelta
 from flask_session import Session
 from flask import jsonify
@@ -14,24 +14,21 @@ def updateBranch(data, branchId, db):
  branchId = data['branchId']
  branchname = data['branchname']
  region = data['region']
- district = data['district']
  branchaddress = data['branchaddress']
  updated = datetime.now()
 
  
 #  check if user exists
  branch = Branch.query.filter_by(branchId=branchId).first()
+ destnid=Destination.query.filter_by(destinationid=region).first().id
  if branch:
   try:
       if branchname:
          branch.branchname = branchname
       
       if region:
-          branch.region = region
+          branch.region = destnid
           
-      if district:
-          branch.district = district
-
       if branchaddress:
           branch.branchaddress = branchaddress
           

@@ -31,8 +31,11 @@ def schedulePickup(orderid, data, db):
                         item.pickupScheduled = True
                         item.status = 'Pickup Scheduled'
                         order.orderStatus = 'Partial Pickup Scheduled'
+                        item.pickupnote = pickupnote
                         item.scheduledPickuptime = scheduledPickuptime
                         order.vehicleId = vehicleId
+                        item.status = 'Pickup Scheduled'
+                        item.vehicleId = vehicleId
                         db.session.add(order) 
                         db.session.add(item)
                         db.session.commit()

@@ -1,8 +1,9 @@
+from server.models import Users
 from functools import wraps
 from flask import request, jsonify, g
 import jwt
 import os
-from .models import Weight,Regions
+from .models import Weight, Regions
 from .models import Price
 from .models import Destination
 from .models import Zone
@@ -10,8 +11,6 @@ import random
 
 size = os.environ.get('TRACKING_ID_SIZE')
 
-
-from server.models import Users
 
 # .............. for any user ..........
 
@@ -95,7 +94,7 @@ def users_serializer(data):
     return {
         "userid": data.userid,
         "fname": data.fname,
-        "lname":data.lname,
+        "lname": data.lname,
         "employeenumber": data.employeenumber,
         "branchId": data.branchId,
         "email": data.email,
@@ -111,7 +110,7 @@ def branch_serializer(data):
     return {
         "branchId": data.branchId,
         "branchname": data.branchname,
-        "region": data.region,
+        "region": Destination.query.filter_by(id=data.region).first().name,
         "branchaddress": data.branchaddress,
         "created": data.created,
         "updated": data.updated,
@@ -128,17 +127,20 @@ def order_serializer(data):
         "customernotes": data.customernotes,
         "consignername": data.consignername,
         "consignerid": data.consignerid,
+        "orderDelivered":data.orderDelivered,
         "cnotes": data.cnotes,
-        "pregion": data.pregion,
+        "pregion": Destination.query.filter_by(id=data.pregion).first().name,
         "pdistrict": data.pdistrict,
         "pstreet": data.pstreet,
         "pnotes": data.pnotes,
-        "dregion": data.dregion,
+        "dregion": Destination.query.filter_by(id=data.dregion).first().name,
         "ddistrict": data.ddistrict,
         "dstreet": data.dstreet,
         "trackingNo": data.trackingNo,
         "dnotes": data.dnotes,
         "consigneename": data.consigneename,
+        "consigneephone": data.consigneephone,
+        "consigneeemail": data.consigneeemail,
         "cnenotes": data.cnenotes,
         "pickuptime": data.pickuptime,
         "expdlrtime": data.expdlrtime,
@@ -173,16 +175,20 @@ def order_serializer(data):
         "deliveryscheduled": data.deliveryscheduled,
         "bundleId": data.bundleId,
         "destinationbranchid": data.destinationbranchid,
-        "isbundled": data.isbundled
+        "isbundled": data.isbundled,
+        "altnativeconsigneefullname": data.altnativeconsigneefullname,
+        "altnativeconsigneephone": data.altnativeconsigneefullname,
+        "altnativeconsigneeemail": data.altnativeconsigneefullname,
+        "alternativeconsignee": data.altnativeconsigneefullname
     }
 
 
 def customer_serializer(data):
-    region=''
-    _region= Regions.query.filter_by(regionId=data.regionId).first()
+    region = ''
+    _region = Regions.query.filter_by(regionId=data.regionId).first()
 
     if _region:
-        region=_region.region
+        region = _region.region
 
     return {
         "customerid": data.customerid,
@@ -261,7 +267,7 @@ def item_serializer(data):
         "orderid": data.orderid,
         "itemtype": data.itemtype,
         "units": data.units,
-        "pickupnote":data.pickupnote,
+        "pickupnote": data.pickupnote,
         "weight": str(data.weight),
         "status": data.status,
         "cost": str(data.cost),
@@ -269,15 +275,15 @@ def item_serializer(data):
         "loadnote": data.loadnote,
         "vehicledetails": data.vehicledetails,
         "unloadnote": data.unloadnote,
-        "driverId":data.driverId,
-        "vehicleId":data.vehicleId,
+        "driverId": data.driverId,
+        "vehicleId": data.vehicleId,
         "pickupLoaded": data.pickupLoaded,
         "pickupUnloaded": data.pickupUnloaded,
-        "pickupScheduled":data.pickupScheduled,
+        "pickupScheduled": data.pickupScheduled,
         "scheduledPickuptime": data.scheduledPickuptime,
         "Loadedtime": data.Loadedtime,
         "Unloadedtime": data.Unloadedtime,
-        "driver":fullName,
+        "driver": fullName,
         "dispatchScheduled": data.dispatchScheduled,
         "dispatchDelivered": data.dispatchDelivered,
         "dispatchDeliveredTime": data.dispatchDeliveredTime,
@@ -324,7 +330,7 @@ def destination_serializer(data):
         "name": data.name,
         "destinationid": data.destinationid,
         "zoneid": data.zoneid,
-        "zone":zone,
+        "zone": zone,
         "created": data.created,
         "updated": data.created
     }
@@ -333,7 +339,7 @@ def destination_serializer(data):
 def weight_serializer(data):
     return {
         "weightid": data.weightid,
-        "min": str(data.min) ,
+        "min": str(data.min),
         "max": str(data.max),
         "created": data.created,
         "updated": data.created
@@ -355,10 +361,9 @@ def price_serializer(data):
         unitname = ''
 
     if unitname:
-        min  = Weight.query.filter_by(weightid=unitname).first().min 
-        max  = Weight.query.filter_by(weightid=unitname).first().max 
+        min = Weight.query.filter_by(weightid=unitname).first().min
+        max = Weight.query.filter_by(weightid=unitname).first().max
 
-        
     return {
         "price": str(data.price),
         "zone": zonename,

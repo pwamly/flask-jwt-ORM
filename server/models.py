@@ -70,6 +70,7 @@ class Order(TimestampMixin, db.Model):
     dnotes = db.Column(db.String(200), nullable=True)
     consigneename = db.Column(db.String(200), nullable=False)
     consigneephone = db.Column(db.String(200), nullable=True)
+    consigneeemail = db.Column(db.String(200), nullable=True)
     cnenotes = db.Column(db.String(200), nullable=True)
     orderStatus = db.Column(db.String(200), default='', nullable=True)
     expdlrtime = db.Column(db.DateTime, nullable=False)
@@ -96,6 +97,8 @@ class Order(TimestampMixin, db.Model):
     pickupUnloaded = db.Column(db.Boolean, nullable=True)
     Unloadedtime = db.Column(db.DateTime, nullable=True)
 
+ # ....................for  dispatch delivery ....................
+
     dispatchScheduled = db.Column(db.Boolean, nullable=True)
     dispatchDriverId = db.Column(db.String(200), nullable=True)
     dispatchvehicleId = db.Column(db.String(200), nullable=True)
@@ -113,6 +116,8 @@ class Order(TimestampMixin, db.Model):
     vehicleIdfordelivered = db.Column(db.String(200), nullable=True)
     deliveryschedulednote = db.Column(db.String(200), nullable=True)
     orderdeliverytime = db.Column(db.DateTime, nullable=True)
+    orderDelivered = db.Column(db.Boolean, nullable=True)
+
 
  # ............................ for bundle .......................
     bundleId = db.Column(db.String(200), nullable=True)
@@ -128,6 +133,16 @@ class Order(TimestampMixin, db.Model):
     UnbundledBy = db.Column(db.String(200), nullable=True)
 
 
+# ................................. for alternative consignee during delivery .......................
+
+    altnativeconsigneefullname = db.Column(db.String(200), nullable=True)
+    altnativeconsigneephone = db.Column(db.String(200), nullable=True)
+    altnativeconsigneeemail = db.Column(db.String(200), nullable=True)
+    alternativeconsignee = db.Column(db.Boolean, nullable=True)
+
+
+
+
 class Customer(TimestampMixin, db.Model):
 
     __tablename__ = 'Customer'
@@ -138,12 +153,11 @@ class Customer(TimestampMixin, db.Model):
     fullname = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
     phone = db.Column(db.String(200), nullable=False)
-    # region = db.Column(db.Integer, db.ForeignKey('Destination.id'))
     regionId = db.Column(db.String(200), nullable=True)
     phone = db.Column(db.String(200), nullable=False)
     street = db.Column(db.String(200), nullable=False)
     customertype = db.Column(db.String(10))
-    vrn = db.Column(db.Integer, nullable=True, unique=True)
+    vrn = db.Column(db.String(200), nullable=True, unique=True)
     tin = db.Column(db.Integer, nullable=True, unique=True)
     address = db.Column(db.String(200), nullable=True)
 

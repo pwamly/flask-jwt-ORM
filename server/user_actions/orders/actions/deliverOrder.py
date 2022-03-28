@@ -27,6 +27,7 @@ def deliverOrder(itemid, data, db):
 
                 item.itemdelivered = True
                 item.deliverytime = datetime.now()
+                orders.orderDelivered = True
                 item.status = 'Delivered'
                 orders.orderStatus = 'Delivered'
                 orders.orderdeliverytime = datetime.now()

@@ -9,6 +9,8 @@ from ...helper import order_serializer
 def orders(page, sort, q, date, status):
     search = "%{}%".format(q)
     pages_perpage = 5
+    
+    
     if q:
         order = Order.query.filter(
             (Order.customername.like(search)) | (

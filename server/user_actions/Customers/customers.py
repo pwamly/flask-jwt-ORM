@@ -5,7 +5,6 @@ from ...helper import customer_serializer
 
 
 def getcustomers(page, sort, q):
-    print('ggggggggggggggggggggggggggggggggggggggggggggggggggg',page)
     pages_perpage = 5
     search = "%{}%".format(q)
     if q:

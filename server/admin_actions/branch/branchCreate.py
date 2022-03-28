@@ -1,6 +1,6 @@
 from flask_sqlalchemy import model
 from jwt import exceptions
-from server.models import Branch
+from server.models import Branch,Destination
 from flask_session import Session
 from flask import jsonify
 import uuid
@@ -18,9 +18,10 @@ def create(data, db):
  
  # check if user exists
  user = Branch.query.filter_by(branchname=branchname).first()
+ destnid=Destination.query.filter_by(destinationid=region).first().id
  if not user:
   try:
-      user = Branch(branchId=branchId, branchname=branchname, region=region, branchaddress=branchaddress)
+      user = Branch(branchId=branchId, branchname=branchname, region=destnid, branchaddress=branchaddress)
       db.session.add(user)
       db.session.commit()
       print('Branch created')

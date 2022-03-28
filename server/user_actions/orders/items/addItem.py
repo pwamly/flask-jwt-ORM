@@ -62,11 +62,11 @@ def addItem(data, db):
             units = items['units']
             weight = items['weight']
             note = items['note']
+            cost_vat=items['cost_vat']
 
             #  date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
 
            #  check if order exists
-            print('bbbbbbbbbbb', order)
             try:
                     newitem = Item(
                         itemid=uuid.uuid4(),
@@ -76,10 +76,11 @@ def addItem(data, db):
                         units=units,
                         weight=weight,
                         note=note,
+                        cost=int(cost_vat)
                     )
 
                     # .........Calculate billing per Item Added.........#
-                    newitem.cost = calculateBilling(order.dregion, weight)
+                    # newitem.cost = calculateBilling(order.dregion, weight)
 
                     db.session.add(newitem)
                     db.session.commit()

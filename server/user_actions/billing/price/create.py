@@ -33,7 +33,7 @@ def createPrice(data, db):
             db.session.add(price)
             db.session.commit()
 
-            return 'Price created'
+            return jsonify({'message': 'Price created'}), 201
 
         except Exception as e:
             print(e)

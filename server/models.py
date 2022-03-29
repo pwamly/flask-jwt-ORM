@@ -1,5 +1,8 @@
+from email import message
 from enum import unique
 from sqlalchemy import null
+
+from server.helper import destination_serializer
 from .extensions import db
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash
@@ -36,7 +39,7 @@ class Users(TimestampMixin, db.Model):
 
 class Branch(TimestampMixin, db.Model):
 
-    __tablename__ = 'Branch' 
+    __tablename__ = 'Branch'
 
     id = db.Column(db.Integer, primary_key=True)
     branchId = db.Column(db.Integer, nullable=False, unique=True)
@@ -118,7 +121,6 @@ class Order(TimestampMixin, db.Model):
     orderdeliverytime = db.Column(db.DateTime, nullable=True)
     orderDelivered = db.Column(db.Boolean, nullable=True)
 
-
  # ............................ for bundle .......................
     bundleId = db.Column(db.String(200), nullable=True)
     destinationbranchid = db.Column(db.String(220), nullable=True)
@@ -139,8 +141,6 @@ class Order(TimestampMixin, db.Model):
     altnativeconsigneephone = db.Column(db.String(200), nullable=True)
     altnativeconsigneeemail = db.Column(db.String(200), nullable=True)
     alternativeconsignee = db.Column(db.Boolean, nullable=True)
-
-
 
 
 class Customer(TimestampMixin, db.Model):
@@ -292,7 +292,6 @@ class Bundle(TimestampMixin, db.Model):
     UnbundledBy = db.Column(db.String(200), nullable=True)
 
 
-
 class Regions(TimestampMixin, db.Model):
 
     __tablename__ = 'Region'
@@ -324,16 +323,14 @@ class Zone(TimestampMixin, db.Model):
     description = db.Column(db.String(200), nullable=True)
     destinations = db.relationship('Destination', backref='Zone')
     prices = db.relationship('Price', backref='Zone')
-    
+
     def __repr__(self):
         return '<Zone %r>' % self.name
-    
-    
 
 
 class Destination(TimestampMixin, db.Model):
 
-    __tablename__ = 'Destination'  
+    __tablename__ = 'Destination'
 
     id = db.Column(db.Integer, primary_key=True)
     destinationid = db.Column(db.String(200), nullable=False)
@@ -342,7 +339,7 @@ class Destination(TimestampMixin, db.Model):
     # customers = db.relationship('Customer', backref='Destination')
     name = db.Column(db.String(200), nullable=False, unique=True)
     zoneid = db.Column(db.Integer, db.ForeignKey('Zone.id'))
-    
+
     def __repr__(self):
         return '<Destination %r>' % self.name
 
@@ -356,7 +353,7 @@ class Weight(TimestampMixin, db.Model):
     min = db.Column(db.Numeric, unique=True)
     max = db.Column(db.Numeric, unique=True)
     # prices = db.relationship('Price', backref='CSWeight')
-    
+
     def __repr__(self):
         return '<Weight %r>' % self.id
 
@@ -373,3 +370,32 @@ class Price(TimestampMixin, db.Model):
 
     def __repr__(self):
         return '<Price %r>' % self.price
+
+
+class EmailLog(TimestampMixin, db.Model):
+
+    __tablename__ = 'EmailLog'
+
+    id = db.Column(db.Integer, primary_key=True)
+    destination = db.Column(db.Integer)
+    message = db.Column(db.String(1000))
+    subject = db.Column(db.String(20))
+    type = db.Column(db.String(20))
+    emailid = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return '<Email %r>' % self.id
+
+
+class SMSLog(TimestampMixin, db.Model):
+
+    __tablename__ = 'SMSLog'
+
+    id = db.Column(db.Integer, primary_key=True)
+    destination = db.Column(db.Integer)
+    message = db.Column(db.String(1000))
+    type = db.Column(db.String(20))
+    smsid = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return '<SMS %r>' % self.destination

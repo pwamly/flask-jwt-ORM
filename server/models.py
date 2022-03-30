@@ -54,6 +54,7 @@ class Order(TimestampMixin, db.Model):
     orderid = db.Column(db.String(200), nullable=False, unique=True)
     branchid = db.Column(db.Integer, nullable=True)
     customerid = db.Column(db.String(200), nullable=False)
+    orderType=db.Column(db.String(200), nullable=True)
     customername = db.Column(db.String(200), nullable=False)
     customernotes = db.Column(db.String(200), nullable=True)
     consignername = db.Column(db.String(200), nullable=False)

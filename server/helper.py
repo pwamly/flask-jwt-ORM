@@ -179,7 +179,8 @@ def order_serializer(data):
         "altnativeconsigneefullname": data.altnativeconsigneefullname,
         "altnativeconsigneephone": data.altnativeconsigneefullname,
         "altnativeconsigneeemail": data.altnativeconsigneefullname,
-        "alternativeconsignee": data.altnativeconsigneefullname
+        "alternativeconsignee": data.altnativeconsigneefullname,
+        "orderType":data.orderType,
     }
 
 

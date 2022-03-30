@@ -46,6 +46,9 @@ def createOder(data, db):
     pickuptime = data['pickuptime']
     congneeemail = data['congneeemail']
     expdlrtime = data['expdlrtime']
+    trackongNo=data['trackingNumber']
+    orderType=data['orderType']
+
 
 
     # date_time_obj = datetime.datetime.strptime(pickuptime, '%b %d %Y %I:%M%p')
@@ -55,7 +58,7 @@ def createOder(data, db):
     order = Order.query.filter_by(orderid=orderid).first()
     if not order:
         try:
-            trackongNo = randomGenerator()
+            # trackongNo = randomGenerator()
 
             neworder = Order(orderid=orderid,
                              customerid=customerid,
@@ -69,6 +72,8 @@ def createOder(data, db):
                              pstreet=pstreet,
                              pnotes=pnotes,
                              dregion=dregion,
+                             orderStatus='Created',
+                             orderType=orderType,
                              dstreet=dstreet,
                              dnotes=dnotes,
                              consigneename=consigneename,

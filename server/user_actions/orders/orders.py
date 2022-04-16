@@ -56,7 +56,7 @@ def ordersBycustomer(trackingnumber):
         data = [*map(order_serializer, order.items)]
         return {'data': data, "pagination": {"currentpage": order.page, "totalPages": order.pages, "totalItems": order.total, "prev_page": order.prev_num, "next_page": order.next_num, "has_next": order.has_next, "has_prev": order.has_prev}}
     return jsonify({'message': 'orders not found'}), 403
-
+#.....
 # from datetime import datetime
 
 # from_date = datetime(year=datetime.now().year, month=datetime.now().month, day=1)

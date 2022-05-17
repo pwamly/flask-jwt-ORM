@@ -7,7 +7,7 @@ from ...helper import bundle_serializer
 def getbundles(page, sort, q):
     pages_perpage = 5
     bundle = Bundle.query.filter_by().order_by(
-        Bundle.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Bundle.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if bundle:
         data = [*map(bundle_serializer, bundle.items)]
         print(data)

@@ -7,7 +7,7 @@ from ...models import Transporter
 def gettransporters(page, sort, q):
     pages_perpage = 5
     transporter = Transporter.query.filter_by().order_by(
-        Transporter.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Transporter.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if transporter:
         data = [*map(transporter_serializer, transporter.items)]
         print(data)

@@ -8,7 +8,7 @@ def getvehicle(page, sort, q):
     pages_perpage = 5
 
     vehicle = Vehicle.query.filter_by().order_by(
-        Vehicle.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Vehicle.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if vehicle:
        data = [*map(vehicle_serializer, vehicle.items)]
        print(data)

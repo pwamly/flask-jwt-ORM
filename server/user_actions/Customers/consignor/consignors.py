@@ -8,7 +8,7 @@ def getconsignorsByCustomer(customerid):
     pages_perpage = 100
     page = 1
     consignors = Consignor.query.filter_by(customerid=customerid).order_by(
-        Consignor.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Consignor.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if consignors:
        data = [*map(consignor_serializer, consignors.items)]
        print(data)
@@ -20,7 +20,7 @@ def getconsignors():
     pages_perpage = 100
     page = 1
     consignors = Consignor.query.filter_by().order_by(
-        Consignor.created.desc()).paginate(page, pages_perpage, error_out=False)
+        Consignor.created.desc()).paginate(int(page), pages_perpage, error_out=False)
     if consignors:
        data = [*map(consignor_serializer, consignors.items)]
        print(data)
